@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11134"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -653,15 +654,68 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="PhotoMiner" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="76" y="-236"/>
+        </scene>
+        <!--Titlebar Controller-->
+        <scene sceneID="SJ8-9S-pdM">
+            <objects>
+                <viewController storyboardIdentifier="TitlebarController" showSeguePresentationStyle="single" id="wo0-ub-Urj" customClass="TitlebarController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="bBq-kg-Pkg">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="31"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-0w-ZTD">
+                                <rect key="frame" x="68" y="7" width="273" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="PhotoMiner" id="Q1P-W8-6UM">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vol-N9-Ggl">
+                                <rect key="frame" x="339" y="-2" width="71" height="32"/>
+                                <buttonCell key="cell" type="push" title="Scan" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hgA-1Q-HJ8">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="scanButtonPressed:" target="wo0-ub-Urj" id="ahi-Mn-T7w"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q7r-cA-s9B">
+                                <rect key="frame" x="404" y="-2" width="76" height="32"/>
+                                <buttonCell key="cell" type="push" title="Setup" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ktt-xT-ylB">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="setupButtonPressed:" target="wo0-ub-Urj" id="kJT-al-H3N"/>
+                                    <segue destination="ARC-gx-P75" kind="sheet" id="EDR-b4-1Gt"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="vol-N9-Ggl" firstAttribute="leading" secondItem="nJc-0w-ZTD" secondAttribute="trailing" constant="6" id="Czc-D2-TR5"/>
+                            <constraint firstItem="nJc-0w-ZTD" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="Hf3-R1-MlF"/>
+                            <constraint firstItem="vol-N9-Ggl" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="PmW-AK-i36"/>
+                            <constraint firstItem="nJc-0w-ZTD" firstAttribute="leading" secondItem="bBq-kg-Pkg" secondAttribute="leading" constant="70" id="ax5-el-WYv"/>
+                            <constraint firstItem="Q7r-cA-s9B" firstAttribute="leading" secondItem="vol-N9-Ggl" secondAttribute="trailing" constant="6" id="l4U-ua-LWt"/>
+                            <constraint firstAttribute="trailing" secondItem="Q7r-cA-s9B" secondAttribute="trailing" constant="6" id="t8d-sc-ITI"/>
+                            <constraint firstItem="Q7r-cA-s9B" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="v2g-Ih-tj2"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="rpa-zo-hxT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="75" y="-31"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -674,12 +728,41 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="75" y="315"/>
         </scene>
         <!--View Controller-->
+        <scene sceneID="dpf-bd-b1M">
+            <objects>
+                <viewController id="ARC-gx-P75" sceneMemberID="viewController">
+                    <view key="view" id="Ax0-aT-fo1">
+                        <rect key="frame" x="0.0" y="0.0" width="315" height="255"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EBE-jo-SzM">
+                                <rect key="frame" x="226" y="13" width="75" height="32"/>
+                                <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QUC-uj-7xR">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="ARC-gx-P75" id="jaZ-vI-Snf"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="EBE-jo-SzM" secondAttribute="trailing" constant="20" id="GQ5-Rs-7h0"/>
+                            <constraint firstAttribute="bottom" secondItem="EBE-jo-SzM" secondAttribute="bottom" constant="20" id="caz-tL-uwC"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="3gu-27-ohB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="575" y="-32"/>
+        </scene>
+        <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -687,7 +770,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="657" y="307"/>
         </scene>
     </scenes>
 </document>
