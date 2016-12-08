@@ -13,6 +13,8 @@
 		74174E601DF835C100D10710 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74174E5E1DF835C100D10710 /* Main.storyboard */; };
 		74174E681DF838EE00D10710 /* TitlebarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74174E671DF838EE00D10710 /* TitlebarController.swift */; };
 		74174E6A1DF83AED00D10710 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74174E691DF83AED00D10710 /* MainWindowController.swift */; };
+		74443D531DF944B000625848 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74443D521DF944B000625848 /* Configuration.swift */; };
+		74443D551DF9841900625848 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74443D541DF9841900625848 /* SettingsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		74174E611DF835C100D10710 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74174E671DF838EE00D10710 /* TitlebarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitlebarController.swift; sourceTree = "<group>"; };
 		74174E691DF83AED00D10710 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		74443D521DF944B000625848 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		74443D541DF9841900625848 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +61,11 @@
 			isa = PBXGroup;
 			children = (
 				74174E581DF835C100D10710 /* AppDelegate.swift */,
+				74443D521DF944B000625848 /* Configuration.swift */,
 				74174E671DF838EE00D10710 /* TitlebarController.swift */,
 				74174E691DF83AED00D10710 /* MainWindowController.swift */,
 				74174E5A1DF835C100D10710 /* MainViewController.swift */,
+				74443D541DF9841900625848 /* SettingsController.swift */,
 				74174E5C1DF835C100D10710 /* Assets.xcassets */,
 				74174E5E1DF835C100D10710 /* Main.storyboard */,
 				74174E611DF835C100D10710 /* Info.plist */,
@@ -139,7 +145,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74443D551DF9841900625848 /* SettingsController.swift in Sources */,
 				74174E5B1DF835C100D10710 /* MainViewController.swift in Sources */,
+				74443D531DF944B000625848 /* Configuration.swift in Sources */,
 				74174E681DF838EE00D10710 /* TitlebarController.swift in Sources */,
 				74174E6A1DF83AED00D10710 /* MainWindowController.swift in Sources */,
 				74174E591DF835C100D10710 /* AppDelegate.swift in Sources */,
