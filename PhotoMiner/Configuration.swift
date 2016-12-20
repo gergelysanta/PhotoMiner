@@ -10,9 +10,9 @@ import Cocoa
 
 class Configuration: NSObject {
 	
-	// With the dynamic modifier, the messages sent to the array can be intercepted by the system (KVO)
-	dynamic var lookupFolders = [String]()
-	
+	var lookupFolders = [String]()
+	let ignoreImagesBelowSize = 51200		// 50kB (50 * 1024 = 51200)
+
 	override init() {
 		super.init()
 		if let directories = UserDefaults.standard.stringArray(forKey: "lookupFolders") {

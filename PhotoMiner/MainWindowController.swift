@@ -10,6 +10,7 @@ import Cocoa
 
 class MainWindowController: NSWindowController, TitlebarDelegate {
 	
+	let scanner = Scanner()
 	var titlebarController: TitlebarController? = nil
 	
     override func windowDidLoad() {
@@ -99,7 +100,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate {
 	//
 	
 	func scanButtonPressed(_ sender: NSButton) {
-		NSLog("Scan")
+		scanner.start()
 	}
 	
 }
