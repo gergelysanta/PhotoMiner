@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -693,7 +693,6 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="setupButtonPressed:" target="wo0-ub-Urj" id="kJT-al-H3N"/>
                                     <segue destination="ARC-gx-P75" kind="sheet" id="EDR-b4-1Gt"/>
                                 </connections>
                             </button>
@@ -801,6 +800,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="addItemButtonPressed:" target="ARC-gx-P75" id="KYC-vj-rs2"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GFo-IE-H0l">
                                 <rect key="frame" x="40" y="42" width="21" height="21"/>
@@ -811,6 +813,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="removeItemButtonPressed:" target="ARC-gx-P75" id="tRg-ht-BpP"/>
+                                </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yq8-vf-fqa">
                                 <rect key="frame" x="18" y="218" width="279" height="17"/>
@@ -837,6 +842,9 @@
                             <constraint firstItem="3lx-QX-Cje" firstAttribute="leading" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="ppn-3z-TbZ"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="dfh-y9-28Z" id="4ul-SI-yeF"/>
+                    </connections>
                 </viewController>
                 <customObject id="3gu-27-ohB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

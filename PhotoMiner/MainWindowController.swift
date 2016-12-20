@@ -98,19 +98,6 @@ class MainWindowController: NSWindowController, TitlebarDelegate {
 	// MARK: TitlebarDelegate methods
 	//
 	
-	func setupButtonPressed(_ sender: NSButton) {
-		NSLog("Setup")
-//		if setupSheet == nil {
-//			setupSheet = SetupSheet(windowNibName: "SetupSheet")
-//		}
-//		if let setupDialog = self.setupSheet?.window {
-//			self.window.beginSheet(setupDialog, completionHandler:{responseCode  in
-//				NSLog("Close...")
-//				self.setupSheet = nil
-//			})
-//		}
-	}
-	
 	func scanButtonPressed(_ sender: NSButton) {
 		NSLog("Scan")
 	}

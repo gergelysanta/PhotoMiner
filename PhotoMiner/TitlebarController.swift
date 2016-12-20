@@ -9,7 +9,6 @@
 import Cocoa
 
 protocol TitlebarDelegate {
-	func setupButtonPressed(_ sender: NSButton)
 	func scanButtonPressed(_ sender: NSButton)
 }
 
@@ -20,12 +19,6 @@ class TitlebarController: NSViewController {
 	@IBAction func scanButtonPressed(_ sender: NSButton) {
 		if let delegate = self.delegate {
 			delegate.scanButtonPressed(sender);
-		}
-	}
-	
-	@IBAction func setupButtonPressed(_ sender: NSButton) {
-		if let delegate = self.delegate {
-			delegate.setupButtonPressed(sender);
 		}
 	}
 	

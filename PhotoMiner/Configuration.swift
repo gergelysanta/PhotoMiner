@@ -24,15 +24,37 @@ class Configuration: NSObject {
 		}
 	}
 	
+	func homeDirectory() -> String {
+		return NSHomeDirectory()
+	}
+	
+	func searchPath(forDirectories directory:FileManager.SearchPathDirectory, inDomains domainMask:FileManager.SearchPathDomainMask) -> String? {
+		return NSSearchPathForDirectoriesInDomains(directory, domainMask, true).first
+	}
+	
 	func defaultFileList() -> [String] {
-		let desktopPaths = NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true)
-		let documentsPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-		let picturesPaths = NSSearchPathForDirectoriesInDomains(.picturesDirectory, .userDomainMask, true)
-		
 		var folders = [String]()
-		folders.append(desktopPaths.first != nil ? desktopPaths.first! : String(format: "%@/Desktop", NSHomeDirectory()))
-		folders.append(documentsPaths.first != nil ? documentsPaths.first! : String(format: "%@/Documents", NSHomeDirectory()))
-		folders.append(picturesPaths.first != nil ? picturesPaths.first! : String(format: "%@/Pictures", NSHomeDirectory()))
+		
+		// $HOME/Desktop
+		if let desktopPath = searchPath(forDirectories: .desktopDirectory, inDomains: .userDomainMask) {
+			folders.append(desktopPath)
+		} else {
+			folders.append(String(format: "%@/Desktop", homeDirectory()))
+		}
+		
+		// $HOME/Documents
+		if let documentsPath = searchPath(forDirectories: .documentDirectory, inDomains: .userDomainMask) {
+			folders.append(documentsPath)
+		} else {
+			folders.append(String(format: "%@/Documents", homeDirectory()))
+		}
+		
+		// $HOME/Pictures
+		if let picturesPath = searchPath(forDirectories: .picturesDirectory, inDomains: .userDomainMask) {
+			folders.append(picturesPath)
+		} else {
+			folders.append(String(format: "%@/Pictures", homeDirectory()))
+		}
 		
 		return folders
 	}
