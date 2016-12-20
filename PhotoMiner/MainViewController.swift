@@ -10,6 +10,8 @@ import Cocoa
 
 class MainViewController: NSViewController {
 	
+	@IBOutlet weak var collectionView: NSCollectionView!
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
