@@ -8,20 +8,36 @@
 
 import Cocoa
 
+protocol ScannerDelegate {
+	func scanSubResult(scanner: Scanner)
+	func scanFinished(scanner: Scanner)
+}
+
 class Scanner: NSObject {
 	
-	let scanQueue = DispatchQueue(label: "com.trikatz.scanQueue", qos: .utility)
-	let mainQueue = DispatchQueue.main
+	var refreshScanResultsIntervalInSecs:TimeInterval = 1.0
+	var delegate:ScannerDelegate? = nil
 	
-	var running = false
-	
-	override init() {
-		super.init()
+	var isRunning:Bool {
+		get {
+			return running
+		}
+	}
+	var scannedImages:[String: String] {
+		get {
+			return imagesDict
+		}
 	}
 	
-	func start() {
+	private let scanQueue = DispatchQueue(label: "com.trikatz.scanQueue", qos: .utility)
+	private let mainQueue = DispatchQueue.main
+	
+	private var running = false
+	private var imagesDict = [String: String]()
+
+	func start(pathsToScan lookupFolders: [String], bottomSizeLimit: Int) -> Bool {
 		if running {
-			return
+			return false
 		}
 		
 		scanQueue.async {
@@ -31,14 +47,11 @@ class Scanner: NSObject {
 			NSLog("ScanQueue: Start scanning...")
 			#endif
 			
-			var imagesDict = [String: String]()
+			var referenceDate = Date()
+			self.imagesDict = [:]
 			
-			var folders = [String]()
-			var minSize = 0
-			if let appDelegate = NSApp.delegate as? AppDelegate {
-				folders = appDelegate.configuration.lookupFolders
-				minSize = appDelegate.configuration.ignoreImagesBelowSize
-			}
+			// Copy folders array, we're going to modify it if needed
+			var folders = lookupFolders
 			
 			// Remove folders which are subfolders of other ones in the same list
 			for folder1 in folders {
@@ -104,19 +117,19 @@ class Scanner: NSObject {
 							}
 							
 							// Check size
-							if (fileSize < minSize) {
+							if (fileSize < bottomSizeLimit) {
 								continue
 							}
 							
 							// Check if file with same name exists
-							if imagesDict[fileName] != nil {
+							if self.imagesDict[fileName] != nil {
 								// Key already exists
 								let fileExtension = fileURL.pathExtension
 								
 								var key = fileName
 								var index = 1
 								
-								while imagesDict[key] != nil {
+								while self.imagesDict[key] != nil {
 									if fileExtension.isEmpty {
 										key = String(format: "%@_PM%lu", fileName, index)
 									}
@@ -129,7 +142,20 @@ class Scanner: NSObject {
 								fileName = key;
 							}
 							
-							imagesDict[fileName] = filePath
+							self.imagesDict[fileName] = filePath
+							
+							// Check if refresh needed
+							let now = Date()
+							if now.timeIntervalSince(referenceDate) > self.refreshScanResultsIntervalInSecs {
+								referenceDate = now
+								self.mainQueue.sync {
+									objc_sync_enter(self)
+									if let delegate = self.delegate {
+										delegate.scanSubResult(scanner: self)
+									}
+									objc_sync_exit(self)
+								}
+							}
 						}
 					} catch {
 					}
@@ -137,10 +163,21 @@ class Scanner: NSObject {
 			}
 			
 			#if DEBUG
-			NSLog("ScanQueue: Scan ended, %lu objects found", imagesDict.count)
+			NSLog("ScanQueue: Scan ended, %lu objects found", self.imagesDict.count)
 			#endif
+			
+			self.mainQueue.sync {
+				objc_sync_enter(self)
+				if let delegate = self.delegate {
+					delegate.scanFinished(scanner: self)
+				}
+				objc_sync_exit(self)
+			}
+			
 			self.running = false
 		}
+		
+		return true
 	}
 	
 }

@@ -16,6 +16,7 @@
 		74443D531DF944B000625848 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74443D521DF944B000625848 /* Configuration.swift */; };
 		74443D551DF9841900625848 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74443D541DF9841900625848 /* SettingsController.swift */; };
 		74DDE1F21E09293200C6FB36 /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DDE1F11E09293200C6FB36 /* Scanner.swift */; };
+		74ED53971E0B052600EDF20E /* FilesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74ED53961E0B052600EDF20E /* FilesData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		74443D521DF944B000625848 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		74443D541DF9841900625848 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		74DDE1F11E09293200C6FB36 /* Scanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scanner.swift; sourceTree = "<group>"; };
+		74ED53961E0B052600EDF20E /* FilesData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				74174E581DF835C100D10710 /* AppDelegate.swift */,
 				74443D521DF944B000625848 /* Configuration.swift */,
 				74DDE1F11E09293200C6FB36 /* Scanner.swift */,
+				74ED53961E0B052600EDF20E /* FilesData.swift */,
 				74174E671DF838EE00D10710 /* TitlebarController.swift */,
 				74174E691DF83AED00D10710 /* MainWindowController.swift */,
 				74174E5A1DF835C100D10710 /* MainViewController.swift */,
@@ -103,7 +106,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = TriKatz;
 				TargetAttributes = {
 					74174E541DF835C100D10710 = {
@@ -155,6 +158,7 @@
 				74174E6A1DF83AED00D10710 /* MainWindowController.swift in Sources */,
 				74DDE1F21E09293200C6FB36 /* Scanner.swift in Sources */,
 				74174E591DF835C100D10710 /* AppDelegate.swift in Sources */,
+				74ED53971E0B052600EDF20E /* FilesData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +194,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -240,6 +245,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

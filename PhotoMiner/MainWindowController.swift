@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class MainWindowController: NSWindowController, TitlebarDelegate {
+class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegate {
 	
 	let scanner = Scanner()
 	var titlebarController: TitlebarController? = nil
@@ -16,6 +16,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate {
     override func windowDidLoad() {
         super.windowDidLoad()
 		
+		scanner.delegate = self
 		self.titlebarController = self.storyboard?.instantiateController(withIdentifier: "TitlebarController") as! TitlebarController?
 		
 		if let titlebarController = self.titlebarController {
@@ -100,7 +101,31 @@ class MainWindowController: NSWindowController, TitlebarDelegate {
 	//
 	
 	func scanButtonPressed(_ sender: NSButton) {
-		scanner.start()
+		if let appDelegate = NSApp.delegate as? AppDelegate {
+			if !scanner.start(pathsToScan: appDelegate.configuration.lookupFolders,
+			                  bottomSizeLimit: appDelegate.configuration.ignoreImagesBelowSize)
+			{
+				// TODO: Warning
+			}
+		}
+	}
+	
+	//
+	// MARK: ScannerDelegate methods
+	//
+	
+	func scanSubResult(scanner: Scanner) {
+		if let appDelegate = NSApp.delegate as? AppDelegate {
+			NSLog("Scan subresult: %d items", scanner.scannedImages.count)
+			appDelegate.filesData.setFilesArray(scanner.scannedImages)
+		}
+	}
+	
+	func scanFinished(scanner: Scanner) {
+		if let appDelegate = NSApp.delegate as? AppDelegate {
+			NSLog("Scan result: %d items", scanner.scannedImages.count)
+			appDelegate.filesData.setFilesArray(scanner.scannedImages)
+		}
 	}
 	
 }
