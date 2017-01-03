@@ -14,6 +14,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	let configuration = Configuration()
 	var scannedFiles = [ImageData]()
 	
+	var mainWindowController:MainWindowController? {
+		get {
+			return NSApp.mainWindow?.windowController as? MainWindowController
+		}
+	}
+	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
 	}

@@ -59,6 +59,8 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 			self.repositionWindowButton(.miniaturizeButton, inView: titlebarController.view)
 			self.repositionWindowButton(.zoomButton, inView: titlebarController.view)
 		}
+		
+		startScan()
     }
 	
 	//
@@ -96,11 +98,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 		}
 	}
 	
-	//
-	// MARK: TitlebarDelegate methods
-	//
-	
-	func scanButtonPressed(_ sender: NSButton) {
+	func startScan() {
 		if let appDelegate = NSApp.delegate as? AppDelegate {
 			if !scanner.start(pathsToScan: appDelegate.configuration.lookupFolders,
 			                  bottomSizeLimit: appDelegate.configuration.ignoreImagesBelowSize)
@@ -108,6 +106,13 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 				// TODO: TODO: Display Warning
 			}
 		}
+	}
+	
+	//
+	// MARK: TitlebarDelegate methods
+	//
+	
+	func buttonPressed(_ sender: NSButton) {
 	}
 	
 	//

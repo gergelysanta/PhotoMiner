@@ -16,6 +16,15 @@ class SettingsController: NSViewController, NSTableViewDataSource, NSTableViewDe
 		super.viewDidLoad()
 	}
 	
+	override func dismiss(_ sender: Any?) {
+		super.dismiss(sender)
+		if let appDelegate = NSApp.delegate as? AppDelegate {
+			if let mainWindowController = appDelegate.mainWindowController {
+				mainWindowController.startScan()
+			}
+		}
+	}
+	
 	@IBAction func addItemButtonPressed(_ sender: Any) {
 		if let appDelegate = NSApp.delegate as? AppDelegate {
 			let dialog = NSOpenPanel();
