@@ -105,7 +105,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 			if !scanner.start(pathsToScan: appDelegate.configuration.lookupFolders,
 			                  bottomSizeLimit: appDelegate.configuration.ignoreImagesBelowSize)
 			{
-				// TODO: Warning
+				// TODO: TODO: Display Warning
 			}
 		}
 	}
@@ -116,15 +116,29 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 	
 	func scanSubResult(scanner: Scanner) {
 		if let appDelegate = NSApp.delegate as? AppDelegate {
+			#if DEBUG
 			NSLog("Scan subresult: %d items", scanner.scannedImages.count)
-			appDelegate.filesData.setFilesArray(scanner.scannedImages)
+			#endif
+			appDelegate.scannedFiles = scanner.scannedImages
+			
+			if let mainViewController = self.window?.contentViewController as? MainViewController {
+				// Reftesh collectionView
+				mainViewController.collectionView.reloadData()
+			}
 		}
 	}
 	
 	func scanFinished(scanner: Scanner) {
 		if let appDelegate = NSApp.delegate as? AppDelegate {
+			#if DEBUG
 			NSLog("Scan result: %d items", scanner.scannedImages.count)
-			appDelegate.filesData.setFilesArray(scanner.scannedImages)
+			#endif
+			appDelegate.scannedFiles = scanner.scannedImages
+			
+			if let mainViewController = self.window?.contentViewController as? MainViewController {
+				// Reftesh collectionView
+				mainViewController.collectionView.reloadData()
+			}
 		}
 	}
 	

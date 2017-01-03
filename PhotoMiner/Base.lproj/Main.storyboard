@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -665,29 +666,19 @@
             <objects>
                 <viewController storyboardIdentifier="TitlebarController" showSeguePresentationStyle="single" id="wo0-ub-Urj" customClass="TitlebarController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="bBq-kg-Pkg">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="31"/>
+                        <rect key="frame" x="0.0" y="0.0" width="820" height="31"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-0w-ZTD">
-                                <rect key="frame" x="68" y="7" width="273" height="17"/>
+                                <rect key="frame" x="68" y="7" width="613" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="PhotoMiner" id="Q1P-W8-6UM">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vol-N9-Ggl">
-                                <rect key="frame" x="339" y="-2" width="71" height="32"/>
-                                <buttonCell key="cell" type="push" title="Scan" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hgA-1Q-HJ8">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="scanButtonPressed:" target="wo0-ub-Urj" id="ahi-Mn-T7w"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q7r-cA-s9B">
-                                <rect key="frame" x="404" y="-2" width="76" height="32"/>
+                                <rect key="frame" x="744" y="-2" width="76" height="32"/>
                                 <buttonCell key="cell" type="push" title="Setup" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ktt-xT-ylB">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -696,13 +687,23 @@
                                     <segue destination="ARC-gx-P75" kind="sheet" id="EDR-b4-1Gt"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="J5u-Yv-BLr">
+                                <rect key="frame" x="679" y="-2" width="71" height="32"/>
+                                <buttonCell key="cell" type="push" title="Scan" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RjM-xD-udD">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="scanButtonPressed:" target="wo0-ub-Urj" id="zLV-x4-Tar"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="vol-N9-Ggl" firstAttribute="leading" secondItem="nJc-0w-ZTD" secondAttribute="trailing" constant="6" id="Czc-D2-TR5"/>
+                            <constraint firstItem="J5u-Yv-BLr" firstAttribute="leading" secondItem="nJc-0w-ZTD" secondAttribute="trailing" constant="6" id="43g-Ey-nbZ"/>
+                            <constraint firstItem="J5u-Yv-BLr" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="ESi-QY-50V"/>
                             <constraint firstItem="nJc-0w-ZTD" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="Hf3-R1-MlF"/>
-                            <constraint firstItem="vol-N9-Ggl" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="PmW-AK-i36"/>
+                            <constraint firstItem="Q7r-cA-s9B" firstAttribute="leading" secondItem="J5u-Yv-BLr" secondAttribute="trailing" constant="6" id="YlY-sW-VFF"/>
                             <constraint firstItem="nJc-0w-ZTD" firstAttribute="leading" secondItem="bBq-kg-Pkg" secondAttribute="leading" constant="70" id="ax5-el-WYv"/>
-                            <constraint firstItem="Q7r-cA-s9B" firstAttribute="leading" secondItem="vol-N9-Ggl" secondAttribute="trailing" constant="6" id="l4U-ua-LWt"/>
                             <constraint firstAttribute="trailing" secondItem="Q7r-cA-s9B" secondAttribute="trailing" constant="6" id="t8d-sc-ITI"/>
                             <constraint firstItem="Q7r-cA-s9B" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="v2g-Ih-tj2"/>
                         </constraints>
@@ -710,7 +711,7 @@
                 </viewController>
                 <customObject id="rpa-zo-hxT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="-31"/>
+            <point key="canvasLocation" x="-110" y="-103"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -719,8 +720,9 @@
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="820" height="560"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <value key="minSize" type="size" width="490" height="280"/>
                     </window>
                     <connections>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -728,7 +730,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="315"/>
+            <point key="canvasLocation" x="-110" y="367"/>
         </scene>
         <!--Settings Controller Scene-->
         <scene sceneID="dpf-bd-b1M">
@@ -848,30 +850,33 @@
                 </viewController>
                 <customObject id="3gu-27-ohB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="574.5" y="-32.5"/>
+            <point key="canvasLocation" x="565" y="-102"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="820" height="560"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqh-py-6nF">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                <rect key="frame" x="-1" y="-1" width="822" height="562"/>
                                 <clipView key="contentView" drawsBackground="NO" id="Txi-qI-Efj">
-                                    <rect key="frame" x="1" y="1" width="478" height="268"/>
+                                    <rect key="frame" x="1" y="1" width="820" height="560"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <collectionView id="lNC-j3-36O">
-                                            <rect key="frame" x="0.0" y="0.0" width="478" height="268"/>
+                                        <collectionView selectable="YES" allowsMultipleSelection="YES" id="lNC-j3-36O">
+                                            <rect key="frame" x="0.0" y="0.0" width="820" height="560"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="20" minimumLineSpacing="20" id="0tQ-I2-04E">
-                                                <size key="itemSize" width="160" height="140"/>
-                                                <edgeInsets key="sectionInset" left="20" right="20" top="10" bottom="10"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="ROs-3M-pX3">
+                                                <size key="itemSize" width="148" height="138"/>
+                                                <edgeInsets key="sectionInset" left="10" right="10" top="10" bottom="10"/>
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <connections>
+                                                <outlet property="dataSource" destination="XfG-lQ-9wD" id="RIF-Kz-Cbx"/>
+                                            </connections>
                                         </collectionView>
                                     </subviews>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -887,10 +892,10 @@
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="uqh-py-6nF" secondAttribute="trailing" id="4ni-lk-f23"/>
-                            <constraint firstAttribute="bottom" secondItem="uqh-py-6nF" secondAttribute="bottom" id="P04-U3-czM"/>
-                            <constraint firstItem="uqh-py-6nF" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="cir-op-idB"/>
-                            <constraint firstItem="uqh-py-6nF" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="ghG-jd-kqY"/>
+                            <constraint firstAttribute="trailing" secondItem="uqh-py-6nF" secondAttribute="trailing" constant="-1" id="4ni-lk-f23"/>
+                            <constraint firstAttribute="bottom" secondItem="uqh-py-6nF" secondAttribute="bottom" constant="-1" id="P04-U3-czM"/>
+                            <constraint firstItem="uqh-py-6nF" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="-1" id="cir-op-idB"/>
+                            <constraint firstItem="uqh-py-6nF" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="-1" id="ghG-jd-kqY"/>
                         </constraints>
                     </view>
                     <connections>
@@ -899,7 +904,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="657" y="307"/>
+            <point key="canvasLocation" x="817" y="367"/>
         </scene>
     </scenes>
     <resources>

@@ -12,7 +12,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	let configuration = Configuration()
-	let filesData = FilesData()
+	var scannedFiles = [ImageData]()
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application

@@ -18,37 +18,26 @@ class Scanner: NSObject {
 	var refreshScanResultsIntervalInSecs:TimeInterval = 1.0
 	var delegate:ScannerDelegate? = nil
 	
-	var isRunning:Bool {
-		get {
-			return running
-		}
-	}
-	var scannedImages:[String: String] {
-		get {
-			return imagesDict
-		}
-	}
+	private(set) var isRunning = false
+	private(set) var scannedImages = [ImageData]()
 	
 	private let scanQueue = DispatchQueue(label: "com.trikatz.scanQueue", qos: .utility)
 	private let mainQueue = DispatchQueue.main
 	
-	private var running = false
-	private var imagesDict = [String: String]()
-
 	func start(pathsToScan lookupFolders: [String], bottomSizeLimit: Int) -> Bool {
-		if running {
+		if isRunning {
 			return false
 		}
 		
 		scanQueue.async {
-			self.running = true
+			self.isRunning = true
 			
 			#if DEBUG
 			NSLog("ScanQueue: Start scanning...")
 			#endif
 			
 			var referenceDate = Date()
-			self.imagesDict = [:]
+			self.scannedImages = []
 			
 			// Copy folders array, we're going to modify it if needed
 			var folders = lookupFolders
@@ -87,8 +76,6 @@ class Scanner: NSObject {
 						var fileType = (resource.typeIdentifier == nil) ? "" : resource.typeIdentifier!
 						
 						if (isRegularFile && isReadable) {
-							var fileName = fileURL.lastPathComponent
-							
 							// We're not interested in Photos application's thumbnails.
 							// Exclude paths containing ".photoslibrary/Thumbnails/"
 							if filePath.contains(".photoslibrary/Thumbnails/") {
@@ -108,7 +95,7 @@ class Scanner: NSObject {
 							if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileType as CFString, nil)?.takeRetainedValue() {
 								if !UTTypeConformsTo(fileUTI, kUTTypeImage) {
 									#if DEBUG
-//									NSLog("- [%@] %@", fileType, fileName)
+//									NSLog("- [%@] %@", fileType, fileURL.lastPathComponent)
 									#endif
 									
 									// File is not an image, go to next one
@@ -121,28 +108,8 @@ class Scanner: NSObject {
 								continue
 							}
 							
-							// Check if file with same name exists
-							if self.imagesDict[fileName] != nil {
-								// Key already exists
-								let fileExtension = fileURL.pathExtension
-								
-								var key = fileName
-								var index = 1
-								
-								while self.imagesDict[key] != nil {
-									if fileExtension.isEmpty {
-										key = String(format: "%@_PM%lu", fileName, index)
-									}
-									else {
-										let fileNameWithoutExtension = fileURL.deletingPathExtension().lastPathComponent
-										key = String(format: "%@_PM%lu.%@", fileNameWithoutExtension, index, fileExtension)
-									}
-									index += 1
-								}
-								fileName = key;
-							}
-							
-							self.imagesDict[fileName] = filePath
+							// Create and add image to database
+							self.scannedImages.append(ImageData(path: filePath))
 							
 							// Check if refresh needed
 							let now = Date()
@@ -163,7 +130,7 @@ class Scanner: NSObject {
 			}
 			
 			#if DEBUG
-			NSLog("ScanQueue: Scan ended, %lu objects found", self.imagesDict.count)
+			NSLog("ScanQueue: Scan ended, %lu objects found", self.scannedImages.count)
 			#endif
 			
 			self.mainQueue.sync {
@@ -174,7 +141,7 @@ class Scanner: NSObject {
 				objc_sync_exit(self)
 			}
 			
-			self.running = false
+			self.isRunning = false
 		}
 		
 		return true
