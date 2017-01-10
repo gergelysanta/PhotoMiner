@@ -65,9 +65,7 @@ class ThumbnailView: NSCollectionViewItem {
 	override func mouseDown(with event: NSEvent) {
 		if event.clickCount == 2 {
 			if let object = representedObject as? ImageData {
-				NSLog("EDEBUG[doubleClick]: %@", object.imageName)
-			} else {
-				NSLog("EDEBUG[doubleClick]: ???")
+				NSLog("%@", object.imagePath)
 			}
 		}
 		else {
@@ -77,9 +75,11 @@ class ThumbnailView: NSCollectionViewItem {
 	
 	override func rightMouseDown(with event: NSEvent) {
 		if let object = representedObject as? ImageData {
-			NSLog("EDEBUG[rightClick]: %@", object.imageName)
-		} else {
-			NSLog("EDEBUG[rightClick]: ???")
+			if let appDelegate = NSApp.delegate as? AppDelegate {
+				if let mainViewController = appDelegate.mainWindowController?.contentViewController as? MainViewController {
+					mainViewController.displayContextMenu(forData: object, atLocation: event.locationInWindow)
+				}
+			}
 		}
 		super.rightMouseDown(with: event)
 	}

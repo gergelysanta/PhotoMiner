@@ -888,9 +888,39 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="lNC-j3-36O" id="QxN-zE-yEz"/>
+                        <outlet property="contextMenu" destination="ntQ-ao-zxQ" id="f31-yf-IqO"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="ntQ-ao-zxQ">
+                    <items>
+                        <menuItem title="Show in Finder" tag="1" id="EGD-d3-Fg1">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="contextMenuItemSelected:" target="XfG-lQ-9wD" id="sYV-Fv-Zvh"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Open" tag="2" id="aGI-wt-hzt">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="contextMenuItemSelected:" target="XfG-lQ-9wD" id="dpk-4M-4p1"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Quick Look" tag="3" id="3tK-Fp-78o">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="contextMenuItemSelected:" target="XfG-lQ-9wD" id="Fry-1D-l61"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="fz5-dv-IOj"/>
+                        <menuItem title="Move to Trash" tag="10" id="nsn-w2-Itw">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="contextMenuItemSelected:" target="XfG-lQ-9wD" id="ybA-ti-cCx"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
             <point key="canvasLocation" x="817" y="367"/>
         </scene>
