@@ -13,6 +13,7 @@ class ImageData: NSObject {
 	private(set) var imagePath:String!
 	private(set) var imageName:String!
 	private(set) var imageThumbnail:NSImage?
+	private(set) var creationDate:Date = Date()
 	
 	private(set) var imageSize:NSSize = NSZeroSize
 	private(set) var isLandscape:Bool = false
@@ -20,16 +21,29 @@ class ImageData: NSObject {
 	private let thumbnailQueue = DispatchQueue(label: "com.trikatz.thumbnailQueue", qos: .utility)
 	private let mainQueue = DispatchQueue.main
 	
+	// Lazy initialization of dateFormatter
+	// This initialization will be called only once, when static variable is used first-time
+	static let dateFormatter:DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateFormat = "yyyy:MM:dd HH:mm:ss"
+		return formatter
+	}()
+	
 	// Disable default constructor (by making it private)
 	private override init() {
 		super.init()
 	}
-	
-	convenience init (path:String) {
+
+	convenience init (path:String, creationDate:Date) {
 		self.init()
-		imagePath = path
-		imageName = URL(fileURLWithPath: path).lastPathComponent
-		detectSize()
+		self.imagePath = path
+		self.imageName = URL(fileURLWithPath: path).lastPathComponent
+		self.creationDate = creationDate
+		detectSizeAndCreationDate()
+	}
+
+	convenience init (path:String) {
+		self.init(path:path, creationDate:Date())
 	}
 	
 	private func createImageSource() -> CGImageSource? {
@@ -48,31 +62,37 @@ class ImageData: NSObject {
 	}
 	
 	//
-	// MARK: Get size in operation queue
+	// MARK: Get size and creation date
 	//
 	
-	private func detectSize() {
-		thumbnailQueue.async {
-			if let imageSource = self.createImageSource() {
-				let options:CFDictionary = [ kCGImageSourceShouldCache as String : false ] as CFDictionary
-				if let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, options) as? [String: AnyObject] {
-					guard let width = imageProperties[kCGImagePropertyPixelWidth as String]?.doubleValue else { return }
-					guard let height = imageProperties[kCGImagePropertyPixelHeight as String]?.doubleValue else { return }
-					
-					if let orientation = imageProperties[kCGImagePropertyOrientation as String]?.int8Value {
-						if orientation <= 4 {
-							self.imageSize = NSSize(width: width, height: height)
-						}
-						else {
-							self.imageSize = NSSize(width: height, height: width)
-						}
-					}
-					else {
+	private func detectSizeAndCreationDate() {
+		if let imageSource = self.createImageSource() {
+			let options:CFDictionary = [ kCGImageSourceShouldCache as String : false ] as CFDictionary
+			if let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, options) as? [String: AnyObject] {
+				guard let width = imageProperties[kCGImagePropertyPixelWidth as String]?.doubleValue else { return }
+				guard let height = imageProperties[kCGImagePropertyPixelHeight as String]?.doubleValue else { return }
+				
+				if let orientation = imageProperties[kCGImagePropertyOrientation as String]?.int8Value {
+					if orientation <= 4 {
 						self.imageSize = NSSize(width: width, height: height)
 					}
-					
-					if self.imageSize.width > self.imageSize.height {
-						self.isLandscape = true
+					else {
+						self.imageSize = NSSize(width: height, height: width)
+					}
+				}
+				else {
+					self.imageSize = NSSize(width: width, height: height)
+				}
+				
+				if self.imageSize.width > self.imageSize.height {
+					self.isLandscape = true
+				}
+				
+				if let exifDictionary = imageProperties[kCGImagePropertyExifDictionary as String] {
+					if let dateTakenString = exifDictionary[kCGImagePropertyExifDateTimeOriginal as String] as? String {
+						if let exifCreationDate = ImageData.dateFormatter.date(from: dateTakenString) {
+							self.creationDate = exifCreationDate
+						}
 					}
 				}
 			}
@@ -80,7 +100,7 @@ class ImageData: NSObject {
 	}
 
 	//
-	// MARK: Loading thumbnail in operation queue
+	// MARK: Load thumbnail in operation queue
 	//
 	
 	/* Many kinds of image files contain prerendered thumbnail images that can be quickly loaded without having to decode

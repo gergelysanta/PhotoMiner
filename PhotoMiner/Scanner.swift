@@ -62,7 +62,7 @@ class Scanner: NSObject {
 				NSLog("ScanQueue:   ...scanning %@", directoryToScan)
 				#endif
 				
-				let resourceKeys: Set<URLResourceKey> = [.isRegularFileKey, .isReadableKey, .fileSizeKey, .typeIdentifierKey]
+				let resourceKeys: Set<URLResourceKey> = [.isRegularFileKey, .isReadableKey, .fileSizeKey, .typeIdentifierKey, .creationDateKey]
 				let dirEnumerator = FileManager.default.enumerator(at: URL(fileURLWithPath: directoryToScan),
 				                                                   includingPropertiesForKeys: Array(resourceKeys))
 				while let fileURL = dirEnumerator?.nextObject() as? URL {
@@ -74,6 +74,7 @@ class Scanner: NSObject {
 						let isReadable = (resource.isReadable == nil) ? false : resource.isReadable!
 						let fileSize = (resource.fileSize == nil) ? 0 : resource.fileSize!
 						var fileType = (resource.typeIdentifier == nil) ? "" : resource.typeIdentifier!
+						let creationDate = (resource.creationDate == nil) ? Date() : resource.creationDate!
 						
 						if (isRegularFile && isReadable) {
 							// We're not interested in Photos application's thumbnails.
@@ -109,7 +110,7 @@ class Scanner: NSObject {
 							}
 							
 							// Create and add image to database
-							self.scannedImages.append(ImageData(path: filePath))
+							self.scannedImages.append(ImageData(path: filePath, creationDate: creationDate))
 							
 							// Check if refresh needed
 							let now = Date()
