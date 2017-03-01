@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
@@ -859,6 +859,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="ROs-3M-pX3">
                                                 <size key="itemSize" width="148" height="138"/>
+                                                <size key="headerReferenceSize" width="32" height="32"/>
                                                 <edgeInsets key="sectionInset" left="10" right="10" top="10" bottom="10"/>
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -888,6 +889,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="lNC-j3-36O" id="QxN-zE-yEz"/>
+                        <outlet property="collectionViewFlowLayout" destination="ROs-3M-pX3" id="XtW-gL-iph"/>
                         <outlet property="contextMenu" destination="ntQ-ao-zxQ" id="f31-yf-IqO"/>
                     </connections>
                 </viewController>

@@ -19,7 +19,7 @@ class Scanner: NSObject {
 	var delegate:ScannerDelegate? = nil
 	
 	private(set) var isRunning = false
-	private(set) var scannedImages = [ImageData]()
+	private(set) var scannedCollection = ImageCollection()
 	
 	private let scanQueue = DispatchQueue(label: "com.trikatz.scanQueue", qos: .utility)
 	private let mainQueue = DispatchQueue.main
@@ -37,7 +37,7 @@ class Scanner: NSObject {
 			#endif
 			
 			var referenceDate = Date()
-			self.scannedImages = []
+			self.scannedCollection = ImageCollection()
 			
 			// Copy folders array, we're going to modify it if needed
 			var folders = lookupFolders
@@ -109,19 +109,20 @@ class Scanner: NSObject {
 								continue
 							}
 							
-							// Create and add image to database
-							self.scannedImages.append(ImageData(path: filePath, creationDate: creationDate))
+							// Create and add image to collection
+							if self.scannedCollection.addImage(ImageData(path: filePath, creationDate: creationDate)) {
 							
-							// Check if refresh needed
-							let now = Date()
-							if now.timeIntervalSince(referenceDate) > self.refreshScanResultsIntervalInSecs {
-								referenceDate = now
-								self.mainQueue.sync {
-									objc_sync_enter(self)
-									if let delegate = self.delegate {
-										delegate.scanSubResult(scanner: self)
+								// Check if refresh needed
+								let now = Date()
+								if now.timeIntervalSince(referenceDate) > self.refreshScanResultsIntervalInSecs {
+									referenceDate = now
+									self.mainQueue.sync {
+										objc_sync_enter(self)
+										if let delegate = self.delegate {
+											delegate.scanSubResult(scanner: self)
+										}
+										objc_sync_exit(self)
 									}
-									objc_sync_exit(self)
 								}
 							}
 						}
@@ -131,7 +132,7 @@ class Scanner: NSObject {
 			}
 			
 			#if DEBUG
-			NSLog("ScanQueue: Scan ended, %lu objects found", self.scannedImages.count)
+			NSLog("ScanQueue: Scan ended, %lu objects found", self.scannedCollection.count)
 			#endif
 			
 			self.mainQueue.sync {

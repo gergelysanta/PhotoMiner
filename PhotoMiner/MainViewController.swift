@@ -11,12 +11,16 @@ import Cocoa
 class MainViewController: NSViewController, NSCollectionViewDataSource {
 	
 	@IBOutlet weak var collectionView: NSCollectionView!
+	@IBOutlet weak var collectionViewFlowLayout: NSCollectionViewFlowLayout!
 	
 	@IBOutlet var contextMenu: NSMenu!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.wantsLayer = true
+		if #available(OSX 10.12, *) {
+			collectionViewFlowLayout.sectionHeadersPinToVisibleBounds = true
+		}
 	}
 	
 	//
@@ -24,12 +28,20 @@ class MainViewController: NSViewController, NSCollectionViewDataSource {
 	//
 	
 	func numberOfSections(in collectionView: NSCollectionView) -> Int {
-		return 1
+		if let appDelegate = NSApp.delegate as? AppDelegate {
+			return appDelegate.imageCollection.arrangedKeys.count
+		}
+		return 0
 	}
 	
 	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
 		if let appDelegate = NSApp.delegate as? AppDelegate {
-			return appDelegate.scannedFiles.count
+			if section < appDelegate.imageCollection.arrangedKeys.count {
+				let monthKey = appDelegate.imageCollection.arrangedKeys[section]
+				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
+					return imagesOfMonth.count
+				}
+			}
 		}
 		return 0
 	}
@@ -38,10 +50,72 @@ class MainViewController: NSViewController, NSCollectionViewDataSource {
 		let item = collectionView.makeItem(withIdentifier: "ThumbnailView", for: indexPath)
 		
 		if let appDelegate = NSApp.delegate as? AppDelegate {
-			item.representedObject = appDelegate.scannedFiles[indexPath.item]
+			if indexPath.section < appDelegate.imageCollection.arrangedKeys.count {
+				let monthKey = appDelegate.imageCollection.arrangedKeys[indexPath.section]
+				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
+					if indexPath.item < imagesOfMonth.count {
+						item.representedObject = imagesOfMonth[indexPath.item]
+					}
+				}
+			}
 		}
 		
 		return item
+	}
+	
+	func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> NSView {
+		
+		let view = collectionView.makeSupplementaryView(ofKind: NSCollectionElementKindSectionHeader, withIdentifier: "HeaderView", for: indexPath)
+		guard let headerView = view as? HeaderView else { return view }
+		
+		if let appDelegate = NSApp.delegate as? AppDelegate {
+			if indexPath.section < appDelegate.imageCollection.arrangedKeys.count {
+				let monthKey = appDelegate.imageCollection.arrangedKeys[indexPath.section]
+				
+				let index = monthKey.index(monthKey.startIndex, offsetBy: 4)
+				let yearStr = monthKey.substring(to: index)
+				let monthStr = monthKey.substring(from: index)
+				var month = ""
+				switch (Int(monthStr)!) {
+					case 1:
+						month = "January";
+					case 2:
+						month = "February";
+					case 3:
+						month = "March";
+					case 4:
+						month = "April";
+					case 5:
+						month = "May";
+					case 6:
+						month = "June";
+					case 7:
+						month = "July";
+					case 8:
+						month = "August";
+					case 9:
+						month = "September";
+					case 10:
+						month = "October";
+					case 11:
+						month = "November";
+					case 12:
+						month = "December";
+					default:
+						month = "Unknown month";
+				}
+				headerView.sectionTitle.stringValue = "\(yearStr) \(month)"
+				
+				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
+					headerView.sectionInfo.stringValue = "\(imagesOfMonth.count) pictures"
+				}
+				else {
+					headerView.sectionInfo.stringValue = ""
+				}
+			}
+		}
+		
+		return headerView
 	}
 	
 	// Context menu actions

@@ -21,6 +21,10 @@ class ImageData: NSObject {
 	private let thumbnailQueue = DispatchQueue(label: "com.trikatz.thumbnailQueue", qos: .utility)
 	private let mainQueue = DispatchQueue.main
 	
+	//
+	// MARK: Class/Type methods and arguments
+	//
+	
 	// Lazy initialization of dateFormatter
 	// This initialization will be called only once, when static variable is used first-time
 	static let dateFormatter:DateFormatter = {
@@ -28,6 +32,10 @@ class ImageData: NSObject {
 		formatter.dateFormat = "yyyy:MM:dd HH:mm:ss"
 		return formatter
 	}()
+	
+	//
+	// MARK: Instance methods
+	//
 	
 	// Disable default constructor (by making it private)
 	private override init() {
@@ -60,10 +68,6 @@ class ImageData: NSObject {
 		
 		return nil
 	}
-	
-	//
-	// MARK: Get size and creation date
-	//
 	
 	private func detectSizeAndCreationDate() {
 		if let imageSource = self.createImageSource() {

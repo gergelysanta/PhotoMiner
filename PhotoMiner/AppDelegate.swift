@@ -12,7 +12,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	let configuration = Configuration()
-	var scannedFiles = [ImageData]()
+	var imageCollection = ImageCollection()
 	
 	var mainWindowController:MainWindowController? {
 		get {
