@@ -854,7 +854,7 @@
                                     <rect key="frame" x="1" y="1" width="820" height="560"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <collectionView selectable="YES" allowsMultipleSelection="YES" id="lNC-j3-36O">
+                                        <collectionView selectable="YES" allowsMultipleSelection="YES" id="lNC-j3-36O" customClass="PhotoCollectionView" customModule="PhotoMiner" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="820" height="560"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="ROs-3M-pX3">
@@ -865,6 +865,7 @@
                                             <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <connections>
                                                 <outlet property="dataSource" destination="XfG-lQ-9wD" id="RIF-Kz-Cbx"/>
+                                                <outlet property="delegate" destination="XfG-lQ-9wD" id="NkL-Pp-9OK"/>
                                             </connections>
                                         </collectionView>
                                     </subviews>

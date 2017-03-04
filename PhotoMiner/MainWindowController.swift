@@ -67,7 +67,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 	// MARK: Private methods
 	//
 	
-	func repositionWindowButton(_ windowButton: NSWindowButton, inView superView: NSView) {
+	private func repositionWindowButton(_ windowButton: NSWindowButton, inView superView: NSView) {
 		if let button = self.window?.standardWindowButton(windowButton) {
 			if let originalSuperView = button.superview {
 				if originalSuperView != superView {
@@ -97,6 +97,10 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 			}
 		}
 	}
+	
+	//
+	// MARK: Public methods
+	//
 	
 	func startScan() {
 		if let appDelegate = NSApp.delegate as? AppDelegate {

@@ -7,19 +7,68 @@
 //
 
 import Cocoa
+import Quartz
 
-class MainViewController: NSViewController, NSCollectionViewDataSource {
+class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollectionViewDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, ThumnailViewDelegate, PhotoCollectionViewDelegate {
 	
-	@IBOutlet weak var collectionView: NSCollectionView!
+	@IBOutlet weak var collectionView: PhotoCollectionView!
 	@IBOutlet weak var collectionViewFlowLayout: NSCollectionViewFlowLayout!
 	
 	@IBOutlet var contextMenu: NSMenu!
+	private var quickLookActive = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.wantsLayer = true
 		if #available(OSX 10.12, *) {
 			collectionViewFlowLayout.sectionHeadersPinToVisibleBounds = true
+		}
+		collectionView.keyDelegate = self
+	}
+	
+	func imageAtIndexPath(indexPath:IndexPath) -> ImageData? {
+		if let appDelegate = NSApp.delegate as? AppDelegate {
+			if indexPath.section < appDelegate.imageCollection.arrangedKeys.count {
+				let monthKey = appDelegate.imageCollection.arrangedKeys[indexPath.section]
+				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
+					if indexPath.item < imagesOfMonth.count {
+						return imagesOfMonth[indexPath.item]
+					}
+				}
+			}
+		}
+		return nil
+	}
+	
+	func selectedImagePaths() -> [String] {
+		var pathArray = [String]()
+		
+		for indexPath in collectionView.selectionIndexPaths {
+			if let image = self.imageAtIndexPath(indexPath: indexPath) {
+				pathArray.append(image.imagePath)
+			}
+		}
+		
+		return pathArray
+	}
+	
+	@IBAction func contextMenuItemSelected(_ sender: NSMenuItem) {
+		switch sender.tag {
+		case 1:				// "Show in Finder"
+			for imagePath in self.selectedImagePaths() {
+				NSWorkspace.shared().selectFile(imagePath, inFileViewerRootedAtPath: "")
+			}
+		case 2:				// "Open"
+			NSLog("menuItem: Open")
+			for imagePath in self.selectedImagePaths() {
+				NSWorkspace.shared().openFile(imagePath)
+			}
+		case 3:				// "Quick Look"
+			QLPreviewPanel.shared().makeKeyAndOrderFront(self)
+		case 10:			// "Move to Trash"
+			NSLog("menuItem: Move to Trash")
+		default:
+			NSLog("menuItem: UNKNOWN")
 		}
 	}
 	
@@ -47,19 +96,9 @@ class MainViewController: NSViewController, NSCollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-		let item = collectionView.makeItem(withIdentifier: "ThumbnailView", for: indexPath)
-		
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			if indexPath.section < appDelegate.imageCollection.arrangedKeys.count {
-				let monthKey = appDelegate.imageCollection.arrangedKeys[indexPath.section]
-				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
-					if indexPath.item < imagesOfMonth.count {
-						item.representedObject = imagesOfMonth[indexPath.item]
-					}
-				}
-			}
-		}
-		
+		let item = collectionView.makeItem(withIdentifier: "ThumbnailView", for: indexPath) as! ThumbnailView
+		item.representedObject = self.imageAtIndexPath(indexPath: indexPath)
+		item.delegate = self
 		return item
 	}
 	
@@ -118,26 +157,76 @@ class MainViewController: NSViewController, NSCollectionViewDataSource {
 		return headerView
 	}
 	
-	// Context menu actions
+	//
+	// MARK: NSCollectionViewDelegate methods
+	//
 	
-	@IBAction func contextMenuItemSelected(_ sender: NSMenuItem) {
-		switch sender.tag {
-		case 1:				// "Show in Finder"
-			NSLog("menuItem: Show in Finder")
-		case 2:				// "Open"
-			NSLog("menuItem: Open")
-		case 3:				// "Quick Look"
-			NSLog("menuItem: Quick Look")
-		case 10:			// "Move to Trash"
-			NSLog("menuItem: Move to Trash")
-		default:
-			NSLog("menuItem: UNKNOWN")
+	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
+		if self.quickLookActive {
+			QLPreviewPanel.shared().reloadData()
 		}
 	}
 	
-	// Displaying context menu
+	//
+	// MARK: QLPreviewPanelController methods
+	//
 	
-	func displayContextMenu(forData data: ImageData, atLocation location: NSPoint) {
+	override func acceptsPreviewPanelControl(_ panel: QLPreviewPanel!) -> Bool {
+		return true
+	}
+	
+	override func beginPreviewPanelControl(_ panel: QLPreviewPanel!) {
+		panel.delegate = self
+		panel.dataSource = self
+		self.quickLookActive = true
+	}
+	
+	override func endPreviewPanelControl(_ panel: QLPreviewPanel!) {
+		self.quickLookActive = false
+	}
+	
+	//
+	// MARK: QLPreviewPanelDataSource methods
+	//
+	
+	func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
+		return self.selectedImagePaths().count
+	}
+	
+	func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
+		let imagePaths = self.selectedImagePaths()
+		if index < imagePaths.count {
+			return URL(fileURLWithPath: imagePaths[index]) as QLPreviewItem!
+		}
+		return nil
+	}
+	
+	//
+	// MARK: QLPreviewPanelDelegate methods
+	//
+
+	func previewPanel(_ panel: QLPreviewPanel!, handle event: NSEvent!) -> Bool {
+		if event.type == .keyDown {
+			self.keyDown(with: event)
+		}
+		else if event.type == .keyUp {
+			self.keyUp(with: event)
+		}
+		return false
+	}
+	
+	//
+	// MARK: ThumbnailViewDelegate methods
+	//
+	
+	func thumbnailDoubleClicked(image: ImageData) {
+		// Open in default app
+		for imagePath in self.selectedImagePaths() {
+			NSWorkspace.shared().openFile(imagePath)
+		}
+	}
+	
+	func thumbnailRightClicked(image: ImageData, atLocation location: NSPoint) {
 		let viewLocation = collectionView.convert(location, from: self.view)
 		if let indexPath = collectionView.indexPathForItem(at: viewLocation) {
 			// Select item
@@ -148,6 +237,20 @@ class MainViewController: NSViewController, NSCollectionViewDataSource {
 		}
 		// Display context menu
 		contextMenu.popUp(positioning: nil, at: location, in: self.view)
+	}
+	
+	//
+	// MARK: PhotoCollectionViewDelegate methods
+	//
+	
+	func collectionViewKeyPress(with event: NSEvent) {
+		if event.keyCode == 49 {
+			if quickLookActive {
+				QLPreviewPanel.shared().close()
+			} else {
+				QLPreviewPanel.shared().makeKeyAndOrderFront(self)
+			}
+		}
 	}
 	
 }

@@ -8,7 +8,14 @@
 
 import Cocoa
 
+protocol ThumnailViewDelegate {
+	func thumbnailDoubleClicked(image: ImageData)
+	func thumbnailRightClicked(image: ImageData, atLocation location: NSPoint)
+}
+
 class ThumbnailView: NSCollectionViewItem {
+	
+	var delegate:ThumnailViewDelegate? = nil
 	
 	private let unselectedFrameColor = NSColor(red:0.95, green:0.95, blue:0.95, alpha:1.00)
 	private let selectedFrameColor = NSColor(red:0.27, green:0.65, blue:0.88, alpha:1.00)
@@ -65,7 +72,9 @@ class ThumbnailView: NSCollectionViewItem {
 	override func mouseDown(with event: NSEvent) {
 		if event.clickCount == 2 {
 			if let object = representedObject as? ImageData {
-				NSLog("%@", object.imagePath)
+				if let delegate = self.delegate {
+					delegate.thumbnailDoubleClicked(image: object)
+				}
 			}
 		}
 		else {
@@ -75,10 +84,8 @@ class ThumbnailView: NSCollectionViewItem {
 	
 	override func rightMouseDown(with event: NSEvent) {
 		if let object = representedObject as? ImageData {
-			if let appDelegate = NSApp.delegate as? AppDelegate {
-				if let mainViewController = appDelegate.mainWindowController?.contentViewController as? MainViewController {
-					mainViewController.displayContextMenu(forData: object, atLocation: event.locationInWindow)
-				}
+			if let delegate = self.delegate {
+				delegate.thumbnailRightClicked(image: object, atLocation: event.locationInWindow)
 			}
 		}
 		super.rightMouseDown(with: event)
