@@ -84,8 +84,11 @@ class ImageCollection: NSObject {
 					imageRemoved = true
 					break
 				}
-				if imagesOfMonth.count == 0 {
+				if dictionary[monthKey]?.count == 0 {
 					dictionary.removeValue(forKey: monthKey)
+					if let index = arrangedKeys.index(of: monthKey) {
+						arrangedKeys.remove(at: index)
+					}
 				}
 			}
 		}
@@ -96,17 +99,18 @@ class ImageCollection: NSObject {
 		var imageRemoved = false
 		for monthKey in arrangedKeys {
 			if let imagesOfMonth = dictionary[monthKey] {
-				for (index, storedImage) in imagesOfMonth.enumerated() {
-					if storedImage.imagePath == path {
-						dictionary[monthKey]?.remove(at: index)
-						count -= 1
-						allImagesArrayActualized = false
-						imageRemoved = true
-						break
-					}
+				for (index, storedImage) in imagesOfMonth.enumerated() where storedImage.imagePath == path {
+					dictionary[monthKey]?.remove(at: index)
+					count -= 1
+					allImagesArrayActualized = false
+					imageRemoved = true
+					break
 				}
-				if imagesOfMonth.count == 0 {
+				if dictionary[monthKey]?.count == 0 {
 					dictionary.removeValue(forKey: monthKey)
+					if let index = arrangedKeys.index(of: monthKey) {
+						arrangedKeys.remove(at: index)
+					}
 				}
 			}
 		}

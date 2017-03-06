@@ -40,35 +40,131 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 		return nil
 	}
 	
-	func selectedImagePaths() -> [String] {
-		var pathArray = [String]()
+	func selectedImages() -> [ImageData] {
+		var imageArray = [ImageData]()
 		
 		for indexPath in collectionView.selectionIndexPaths {
 			if let image = self.imageAtIndexPath(indexPath: indexPath) {
-				pathArray.append(image.imagePath)
+				imageArray.append(image)
 			}
 		}
 		
-		return pathArray
+		return imageArray
 	}
 	
 	@IBAction func contextMenuItemSelected(_ sender: NSMenuItem) {
 		switch sender.tag {
 		case 1:				// "Show in Finder"
-			for imagePath in self.selectedImagePaths() {
-				NSWorkspace.shared().selectFile(imagePath, inFileViewerRootedAtPath: "")
+			for image in self.selectedImages() {
+				NSWorkspace.shared().selectFile(image.imagePath, inFileViewerRootedAtPath: "")
 			}
 		case 2:				// "Open"
-			NSLog("menuItem: Open")
-			for imagePath in self.selectedImagePaths() {
-				NSWorkspace.shared().openFile(imagePath)
+			for image in self.selectedImages() {
+				NSWorkspace.shared().openFile(image.imagePath)
 			}
 		case 3:				// "Quick Look"
 			QLPreviewPanel.shared().makeKeyAndOrderFront(self)
-		case 10:			// "Move to Trash"
-			NSLog("menuItem: Move to Trash")
+			
+			// --------------------------------------------------------
+			
+		case 11:			// "Move to Trash"
+			let selectedImages = self.selectedImages()
+			if let firstImage = selectedImages.first {
+				let question = (selectedImages.count > 1) ? "Are you sure you want to trash \(selectedImages.count) pictures?" : "Are you sure you want to trash \(firstImage.imageName!)?"
+				self.confirmAction(question) {
+					self.trashImages(selectedImages)
+				}
+			}
+			
+			// --------------------------------------------------------
+			
+		case 21:			// "Rotate Left"
+			for image in self.selectedImages() {
+				self.executeSipsWithArgs(["-r", "270", image.imagePath])
+				image.setThumbnail()
+			}
+		case 22:			// "Rotate Right"
+			for image in self.selectedImages() {
+				self.executeSipsWithArgs(["-r", "90", image.imagePath])
+				image.setThumbnail()
+			}
+		case 23:			// "Flip Horizontal"
+			for image in self.selectedImages() {
+				self.executeSipsWithArgs(["-f", "horizontal", image.imagePath])
+				image.setThumbnail()
+			}
+		case 24:			// "Flip Vertical"
+			for image in self.selectedImages() {
+				self.executeSipsWithArgs(["-f", "vertical", image.imagePath])
+				image.setThumbnail()
+			}
 		default:
 			NSLog("menuItem: UNKNOWN")
+		}
+		
+		// Refresh QuickView if exists, it may contain picture which may changed
+		if QLPreviewPanel.sharedPreviewPanelExists() {
+			QLPreviewPanel.shared().refreshCurrentPreviewItem()
+		}
+	}
+	
+	
+	//
+	// MARK: Private methods
+	//
+	
+	@discardableResult private func executeSipsWithArgs(_ args:[String]) -> Bool {
+		let process = Process()
+		process.launchPath = "/usr/bin/sips"
+		process.arguments = args
+		
+		// We don't need output from the string, so make it silent (forward output to pipes we won't read)
+		process.standardOutput = Pipe()
+		process.standardError = Pipe()
+		
+		process.launch()
+		process.waitUntilExit()
+		if process.terminationStatus != 0 {
+			return false
+		}
+		return true
+	}
+	
+	private func trashImages(_ imageArray:[ImageData]) {
+		var imageURLs = [URL]()
+		
+		if let appDelegate = NSApp.delegate as? AppDelegate {
+			for image in imageArray {
+				imageURLs.append(URL(fileURLWithPath: image.imagePath))
+			}
+			
+			NSWorkspace.shared().recycle(imageURLs) { (trashedFiles, error) in
+				for url in imageURLs where trashedFiles[url] != nil {
+					_ = appDelegate.imageCollection.removeImage(withPath: url.path)
+				}
+				self.collectionView.reloadData()
+			}
+		}
+	}
+	
+	private func confirmAction(_ question: String, action: @escaping (() -> Swift.Void)) {
+		let popup: NSAlert = NSAlert()
+		popup.messageText = question
+		popup.informativeText = ""
+		popup.alertStyle = NSAlertStyle.warning
+		popup.addButton(withTitle: "No")
+		popup.addButton(withTitle: "Yes")
+		if let window = self.view.window {
+			popup.beginSheetModal(for: window) { (response) in
+				if response == NSAlertSecondButtonReturn {
+					action()
+				}
+			}
+		}
+		else {
+			if popup.runModal() == NSAlertSecondButtonReturn {
+				action()
+			}
 		}
 	}
 	
@@ -190,13 +286,13 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 	//
 	
 	func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
-		return self.selectedImagePaths().count
+		return self.selectedImages().count
 	}
 	
 	func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
-		let imagePaths = self.selectedImagePaths()
-		if index < imagePaths.count {
-			return URL(fileURLWithPath: imagePaths[index]) as QLPreviewItem!
+		let images = self.selectedImages()
+		if index < images.count {
+			return URL(fileURLWithPath: images[index].imagePath) as QLPreviewItem!
 		}
 		return nil
 	}
@@ -221,8 +317,8 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 	
 	func thumbnailDoubleClicked(image: ImageData) {
 		// Open in default app
-		for imagePath in self.selectedImagePaths() {
-			NSWorkspace.shared().openFile(imagePath)
+		for image in self.selectedImages() {
+			NSWorkspace.shared().openFile(image.imagePath)
 		}
 	}
 	

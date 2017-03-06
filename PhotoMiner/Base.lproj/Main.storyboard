@@ -916,10 +916,35 @@
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="fz5-dv-IOj"/>
-                        <menuItem title="Move to Trash" tag="10" id="nsn-w2-Itw">
+                        <menuItem title="Move to Trash" tag="11" id="nsn-w2-Itw">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="contextMenuItemSelected:" target="XfG-lQ-9wD" id="ybA-ti-cCx"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="C3p-gs-fc2"/>
+                        <menuItem title="Rotate Left" tag="21" id="qJU-bZ-xrK">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="contextMenuItemSelected:" target="XfG-lQ-9wD" id="ikf-Hr-wrl"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Rotate Right" tag="22" id="pkp-6d-qr1">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="contextMenuItemSelected:" target="XfG-lQ-9wD" id="N4V-jr-VlR"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Flip Horizontal" tag="23" id="3i5-HX-l0f">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="contextMenuItemSelected:" target="XfG-lQ-9wD" id="oyD-MJ-b09"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Flip Vertical" tag="24" id="CLY-FR-1gc">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="contextMenuItemSelected:" target="XfG-lQ-9wD" id="2p2-hy-cPm"/>
                             </connections>
                         </menuItem>
                     </items>
