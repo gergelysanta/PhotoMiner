@@ -12,6 +12,11 @@ class Configuration: NSObject {
 	
 	var lookupFolders = [String]()
 	let ignoreImagesBelowSize = 51200		// 50kB (50 * 1024 = 51200)
+	var creationDateAsLabel = true {
+		didSet {
+			self.saveConfiguration()
+		}
+	}
 
 	override init() {
 		super.init()
@@ -22,6 +27,8 @@ class Configuration: NSObject {
 			lookupFolders = defaultFileList()
 			saveConfiguration()
 		}
+		
+		creationDateAsLabel = UserDefaults.standard.bool(forKey: "creationDateAsLabel")
 	}
 	
 	func homeDirectory() -> String {
@@ -61,6 +68,7 @@ class Configuration: NSObject {
 	
 	func saveConfiguration() {
 		UserDefaults.standard.set(lookupFolders, forKey: "lookupFolders")
+		UserDefaults.standard.set(creationDateAsLabel, forKey: "creationDateAsLabel")
 		UserDefaults.standard.synchronize()
 	}
 	

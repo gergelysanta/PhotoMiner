@@ -12,6 +12,15 @@ class SettingsController: NSViewController, NSTableViewDataSource, NSTableViewDe
 	
 	@IBOutlet weak var tableView: NSTableView!
 	
+	var configuration:Configuration? {
+		get {
+			if let appDelegate = NSApp.delegate as? AppDelegate {
+				return appDelegate.configuration
+			}
+			return nil
+		}
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 	}

@@ -210,36 +210,8 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 				let index = monthKey.index(monthKey.startIndex, offsetBy: 4)
 				let yearStr = monthKey.substring(to: index)
 				let monthStr = monthKey.substring(from: index)
-				var month = ""
-				switch (Int(monthStr)!) {
-					case 1:
-						month = "January";
-					case 2:
-						month = "February";
-					case 3:
-						month = "March";
-					case 4:
-						month = "April";
-					case 5:
-						month = "May";
-					case 6:
-						month = "June";
-					case 7:
-						month = "July";
-					case 8:
-						month = "August";
-					case 9:
-						month = "September";
-					case 10:
-						month = "October";
-					case 11:
-						month = "November";
-					case 12:
-						month = "December";
-					default:
-						month = "Unknown month";
-				}
-				headerView.sectionTitle.stringValue = "\(yearStr) \(month)"
+				
+				headerView.setTitle(fromYear: Int(yearStr)!, andMonth: Int(monthStr)!)
 				
 				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
 					headerView.sectionInfo.stringValue = "\(imagesOfMonth.count) pictures"
