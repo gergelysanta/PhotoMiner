@@ -69,11 +69,11 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 			
 		case 11:			// "Move to Trash"
 			let selectedImages = self.selectedImages()
-			if let firstImage = selectedImages.first {
-				let question = (selectedImages.count > 1) ? "Are you sure you want to trash \(selectedImages.count) pictures?" : "Are you sure you want to trash \(firstImage.imageName!)?"
-				self.confirmAction(question) {
-					self.trashImages(selectedImages)
-				}
+			let question = (selectedImages.count > 1)
+								? String.localizedStringWithFormat(NSLocalizedString("Are you sure you want to trash the selected %d pictures?", comment: "Confirmation for moving more pictures to trash"), selectedImages.count)
+								: NSLocalizedString("Are you sure you want to trash the selected picture?", comment: "Confirmation for moving one picture to trash")
+			self.confirmAction(question) {
+				self.trashImages(selectedImages)
 			}
 			
 			// --------------------------------------------------------
@@ -152,8 +152,8 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 		popup.messageText = question
 		popup.informativeText = ""
 		popup.alertStyle = NSAlertStyle.warning
-		popup.addButton(withTitle: "No")
-		popup.addButton(withTitle: "Yes")
+		popup.addButton(withTitle: NSLocalizedString("No", comment: "No"))
+		popup.addButton(withTitle: NSLocalizedString("Yes", comment: "Yes"))
 		if let window = self.view.window {
 			popup.beginSheetModal(for: window) { (response) in
 				if response == NSAlertSecondButtonReturn {
@@ -214,7 +214,7 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 				headerView.setTitle(fromYear: Int(yearStr)!, andMonth: Int(monthStr)!)
 				
 				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
-					headerView.sectionInfo.stringValue = "\(imagesOfMonth.count) pictures"
+					headerView.sectionInfo.stringValue = String.localizedStringWithFormat(NSLocalizedString("%d pictures", comment: "Section header info: pictures count"), imagesOfMonth.count)
 				}
 				else {
 					headerView.sectionInfo.stringValue = ""

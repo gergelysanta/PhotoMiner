@@ -1,0 +1,15 @@
+/* Section header info: pictures count */
+"%d pictures" = "%d kép";
+
+/* Confirmation for moving one picture to trash */
+"Are you sure you want to trash the selected picture?" = "Biztos hogy a kukába szeretnéd helyezni a kiválasztott képet?";
+
+/* Confirmation for moving more pictures to trash */
+"Are you sure you want to trash the selected %d pictures?" = "Biztos hogy a kukába szeretnéd helyezni a kiválasztott %d képet?";
+
+/* No */
+"No" = "Nem";
+
+/* Yes */
+"Yes" = "Igen";
+
