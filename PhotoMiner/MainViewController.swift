@@ -9,13 +9,13 @@
 import Cocoa
 import Quartz
 
-class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollectionViewDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, ThumnailViewDelegate, PhotoCollectionViewDelegate {
+class MainViewController: NSViewController {
 	
 	@IBOutlet weak var collectionView: PhotoCollectionView!
 	@IBOutlet weak var collectionViewFlowLayout: NSCollectionViewFlowLayout!
 	
 	@IBOutlet var contextMenu: NSMenu!
-	private var quickLookActive = false
+	fileprivate var quickLookActive = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -68,13 +68,12 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 			// --------------------------------------------------------
 			
 		case 11:			// "Move to Trash"
-			let selectedImages = self.selectedImages()
-			let question = (selectedImages.count > 1)
-								? String.localizedStringWithFormat(NSLocalizedString("Are you sure you want to trash the selected %d pictures?", comment: "Confirmation for moving more pictures to trash"), selectedImages.count)
-								: NSLocalizedString("Are you sure you want to trash the selected picture?", comment: "Confirmation for moving one picture to trash")
-			self.confirmAction(question) {
-				self.trashImages(selectedImages)
+			
+			var filePathList = [String]()
+			for image in self.selectedImages() {
+				filePathList.append(image.imagePath)
 			}
+			self.trashImages(filePathList)
 			
 			// --------------------------------------------------------
 			
@@ -130,12 +129,17 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 		return true
 	}
 	
-	private func trashImages(_ imageArray:[ImageData]) {
-		var imageURLs = [URL]()
+	fileprivate func trashImages(_ imagePathList:[String]) {
+		guard imagePathList.count > 0 else { return }
+		guard let appDelegate = NSApp.delegate as? AppDelegate else { return }
 		
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			for image in imageArray {
-				imageURLs.append(URL(fileURLWithPath: image.imagePath))
+		let question = (imagePathList.count > 1)
+			? String.localizedStringWithFormat(NSLocalizedString("Are you sure you want to trash the selected %d pictures?", comment: "Confirmation for moving more pictures to trash"), imagePathList.count)
+			: NSLocalizedString("Are you sure you want to trash the selected picture?", comment: "Confirmation for moving one picture to trash")
+		self.confirmAction(question) {
+			var imageURLs = [URL]()
+			for imagePath in imagePathList {
+				imageURLs.append(URL(fileURLWithPath: imagePath))
 			}
 			
 			NSWorkspace.shared().recycle(imageURLs) { (trashedFiles, error) in
@@ -143,6 +147,13 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 					_ = appDelegate.imageCollection.removeImage(withPath: url.path)
 				}
 				self.collectionView.reloadData()
+				
+				// TODO: Make this animated:
+//				self.collectionView.performBatchUpdates({
+//					self.collectionView.deleteItems(at: Set<IndexPath>)
+//				}, completionHandler: { (result) in
+//					NSLog("Complete: %@", result ? "OK" : "NO")
+//				})
 			}
 		}
 	}
@@ -169,8 +180,27 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 	}
 	
 	//
-	// MARK: NSCollectionViewDataSource methods
+	// MARK: QLPreviewPanelController methods
 	//
+	
+	override func acceptsPreviewPanelControl(_ panel: QLPreviewPanel!) -> Bool {
+		return true
+	}
+	
+	override func beginPreviewPanelControl(_ panel: QLPreviewPanel!) {
+		panel.delegate = self
+		panel.dataSource = self
+		self.quickLookActive = true
+	}
+	
+	override func endPreviewPanelControl(_ panel: QLPreviewPanel!) {
+		self.quickLookActive = false
+	}
+	
+}
+
+// MARK: NSCollectionViewDataSource extension
+extension MainViewController: NSCollectionViewDataSource {
 	
 	func numberOfSections(in collectionView: NSCollectionView) -> Int {
 		if let appDelegate = NSApp.delegate as? AppDelegate {
@@ -200,6 +230,16 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 	
 	func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> NSView {
 		
+		if kind != NSCollectionElementKindSectionHeader {
+			let view = NSView()
+			view.wantsLayer = true
+			view.layer?.backgroundColor = NSColor(calibratedWhite: 0.5, alpha: 0.2).cgColor
+			view.layer?.borderColor = NSColor(calibratedWhite: 0.5, alpha: 0.5).cgColor
+			view.layer?.borderWidth = 2.0
+			view.layer?.cornerRadius = 5.0
+			return view
+		}
+		
 		let view = collectionView.makeSupplementaryView(ofKind: NSCollectionElementKindSectionHeader, withIdentifier: "HeaderView", for: indexPath)
 		guard let headerView = view as? HeaderView else { return view }
 		
@@ -225,9 +265,10 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 		return headerView
 	}
 	
-	//
-	// MARK: NSCollectionViewDelegate methods
-	//
+}
+
+// MARK: NSCollectionViewDelegate extension
+extension MainViewController: NSCollectionViewDelegate {
 	
 	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
 		if self.quickLookActive {
@@ -235,27 +276,33 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 		}
 	}
 	
-	//
-	// MARK: QLPreviewPanelController methods
-	//
+}
+
+// MARK: NSDraggingSource extension
+extension MainViewController: NSDraggingSource {
 	
-	override func acceptsPreviewPanelControl(_ panel: QLPreviewPanel!) -> Bool {
-		return true
+	func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
+		switch(context) {
+			case .outsideApplication:
+				return [ .copy, .link, .generic, .delete ]
+			case .withinApplication:
+				return .move
+		}
 	}
 	
-	override func beginPreviewPanelControl(_ panel: QLPreviewPanel!) {
-		panel.delegate = self
-		panel.dataSource = self
-		self.quickLookActive = true
+	func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
+		if operation == .delete {
+			// Dragging session ended with delete operation (user dragged the icon to the trash)
+			if let filePathList = session.draggingPasteboard.propertyList(forType: NSFilenamesPboardType) as? [String] {
+				self.trashImages(filePathList)
+			}
+		}
 	}
 	
-	override func endPreviewPanelControl(_ panel: QLPreviewPanel!) {
-		self.quickLookActive = false
-	}
-	
-	//
-	// MARK: QLPreviewPanelDataSource methods
-	//
+}
+
+// MARK: QLPreviewPanelDataSource extension
+extension MainViewController: QLPreviewPanelDataSource {
 	
 	func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
 		return self.selectedImages().count
@@ -269,10 +316,11 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 		return nil
 	}
 	
-	//
-	// MARK: QLPreviewPanelDelegate methods
-	//
+}
 
+// MARK: QLPreviewPanelDelegate extension
+extension MainViewController: QLPreviewPanelDelegate {
+	
 	func previewPanel(_ panel: QLPreviewPanel!, handle event: NSEvent!) -> Bool {
 		if event.type == .keyDown {
 			self.keyDown(with: event)
@@ -283,19 +331,54 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 		return false
 	}
 	
-	//
-	// MARK: ThumbnailViewDelegate methods
-	//
+}
+
+// MARK: ThumbnailViewDelegate extension
+extension MainViewController: ThumbnailViewDelegate {
 	
-	func thumbnailDoubleClicked(image: ImageData) {
-		// Open in default app
-		for image in self.selectedImages() {
-			NSWorkspace.shared().openFile(image.imagePath)
+	private func renderViewToImage(_ view: NSView) -> NSImage? {
+		
+		if let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) {
+			view.cacheDisplay(in: view.bounds, to: rep)
+			
+			let img = NSImage(size: view.bounds.size)
+			img.addRepresentation(rep)
+			
+			return img
+		}
+		return nil
+	}
+	
+	func thumbnailClicked(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData) {
+		if event.clickCount == 2 {
+			// Doubleclick: Open in default app
+			for image in self.selectedImages() {
+				NSWorkspace.shared().openFile(image.imagePath)
+			}
 		}
 	}
 	
-	func thumbnailRightClicked(image: ImageData, atLocation location: NSPoint) {
-		let viewLocation = collectionView.convert(location, from: self.view)
+	func thumbnailDragged(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData) {
+		var filePathList = [String]()
+		for image in self.selectedImages() {
+			filePathList.append(image.imagePath)
+		}
+		
+		if let dragImage = self.renderViewToImage(thumbnail.view) {
+			let dragPosition = self.view.convert(event.locationInWindow, from: nil)
+			let positionInThumbnail = thumbnail.view.convert(event.locationInWindow, from: nil)
+			let position = NSMakePoint(dragPosition.x - positionInThumbnail.x, dragPosition.y - positionInThumbnail.y)
+			
+			let pasteBoard = NSPasteboard(name: NSDragPboard)
+			pasteBoard.declareTypes([NSFilenamesPboardType], owner: nil)
+			pasteBoard.setPropertyList(filePathList, forType: NSFilenamesPboardType)
+			
+			self.view.window?.drag(dragImage, at: position, offset: NSZeroSize, event: event, pasteboard: pasteBoard, source: self, slideBack: true)
+		}
+	}
+	
+	func thumbnailRightClicked(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData) {
+		let viewLocation = collectionView.convert(event.locationInWindow, from: self.view)
 		if let indexPath = collectionView.indexPathForItem(at: viewLocation) {
 			// Select item
 			if collectionView.selectionIndexPaths.count <= 1 {
@@ -304,16 +387,17 @@ class MainViewController: NSViewController, NSCollectionViewDataSource, NSCollec
 			}
 		}
 		// Display context menu
-		contextMenu.popUp(positioning: nil, at: location, in: self.view)
+		contextMenu.popUp(positioning: nil, at: event.locationInWindow, in: self.view)
 	}
 	
-	//
-	// MARK: PhotoCollectionViewDelegate methods
-	//
+}
+
+// MARK: PhotoCollectionViewDelegate extension
+extension MainViewController: PhotoCollectionViewDelegate {
 	
 	func collectionViewKeyPress(with event: NSEvent) {
 		if event.keyCode == 49 {
-			if quickLookActive {
+			if self.quickLookActive {
 				QLPreviewPanel.shared().close()
 			} else {
 				QLPreviewPanel.shared().makeKeyAndOrderFront(self)
