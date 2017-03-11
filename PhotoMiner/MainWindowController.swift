@@ -109,6 +109,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 			{
 				// TODO: TODO: Display Warning
 			}
+			titlebarController?.progressOn(true)
 		}
 	}
 	
@@ -149,6 +150,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 				mainViewController.collectionView.reloadData()
 			}
 		}
+		titlebarController?.progressOn(false)
 	}
 	
 }
