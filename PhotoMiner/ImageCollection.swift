@@ -143,4 +143,16 @@ class ImageCollection: NSObject {
 		return nil
 	}
 	
+	func image(withIndexPath indexPath: IndexPath) -> ImageData? {
+		if indexPath.section < arrangedKeys.count {
+			let monthKey = arrangedKeys[indexPath.section]
+			if let imagesOfMonth = dictionary[monthKey] {
+				if indexPath.item < imagesOfMonth.count {
+					return imagesOfMonth[indexPath.item]
+				}
+			}
+		}
+		return nil
+	}
+	
 }

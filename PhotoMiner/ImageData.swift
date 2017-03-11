@@ -21,6 +21,8 @@ class ImageData: NSObject {
 	private let thumbnailQueue = DispatchQueue(label: "com.trikatz.thumbnailQueue", qos: .utility)
 	private let mainQueue = DispatchQueue.main
 	
+	var frame = NSZeroRect			// This will be set when iage displayed first time
+	
 	//
 	// MARK: Class/Type methods and arguments
 	//
@@ -116,6 +118,7 @@ class ImageData: NSObject {
 	 */
 	
 	func setThumbnail() {
+		if self.imageThumbnail != nil { return }	// Return if thumbnail was already generated
 		thumbnailQueue.async {
 			if let imageSource = self.createImageSource() {
 				let options:CFDictionary = [

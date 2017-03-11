@@ -28,14 +28,7 @@ class MainViewController: NSViewController {
 	
 	func imageAtIndexPath(indexPath:IndexPath) -> ImageData? {
 		if let appDelegate = NSApp.delegate as? AppDelegate {
-			if indexPath.section < appDelegate.imageCollection.arrangedKeys.count {
-				let monthKey = appDelegate.imageCollection.arrangedKeys[indexPath.section]
-				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
-					if indexPath.item < imagesOfMonth.count {
-						return imagesOfMonth[indexPath.item]
-					}
-				}
-			}
+			return appDelegate.imageCollection.image(withIndexPath: indexPath)
 		}
 		return nil
 	}
@@ -223,7 +216,10 @@ extension MainViewController: NSCollectionViewDataSource {
 	
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
 		let item = collectionView.makeItem(withIdentifier: "ThumbnailView", for: indexPath) as! ThumbnailView
-		item.representedObject = self.imageAtIndexPath(indexPath: indexPath)
+		if let imageData = self.imageAtIndexPath(indexPath: indexPath) {
+			imageData.frame = item.view.frame
+			item.representedObject = imageData
+		}
 		item.delegate = self
 		return item
 	}
@@ -336,17 +332,112 @@ extension MainViewController: QLPreviewPanelDelegate {
 // MARK: ThumbnailViewDelegate extension
 extension MainViewController: ThumbnailViewDelegate {
 	
-	private func renderViewToImage(_ view: NSView) -> NSImage? {
+	private func renderItemToImage(_ thumbnail: ThumbnailView) -> NSImage? {
 		
-		if let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) {
-			view.cacheDisplay(in: view.bounds, to: rep)
+		if let bmpImageRep = thumbnail.view.bitmapImageRepForCachingDisplay(in: thumbnail.view.bounds) {
+			thumbnail.view.cacheDisplay(in: thumbnail.view.bounds, to: bmpImageRep)
 			
-			let img = NSImage(size: view.bounds.size)
-			img.addRepresentation(rep)
+			let image = NSImage(size: thumbnail.view.bounds.size)
+			image.addRepresentation(bmpImageRep)
 			
-			return img
+			return image
 		}
 		return nil
+	}
+	
+	private func renderSelectionToImage(_ thumbnail: ThumbnailView) -> (position: NSPoint, image: NSImage)? {
+		if (collectionView.selectionIndexPaths.count == 1),
+		   let thumbnailIndexPath = collectionView.indexPath(for: thumbnail),
+		   (thumbnailIndexPath == collectionView.selectionIndexPaths.first!)
+		{
+			// There's only one item selected and thats the thumbnail we got as argument
+			if let item = self.renderItemToImage(thumbnail) {
+				return (NSZeroPoint, item)
+			}
+			return nil
+		}
+		
+		// There're more items selected, render images for all of them
+		// First count the frame size needed for all selected items and create/collect all drop images
+		var itemsArray = [(item: ThumbnailView, image: NSImage)]()
+		var fullFrame = NSMakeRect(9999, 9999, 0, 0)
+		
+		// Get maximum height of all screens
+		var screenHeight:CGFloat = 0.0
+		if let allScreens = NSScreen.screens() {
+			for screen in allScreens {
+				screenHeight = max(screenHeight, screen.frame.size.height)
+			}
+		}
+		NSLog("Screen height: \(screenHeight)")
+		
+		for indexPath in collectionView.selectionIndexPaths {
+			if let item = collectionView.item(at: indexPath) as? ThumbnailView {
+				// Item is onscreen, we can render it to a view
+				if let itemImage = self.renderItemToImage(item) {
+					// We use x and y for counting minX and minY
+					fullFrame.origin.x = min(fullFrame.origin.x, item.view.frame.origin.x)
+					fullFrame.origin.y = min(fullFrame.origin.y, item.view.frame.origin.y)
+					// We use width and height for counting maxX and maxY
+					fullFrame.size.width = max(fullFrame.size.width, item.view.frame.origin.x + item.view.frame.size.width)
+					fullFrame.size.height = max(fullFrame.size.height, item.view.frame.origin.y + item.view.frame.size.height)
+				
+					itemsArray.append( (item: item, image: itemImage) )
+				}
+			}
+			else {
+				// Item is offscreen, we have to create a ViewItem for it first, then render
+				
+				if let imageData = self.imageAtIndexPath(indexPath: indexPath) {
+					// Skip this item if it's too far away from dragged item
+					if (imageData.frame == NSZeroRect) || (abs(imageData.frame.origin.y - thumbnail.view.frame.origin.y) >= screenHeight) {
+						continue
+					}
+					
+					if let item = ThumbnailView(nibName: "ThumbnailView", bundle: nil)
+					{
+						// Initialize ViewItem for rendering
+						item.representedObject = imageData
+						item.view.frame = imageData.frame
+						item.isSelected = true
+						
+						// Render it's view
+						if let itemImage = self.renderItemToImage(item) {
+							// We use x and y for counting minX and minY
+							fullFrame.origin.x = min(fullFrame.origin.x, item.view.frame.origin.x)
+							fullFrame.origin.y = min(fullFrame.origin.y, item.view.frame.origin.y)
+							// We use width and height for counting maxX and maxY
+							fullFrame.size.width = max(fullFrame.size.width, item.view.frame.origin.x + item.view.frame.size.width)
+							fullFrame.size.height = max(fullFrame.size.height, item.view.frame.origin.y + item.view.frame.size.height)
+							
+							itemsArray.append( (item: item, image: itemImage) )
+						}
+					}
+				}
+			}
+		}
+		
+		// Counting real full frame
+		fullFrame.size.width = fullFrame.size.width - fullFrame.origin.x
+		fullFrame.size.height = fullFrame.size.height - fullFrame.origin.y
+		
+		// Drawing image containing all selected items
+		let image = NSImage(size: fullFrame.size)
+		var thumbnailPos = NSZeroPoint
+		image.lockFocus()
+		for i in 0..<itemsArray.count {
+			let itemFrame = itemsArray[i].item.view.frame
+			let itemPos = NSPoint(x: itemFrame.origin.x - fullFrame.origin.x, y: fullFrame.origin.y + fullFrame.size.height - (itemFrame.origin.y + itemFrame.size.height))
+			
+			if thumbnail == itemsArray[i].item {
+				thumbnailPos = itemPos
+			}
+			
+			itemsArray[i].image.draw(at: itemPos, from: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
+		}
+		image.unlockFocus()
+	
+		return (thumbnailPos, image)
 	}
 	
 	func thumbnailClicked(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData) {
@@ -364,16 +455,16 @@ extension MainViewController: ThumbnailViewDelegate {
 			filePathList.append(image.imagePath)
 		}
 		
-		if let dragImage = self.renderViewToImage(thumbnail.view) {
+		if let dragImage = self.renderSelectionToImage(thumbnail) {
 			let dragPosition = self.view.convert(event.locationInWindow, from: nil)
 			let positionInThumbnail = thumbnail.view.convert(event.locationInWindow, from: nil)
-			let position = NSMakePoint(dragPosition.x - positionInThumbnail.x, dragPosition.y - positionInThumbnail.y)
+			let position = NSMakePoint(dragPosition.x - positionInThumbnail.x - dragImage.position.x, dragPosition.y - positionInThumbnail.y - dragImage.position.y)
 			
 			let pasteBoard = NSPasteboard(name: NSDragPboard)
 			pasteBoard.declareTypes([NSFilenamesPboardType], owner: nil)
 			pasteBoard.setPropertyList(filePathList, forType: NSFilenamesPboardType)
 			
-			self.view.window?.drag(dragImage, at: position, offset: NSZeroSize, event: event, pasteboard: pasteBoard, source: self, slideBack: true)
+			self.view.window?.drag(dragImage.image, at: position, offset: NSZeroSize, event: event, pasteboard: pasteBoard, source: self, slideBack: true)
 		}
 	}
 	

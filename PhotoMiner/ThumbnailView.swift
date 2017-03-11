@@ -58,6 +58,10 @@ class ThumbnailView: NSCollectionViewItem {
 		view.wantsLayer = true
 		view.layer?.backgroundColor = unselectedFrameColor.cgColor
 		view.layer?.cornerRadius = 4.0
+		
+		// We re-set the representedObject for the case it was set before this function call
+		let object = self.representedObject
+		self.representedObject = object
     }
 	
 	func updateBackground() {
