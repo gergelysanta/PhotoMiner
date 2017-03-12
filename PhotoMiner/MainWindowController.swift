@@ -130,6 +130,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 			NSLog("Scan subresult: %d items", scanner.scannedCollection.count)
 			#endif
 			appDelegate.imageCollection = scanner.scannedCollection
+			titlebarController?.setTotalCount(scanner.scannedCollection.count)
 			
 			if let mainViewController = self.window?.contentViewController as? MainViewController {
 				// Reftesh collectionView
@@ -144,6 +145,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 			NSLog("Scan result: %d items", scanner.scannedCollection.count)
 			#endif
 			appDelegate.imageCollection = scanner.scannedCollection
+			titlebarController?.setTotalCount(scanner.scannedCollection.count)
 			
 			if let mainViewController = self.window?.contentViewController as? MainViewController {
 				// Reftesh collectionView

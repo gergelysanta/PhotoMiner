@@ -16,10 +16,12 @@ class TitlebarController: NSViewController {
 	
 	var delegate:TitlebarDelegate?
 	
-	@IBOutlet weak var titlebarProgressIndicator: NSProgressIndicator!
+	@IBOutlet private weak var titleField: NSTextField!
+	@IBOutlet private weak var progressIndicator: NSProgressIndicator!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.setTotalCount(0)
 		self.progressOn(false)
 	}
 	
@@ -31,12 +33,23 @@ class TitlebarController: NSViewController {
 	
 	func progressOn(_ progress: Bool) {
 		if progress {
-			titlebarProgressIndicator.startAnimation(self)
-			titlebarProgressIndicator.isHidden = false
+			progressIndicator.startAnimation(self)
+			progressIndicator.isHidden = false
 		}
 		else {
-			titlebarProgressIndicator.stopAnimation(self)
-			titlebarProgressIndicator.isHidden = true
+			progressIndicator.stopAnimation(self)
+			progressIndicator.isHidden = true
+		}
+	}
+	
+	func setTotalCount(_ totalCount: Int) {
+		titleField.stringValue = "PhotoMiner"
+		if totalCount > 0 {
+			let countLabel = (totalCount > 1)
+				? NSLocalizedString("pictures", comment: "Picture count: >1 pictures")
+				: NSLocalizedString("picture", comment: "Picture count: 1 picture")
+			
+			titleField.stringValue = String(format: "%@ (%d %@)", titleField.stringValue, totalCount, countLabel)
 		}
 	}
 	

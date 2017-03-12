@@ -250,7 +250,10 @@ extension MainViewController: NSCollectionViewDataSource {
 				headerView.setTitle(fromYear: Int(yearStr)!, andMonth: Int(monthStr)!)
 				
 				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
-					headerView.sectionInfo.stringValue = String.localizedStringWithFormat(NSLocalizedString("%d pictures", comment: "Section header info: pictures count"), imagesOfMonth.count)
+					let countLabel = (imagesOfMonth.count > 1)
+						? NSLocalizedString("pictures", comment: "Picture count: >1 pictures")
+						: NSLocalizedString("picture", comment: "Picture count: 1 picture")
+					headerView.sectionInfo.stringValue = String(format: "%d %@", imagesOfMonth.count, countLabel)
 				}
 				else {
 					headerView.sectionInfo.stringValue = ""

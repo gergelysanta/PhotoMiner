@@ -687,7 +687,7 @@
                                     <segue destination="ARC-gx-P75" kind="sheet" id="EDR-b4-1Gt"/>
                                 </connections>
                             </button>
-                            <progressIndicator wantsLayer="YES" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="7Zb-5d-s0Y">
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="7Zb-5d-s0Y">
                                 <rect key="frame" x="728" y="8" width="16" height="16"/>
                             </progressIndicator>
                         </subviews>
@@ -702,7 +702,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="titlebarProgressIndicator" destination="7Zb-5d-s0Y" id="jV0-jH-JoU"/>
+                        <outlet property="progressIndicator" destination="7Zb-5d-s0Y" id="CAQ-1Y-Rx2"/>
+                        <outlet property="titleField" destination="nJc-0w-ZTD" id="nYk-BI-LGV"/>
                     </connections>
                 </viewController>
                 <customObject id="rpa-zo-hxT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

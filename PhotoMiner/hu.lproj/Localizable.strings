@@ -1,5 +1,8 @@
-/* Section header info: pictures count */
-"%d pictures" = "%d kép";
+/* Picture count: 1 picture */
+"picture" = "kép";
+
+/* Picture count: >1 pictures */
+"pictures" = "kép";
 
 /* Confirmation for moving one picture to trash */
 "Are you sure you want to trash the selected picture?" = "Biztos hogy a kukába szeretnéd helyezni a kiválasztott képet?";
