@@ -155,4 +155,18 @@ class ImageCollection: NSObject {
 		return nil
 	}
 	
+	func indexPath(of image:ImageData) -> IndexPath? {
+		for section in 0..<arrangedKeys.count {
+			let monthKey = arrangedKeys[section]
+			if let imagesOfMonth = dictionary[monthKey] {
+				for item in 0..<imagesOfMonth.count {
+					if imagesOfMonth[item] == image {
+						return IndexPath(item: item, section: section)
+					}
+				}
+			}
+		}
+		return nil
+	}
+	
 }

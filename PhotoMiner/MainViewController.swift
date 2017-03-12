@@ -16,6 +16,7 @@ class MainViewController: NSViewController {
 	
 	@IBOutlet var contextMenu: NSMenu!
 	fileprivate var quickLookActive = false
+	fileprivate var reloadHelperArray = [ImageData]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -514,7 +515,7 @@ extension MainViewController: ThumbnailViewDelegate {
 // MARK: PhotoCollectionViewDelegate extension
 extension MainViewController: PhotoCollectionViewDelegate {
 	
-	func collectionViewKeyPress(with event: NSEvent) -> Bool {
+	func keyPress(_ collectionView: PhotoCollectionView, with event: NSEvent) -> Bool {
 		switch event.keyCode {
 		case 49:	// SPACE
 			if self.quickLookActive {
@@ -533,6 +534,30 @@ extension MainViewController: PhotoCollectionViewDelegate {
 		default:
 			return false
 		}
+
+	}
+	
+	func preReloadData(_ collectionView: PhotoCollectionView) {
+		reloadHelperArray = [ImageData]()
+		for indexPath in collectionView.selectionIndexPaths {
+			if	let item = collectionView.item(at: indexPath),
+				let object = item.representedObject as? ImageData
+			{
+				reloadHelperArray.append(object)
+			}
+		}
+	}
+	
+	func postReloadData(_ collectionView: PhotoCollectionView) {
+		var indexPaths = Set<IndexPath>()
+		if let appDelegate = NSApp.delegate as? AppDelegate {
+			for imageData in reloadHelperArray {
+				if let indexPath = appDelegate.imageCollection.indexPath(of: imageData) {
+					indexPaths.insert(indexPath)
+				}
+			}
+		}
+		collectionView.selectItems(at: indexPaths, scrollPosition: .centeredVertically)
 	}
 	
 }
