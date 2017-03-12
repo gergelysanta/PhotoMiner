@@ -389,7 +389,7 @@ extension MainViewController: ThumbnailViewDelegate {
 		// There're more items selected, render images for all of them
 		// First count the frame size needed for all selected items and create/collect all drop images
 		var itemsArray = [(item: ThumbnailView, image: NSImage)]()
-		var fullFrame = NSMakeRect(9999, 9999, 0, 0)
+		var fullFrame = NSMakeRect(CGFloat.greatestFiniteMagnitude, CGFloat.greatestFiniteMagnitude, 0, 0)
 		
 		// Get maximum height of all screens
 		var screenHeight:CGFloat = 0.0
@@ -398,7 +398,9 @@ extension MainViewController: ThumbnailViewDelegate {
 				screenHeight = max(screenHeight, screen.frame.size.height)
 			}
 		}
+		#if DEBUG
 		NSLog("Screen height: \(screenHeight)")
+		#endif
 		
 		for indexPath in collectionView.selectionIndexPaths {
 			if let item = collectionView.item(at: indexPath) as? ThumbnailView {
@@ -419,6 +421,9 @@ extension MainViewController: ThumbnailViewDelegate {
 				
 				if let imageData = self.imageAtIndexPath(indexPath: indexPath) {
 					// Skip this item if it's too far away from dragged item
+					#if DEBUG
+						NSLog("ImageData Frame: \(imageData.frame) Thumbnail Frame: \(thumbnail.view.frame) Diff: \(abs(imageData.frame.origin.y - thumbnail.view.frame.origin.y))")
+					#endif
 					if (imageData.frame == NSZeroRect) || (abs(imageData.frame.origin.y - thumbnail.view.frame.origin.y) >= screenHeight) {
 						continue
 					}
