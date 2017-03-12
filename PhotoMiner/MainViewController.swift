@@ -126,10 +126,20 @@ class MainViewController: NSViewController {
 		guard imagePathList.count > 0 else { return }
 		guard let appDelegate = NSApp.delegate as? AppDelegate else { return }
 		
-		let question = (imagePathList.count > 1)
-			? String.localizedStringWithFormat(NSLocalizedString("Are you sure you want to trash the selected %d pictures?", comment: "Confirmation for moving more pictures to trash"), imagePathList.count)
-			: NSLocalizedString("Are you sure you want to trash the selected picture?", comment: "Confirmation for moving one picture to trash")
-		self.confirmAction(question) {
+		func removeDirURLIfEmpty(_ dirUrl: URL) {
+			do {
+				let files = try FileManager.default.contentsOfDirectory(at: dirUrl, includingPropertiesForKeys: nil, options: [.skipsPackageDescendants, .skipsSubdirectoryDescendants])
+				if	(files.count == 0) ||
+					((files.count == 1) && (files.first!.lastPathComponent == ".DS_Store"))
+				{
+					try FileManager.default.removeItem(at: dirUrl)
+					removeDirURLIfEmpty(dirUrl.deletingLastPathComponent())
+				}
+			} catch {
+			}
+		}
+		
+		let trashCompletionHandler: ()->Void = {
 			var imageURLs = [URL]()
 			for imagePath in imagePathList {
 				imageURLs.append(URL(fileURLWithPath: imagePath))
@@ -138,6 +148,10 @@ class MainViewController: NSViewController {
 			NSWorkspace.shared().recycle(imageURLs) { (trashedFiles, error) in
 				for url in imageURLs where trashedFiles[url] != nil {
 					_ = appDelegate.imageCollection.removeImage(withPath: url.path)
+					
+					if appDelegate.configuration.removeAlsoEmptyDirectories {
+						removeDirURLIfEmpty(url.deletingLastPathComponent())
+					}
 				}
 				self.collectionView.reloadData()
 				
@@ -148,6 +162,16 @@ class MainViewController: NSViewController {
 //					NSLog("Complete: %@", result ? "OK" : "NO")
 //				})
 			}
+		}
+		
+		if appDelegate.configuration.removeMustBeConfirmed {
+			let question = (imagePathList.count > 1)
+				? String.localizedStringWithFormat(NSLocalizedString("Are you sure you want to trash the selected %d pictures?", comment: "Confirmation for moving more pictures to trash"), imagePathList.count)
+				: NSLocalizedString("Are you sure you want to trash the selected picture?", comment: "Confirmation for moving one picture to trash")
+			self.confirmAction(question, action: trashCompletionHandler)
+		}
+		else {
+			trashCompletionHandler()
 		}
 	}
 	
