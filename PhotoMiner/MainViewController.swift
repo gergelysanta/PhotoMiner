@@ -516,15 +516,24 @@ extension MainViewController: ThumbnailViewDelegate {
 extension MainViewController: PhotoCollectionViewDelegate {
 	
 	func collectionViewKeyPress(with event: NSEvent) -> Bool {
-		if event.keyCode == 49 {
+		switch event.keyCode {
+		case 49:	// SPACE
 			if self.quickLookActive {
 				QLPreviewPanel.shared().close()
 			} else {
 				QLPreviewPanel.shared().makeKeyAndOrderFront(self)
 			}
 			return true
+		case 51, 117:	// Backspace, Delete
+			var filePathList = [String]()
+			for image in self.selectedImages() {
+				filePathList.append(image.imagePath)
+			}
+			self.trashImages(filePathList)
+			return true
+		default:
+			return false
 		}
-		return false
 	}
 	
 }
