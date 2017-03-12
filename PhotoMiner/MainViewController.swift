@@ -322,10 +322,12 @@ extension MainViewController: QLPreviewPanelDelegate {
 	
 	func previewPanel(_ panel: QLPreviewPanel!, handle event: NSEvent!) -> Bool {
 		if event.type == .keyDown {
-			self.keyDown(with: event)
+			collectionView.keyDown(with: event)
+			return true
 		}
-		else if event.type == .keyUp {
-			self.keyUp(with: event)
+		if event.type == .keyUp {
+			collectionView.keyUp(with: event)
+			return true
 		}
 		return false
 	}
@@ -489,14 +491,16 @@ extension MainViewController: ThumbnailViewDelegate {
 // MARK: PhotoCollectionViewDelegate extension
 extension MainViewController: PhotoCollectionViewDelegate {
 	
-	func collectionViewKeyPress(with event: NSEvent) {
+	func collectionViewKeyPress(with event: NSEvent) -> Bool {
 		if event.keyCode == 49 {
 			if self.quickLookActive {
 				QLPreviewPanel.shared().close()
 			} else {
 				QLPreviewPanel.shared().makeKeyAndOrderFront(self)
 			}
+			return true
 		}
+		return false
 	}
 	
 }

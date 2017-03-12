@@ -9,7 +9,7 @@
 import Cocoa
 
 protocol PhotoCollectionViewDelegate {
-	func collectionViewKeyPress(with event: NSEvent)
+	func collectionViewKeyPress(with event: NSEvent) -> Bool
 }
 
 class PhotoCollectionView: NSCollectionView {
@@ -17,9 +17,12 @@ class PhotoCollectionView: NSCollectionView {
 	var keyDelegate:PhotoCollectionViewDelegate? = nil
 	
 	override func keyDown(with event: NSEvent) {
-		super.keyDown(with: event)
+		var eventHandled = false
 		if let delegate = self.keyDelegate {
-			delegate.collectionViewKeyPress(with: event)
+			eventHandled = delegate.collectionViewKeyPress(with: event)
+		}
+		if !eventHandled {
+			super.keyDown(with: event)
 		}
 	}
 	
