@@ -32,5 +32,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		return true
 	}
 	
+	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
+		if configuration.setLookupDirectories([filename]) {
+			mainWindowController?.startScan()
+			return true
+		}
+		return false
+	}
+	
+	func application(_ sender: NSApplication, openFiles filenames: [String]) {
+		if configuration.setLookupDirectories(filenames) {
+			mainWindowController?.startScan()
+		}
+	}
+	
 }
 

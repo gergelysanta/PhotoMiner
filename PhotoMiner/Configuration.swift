@@ -33,56 +33,34 @@ class Configuration: NSObject {
 	
 	override init() {
 		super.init()
-		if let directories = UserDefaults.standard.stringArray(forKey: "lookupFolders") {
-			lookupFolders = directories
-		}
-		else {
-			lookupFolders = defaultFileList()
-			saveConfiguration()
-		}
-		
 		creationDateAsLabel = UserDefaults.standard.bool(forKey: "creationDateAsLabel")
 		removeMustBeConfirmed = UserDefaults.standard.bool(forKey: "removeMustBeConfirmed")
 		removeAlsoEmptyDirectories = UserDefaults.standard.bool(forKey: "removeAlsoEmptyDirectories")
 	}
 	
-	func homeDirectory() -> String {
-		return NSHomeDirectory()
-	}
-	
-	func searchPath(forDirectories directory:FileManager.SearchPathDirectory, inDomains domainMask:FileManager.SearchPathDomainMask) -> String? {
-		return NSSearchPathForDirectoriesInDomains(directory, domainMask, true).first
-	}
-	
-	func defaultFileList() -> [String] {
-		var folders = [String]()
-		
-		// $HOME/Desktop
-		if let desktopPath = searchPath(forDirectories: .desktopDirectory, inDomains: .userDomainMask) {
-			folders.append(desktopPath)
-		} else {
-			folders.append(String(format: "%@/Desktop", homeDirectory()))
+	func setLookupDirectories(_ pathList: [String]) -> Bool {
+		var newLookupFolders = [String]()
+		var isDirectory:ObjCBool = false
+		var haveValidPath  = false
+		for path in pathList {
+			if FileManager.default.fileExists(atPath: path, isDirectory:&isDirectory) {
+				if isDirectory.boolValue {
+					// Path exists and is a directory -> add to lookupFolders list
+					#if DEBUG
+					NSLog("Add lookup folder: \(path)")
+					#endif
+					haveValidPath = true
+					newLookupFolders.append(path)
+				}
+			}
 		}
-		
-		// $HOME/Documents
-		if let documentsPath = searchPath(forDirectories: .documentDirectory, inDomains: .userDomainMask) {
-			folders.append(documentsPath)
-		} else {
-			folders.append(String(format: "%@/Documents", homeDirectory()))
+		if haveValidPath {
+			lookupFolders = newLookupFolders
 		}
-		
-		// $HOME/Pictures
-		if let picturesPath = searchPath(forDirectories: .picturesDirectory, inDomains: .userDomainMask) {
-			folders.append(picturesPath)
-		} else {
-			folders.append(String(format: "%@/Pictures", homeDirectory()))
-		}
-		
-		return folders
+		return haveValidPath
 	}
 	
 	func saveConfiguration() {
-		UserDefaults.standard.set(lookupFolders, forKey: "lookupFolders")
 		UserDefaults.standard.set(creationDateAsLabel, forKey: "creationDateAsLabel")
 		UserDefaults.standard.set(removeMustBeConfirmed, forKey: "removeMustBeConfirmed")
 		UserDefaults.standard.set(removeAlsoEmptyDirectories, forKey: "removeAlsoEmptyDirectories")

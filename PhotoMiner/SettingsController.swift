@@ -27,10 +27,12 @@ class SettingsController: NSViewController, NSTableViewDataSource, NSTableViewDe
 	
 	override func dismiss(_ sender: Any?) {
 		super.dismiss(sender)
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			if let mainWindowController = appDelegate.mainWindowController {
-				mainWindowController.startScan()
-			}
+		if	let appDelegate = NSApp.delegate as? AppDelegate,
+			let mainWindowController = appDelegate.mainWindowController,
+			let mainViewController = mainWindowController.window?.contentViewController as? MainViewController
+		{
+			// Reftesh collectionView
+			mainViewController.collectionView.reloadData()
 		}
 	}
 	
