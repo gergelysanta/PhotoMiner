@@ -14,6 +14,8 @@ class MainViewController: NSViewController {
 	@IBOutlet weak var collectionView: PhotoCollectionView!
 	@IBOutlet weak var collectionViewFlowLayout: NSCollectionViewFlowLayout!
 	
+	@IBOutlet weak var dropView: DropView!
+	
 	@IBOutlet var contextMenu: NSMenu!
 	fileprivate var quickLookActive = false
 	fileprivate var reloadHelperArray = [ImageData]()
@@ -217,7 +219,7 @@ class MainViewController: NSViewController {
 	
 }
 
-// MARK: NSCollectionViewDataSource extension
+// MARK: NSCollectionViewDataSource
 extension MainViewController: NSCollectionViewDataSource {
 	
 	func numberOfSections(in collectionView: NSCollectionView) -> Int {
@@ -291,7 +293,7 @@ extension MainViewController: NSCollectionViewDataSource {
 	
 }
 
-// MARK: NSCollectionViewDelegate extension
+// MARK: NSCollectionViewDelegate
 extension MainViewController: NSCollectionViewDelegate {
 	
 	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
@@ -302,7 +304,7 @@ extension MainViewController: NSCollectionViewDelegate {
 	
 }
 
-// MARK: NSDraggingSource extension
+// MARK: NSDraggingSource
 extension MainViewController: NSDraggingSource {
 	
 	func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
@@ -325,7 +327,7 @@ extension MainViewController: NSDraggingSource {
 	
 }
 
-// MARK: QLPreviewPanelDataSource extension
+// MARK: QLPreviewPanelDataSource
 extension MainViewController: QLPreviewPanelDataSource {
 	
 	func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
@@ -342,7 +344,7 @@ extension MainViewController: QLPreviewPanelDataSource {
 	
 }
 
-// MARK: QLPreviewPanelDelegate extension
+// MARK: QLPreviewPanelDelegate
 extension MainViewController: QLPreviewPanelDelegate {
 	
 	func previewPanel(_ panel: QLPreviewPanel!, handle event: NSEvent!) -> Bool {
@@ -359,7 +361,7 @@ extension MainViewController: QLPreviewPanelDelegate {
 	
 }
 
-// MARK: ThumbnailViewDelegate extension
+// MARK: ThumbnailViewDelegate
 extension MainViewController: ThumbnailViewDelegate {
 	
 	private func renderItemToImage(_ thumbnail: ThumbnailView) -> NSImage? {
@@ -512,7 +514,7 @@ extension MainViewController: ThumbnailViewDelegate {
 	
 }
 
-// MARK: PhotoCollectionViewDelegate extension
+// MARK: PhotoCollectionViewDelegate
 extension MainViewController: PhotoCollectionViewDelegate {
 	
 	func keyPress(_ collectionView: PhotoCollectionView, with event: NSEvent) -> Bool {
@@ -555,6 +557,12 @@ extension MainViewController: PhotoCollectionViewDelegate {
 				if let indexPath = appDelegate.imageCollection.indexPath(of: imageData) {
 					indexPaths.insert(indexPath)
 				}
+			}
+			if appDelegate.imageCollection.count > 0 {
+				dropView.hide()
+			}
+			else {
+				dropView.show()
 			}
 		}
 		collectionView.selectItems(at: indexPaths, scrollPosition: .centeredVertically)

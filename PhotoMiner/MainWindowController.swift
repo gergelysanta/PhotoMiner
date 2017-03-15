@@ -59,8 +59,6 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 			self.repositionWindowButton(.miniaturizeButton, inView: titlebarController.view)
 			self.repositionWindowButton(.zoomButton, inView: titlebarController.view)
 		}
-		
-		startScan()
     }
 	
 	//

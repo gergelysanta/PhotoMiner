@@ -19,6 +19,7 @@
 		74443D551DF9841900625848 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74443D541DF9841900625848 /* SettingsController.swift */; };
 		7492390D1E66B1B8005F629E /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7492390C1E66B1B8005F629E /* HeaderView.swift */; };
 		749239101E66B1DE005F629E /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7492390E1E66B1DE005F629E /* HeaderView.xib */; };
+		74AC4CAB1E7851900002A654 /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AC4CAA1E7851900002A654 /* DropView.swift */; };
 		74AF40A31E65DA78009A1D47 /* ImageCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AF40A21E65DA78009A1D47 /* ImageCollection.swift */; };
 		74BD2FB81E16B37B000109F9 /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BD2FB71E16B37B000109F9 /* ThumbnailView.swift */; };
 		74BD2FBA1E16B671000109F9 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BD2FB91E16B671000109F9 /* ImageData.swift */; };
@@ -42,6 +43,7 @@
 		74443D541DF9841900625848 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		7492390C1E66B1B8005F629E /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		7492390F1E66B1DE005F629E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HeaderView.xib; sourceTree = "<group>"; };
+		74AC4CAA1E7851900002A654 /* DropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		74AF40A21E65DA78009A1D47 /* ImageCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollection.swift; sourceTree = "<group>"; };
 		74BD2FB71E16B37B000109F9 /* ThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
 		74BD2FB91E16B671000109F9 /* ImageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				740820AC1E6B4554004BA3CE /* PhotoCollectionView.swift */,
 				7492390C1E66B1B8005F629E /* HeaderView.swift */,
 				74BD2FB71E16B37B000109F9 /* ThumbnailView.swift */,
+				74AC4CAA1E7851900002A654 /* DropView.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				74443D551DF9841900625848 /* SettingsController.swift in Sources */,
 				74174E5B1DF835C100D10710 /* MainViewController.swift in Sources */,
 				74BD2FBA1E16B671000109F9 /* ImageData.swift in Sources */,
+				74AC4CAB1E7851900002A654 /* DropView.swift in Sources */,
 				74BD2FB81E16B37B000109F9 /* ThumbnailView.swift in Sources */,
 				74443D531DF944B000625848 /* Configuration.swift in Sources */,
 				740820AD1E6B4554004BA3CE /* PhotoCollectionView.swift in Sources */,

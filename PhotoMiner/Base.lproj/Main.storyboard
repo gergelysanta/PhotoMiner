@@ -840,18 +840,58 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="6ID-Zn-x24" customClass="DropView" customModule="PhotoMiner" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="820" height="560"/>
+                                <subviews>
+                                    <imageView translatesAutoresizingMaskIntoConstraints="NO" id="nk0-yk-qUX">
+                                        <rect key="frame" x="371" y="290" width="78" height="81"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="DropIcon" id="HP3-jU-yq5"/>
+                                    </imageView>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o9y-Q3-w1Q">
+                                        <rect key="frame" x="18" y="228" width="784" height="42"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Drop directories here" id="d9y-Vo-4Jl">
+                                            <font key="font" size="36" name="ArialMT"/>
+                                            <color key="textColor" red="0.79991227388381958" green="0.80005055665969849" blue="0.7999035120010376" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pcC-K9-lNr">
+                                        <rect key="frame" x="18" y="199" width="784" height="21"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="to scan them for pictures" id="uOb-MX-pVM">
+                                            <font key="font" size="18" name="ArialMT"/>
+                                            <color key="textColor" red="0.79599106311798096" green="0.79612869024276733" blue="0.79598242044448853" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="nk0-yk-qUX" firstAttribute="centerY" secondItem="6ID-Zn-x24" secondAttribute="centerY" constant="-50" id="Cbo-kW-HVs"/>
+                                    <constraint firstItem="nk0-yk-qUX" firstAttribute="centerX" secondItem="6ID-Zn-x24" secondAttribute="centerX" id="OzU-pO-E6n"/>
+                                    <constraint firstItem="pcC-K9-lNr" firstAttribute="top" secondItem="o9y-Q3-w1Q" secondAttribute="bottom" constant="8" id="QwX-yQ-BJs"/>
+                                    <constraint firstItem="o9y-Q3-w1Q" firstAttribute="leading" secondItem="6ID-Zn-x24" secondAttribute="leading" constant="20" id="TGX-eM-k8H"/>
+                                    <constraint firstItem="o9y-Q3-w1Q" firstAttribute="top" secondItem="nk0-yk-qUX" secondAttribute="bottom" constant="20" id="d6Y-ec-QAD"/>
+                                    <constraint firstAttribute="trailing" secondItem="pcC-K9-lNr" secondAttribute="trailing" constant="20" id="eEP-8X-K6c"/>
+                                    <constraint firstAttribute="trailing" secondItem="o9y-Q3-w1Q" secondAttribute="trailing" constant="20" id="kjV-z5-Vod"/>
+                                    <constraint firstItem="pcC-K9-lNr" firstAttribute="leading" secondItem="6ID-Zn-x24" secondAttribute="leading" constant="20" id="n2J-jQ-N2r"/>
+                                </constraints>
+                            </customView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="uqh-py-6nF" secondAttribute="trailing" constant="-1" id="4ni-lk-f23"/>
+                            <constraint firstAttribute="trailing" secondItem="6ID-Zn-x24" secondAttribute="trailing" id="CpI-kb-jqv"/>
+                            <constraint firstAttribute="bottom" secondItem="6ID-Zn-x24" secondAttribute="bottom" id="K5X-V0-RfU"/>
                             <constraint firstAttribute="bottom" secondItem="uqh-py-6nF" secondAttribute="bottom" constant="-1" id="P04-U3-czM"/>
                             <constraint firstItem="uqh-py-6nF" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="-1" id="cir-op-idB"/>
+                            <constraint firstItem="6ID-Zn-x24" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="cxD-Dn-S1p"/>
                             <constraint firstItem="uqh-py-6nF" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="-1" id="ghG-jd-kqY"/>
+                            <constraint firstItem="6ID-Zn-x24" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="osa-g6-FGz"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="lNC-j3-36O" id="QxN-zE-yEz"/>
                         <outlet property="collectionViewFlowLayout" destination="ROs-3M-pX3" id="XtW-gL-iph"/>
                         <outlet property="contextMenu" destination="ntQ-ao-zxQ" id="f31-yf-IqO"/>
+                        <outlet property="dropView" destination="6ID-Zn-x24" id="Et7-0t-5GL"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -913,4 +953,7 @@
             <point key="canvasLocation" x="817" y="367"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="DropIcon" width="78" height="81"/>
+    </resources>
 </document>
