@@ -115,7 +115,29 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 	// MARK: TitlebarDelegate methods
 	//
 	
-	func buttonPressed(_ sender: NSButton) {
+	func scanButtonPressed(_ sender: NSButton) {
+		let dialog = NSOpenPanel()
+		
+		dialog.title = "Select a directory to scan"
+		dialog.showsResizeIndicator    = true
+		dialog.showsHiddenFiles        = false
+		dialog.canChooseDirectories    = true
+		dialog.canChooseFiles          = false
+		dialog.canCreateDirectories    = false
+		dialog.allowsMultipleSelection = true
+		
+		dialog.beginSheetModal(for: self.window!) { (response) in
+			if response == NSModalResponseOK {
+				var directoryList = [String]()
+				for url in dialog.urls {
+					directoryList.append(url.path)
+				}
+				if let appDelegate = NSApp.delegate as? AppDelegate {
+					_ = appDelegate.configuration.setLookupDirectories(directoryList)
+					self.startScan()
+				}
+			}
+		}
 	}
 	
 	//

@@ -87,8 +87,9 @@ class DropView: NSView {
 			for url in urls {
 				paths.append(url.path)
 			}
-			appDelegate.configuration.lookupFolders = paths
-			if let mainWindowController = self.window?.windowController as? MainWindowController {
+			if appDelegate.configuration.setLookupDirectories(paths),
+				let mainWindowController = self.window?.windowController as? MainWindowController
+			{
 				mainWindowController.startScan()
 			}
 		}
