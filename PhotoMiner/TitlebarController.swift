@@ -53,4 +53,8 @@ class TitlebarController: NSViewController {
 		}
 	}
 	
+	func showSettings() {
+		self.performSegue(withIdentifier: "settingsSegue", sender: self)
+	}
+	
 }

@@ -45,5 +45,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
+	@IBAction func prefsMenuItemPressed(_ sender: NSMenuItem) {
+		if let titleBarController = self.mainWindowController?.titlebarController {
+			titleBarController.showSettings()
+		}
+	}
+	
 }
 
