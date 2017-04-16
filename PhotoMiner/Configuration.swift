@@ -10,32 +10,63 @@ import Cocoa
 
 class Configuration: NSObject {
 	
-	var lookupFolders = [String]()
+	static let shared = Configuration()
+	
+	private(set) var lookupFolders = [String]()
 	let ignoreImagesBelowSize = 51200		// 50kB (50 * 1024 = 51200)
 
 	var creationDateAsLabel = true {
 		didSet {
+			#if DEBUG
+				NSLog("creationDateAsLabel: \(creationDateAsLabel)")
+			#endif
+			self.saveConfiguration()
+		}
+	}
+	
+	var newScanMustBeConfirmed = true {
+		didSet {
+			#if DEBUG
+				NSLog("newScanMustBeConfirmed: \(newScanMustBeConfirmed)")
+			#endif
 			self.saveConfiguration()
 		}
 	}
 	
 	var removeMustBeConfirmed = true {
 		didSet {
+			#if DEBUG
+				NSLog("removeMustBeConfirmed: \(removeMustBeConfirmed)")
+			#endif
 			self.saveConfiguration()
 		}
 	}
 	
-	var removeAlsoEmptyDirectories = true {
+	var removeAlsoEmptyDirectories = false {
 		didSet {
+			#if DEBUG
+				NSLog("removeAlsoEmptyDirectories: \(removeAlsoEmptyDirectories)")
+			#endif
 			self.saveConfiguration()
 		}
 	}
 	
-	override init() {
+	private override init() {
 		super.init()
-		creationDateAsLabel = UserDefaults.standard.bool(forKey: "creationDateAsLabel")
-		removeMustBeConfirmed = UserDefaults.standard.bool(forKey: "removeMustBeConfirmed")
-		removeAlsoEmptyDirectories = UserDefaults.standard.bool(forKey: "removeAlsoEmptyDirectories")
+		// Load configuration
+		let userDefaults = UserDefaults.standard
+		if let boolValue = userDefaults.value(forKey: "creationDateAsLabel") as? Bool {
+			creationDateAsLabel = boolValue
+		}
+		if let boolValue = userDefaults.value(forKey: "newScanMustBeConfirmed") as? Bool {
+			newScanMustBeConfirmed = boolValue
+		}
+		if let boolValue = userDefaults.value(forKey: "removeMustBeConfirmed") as? Bool {
+			removeMustBeConfirmed = boolValue
+		}
+		if let boolValue = userDefaults.value(forKey: "removeAlsoEmptyDirectories") as? Bool {
+			removeAlsoEmptyDirectories = boolValue
+		}
 	}
 	
 	func setLookupDirectories(_ pathList: [String]) -> Bool {
@@ -62,6 +93,7 @@ class Configuration: NSObject {
 	
 	func saveConfiguration() {
 		UserDefaults.standard.set(creationDateAsLabel, forKey: "creationDateAsLabel")
+		UserDefaults.standard.set(newScanMustBeConfirmed, forKey: "newScanMustBeConfirmed")
 		UserDefaults.standard.set(removeMustBeConfirmed, forKey: "removeMustBeConfirmed")
 		UserDefaults.standard.set(removeAlsoEmptyDirectories, forKey: "removeAlsoEmptyDirectories")
 		UserDefaults.standard.synchronize()

@@ -11,7 +11,6 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 	
-	let configuration = Configuration()
 	var imageCollection = ImageCollection()
 	
 	var mainWindowController:MainWindowController? {
@@ -33,7 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
-		if configuration.setLookupDirectories([filename]) {
+		if Configuration.shared.setLookupDirectories([filename]) {
 			mainWindowController?.startScan()
 			return true
 		}
@@ -41,7 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	func application(_ sender: NSApplication, openFiles filenames: [String]) {
-		if configuration.setLookupDirectories(filenames) {
+		if Configuration.shared.setLookupDirectories(filenames) {
 			mainWindowController?.startScan()
 		}
 	}

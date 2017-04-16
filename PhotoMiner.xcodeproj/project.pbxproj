@@ -16,7 +16,6 @@
 		74174E681DF838EE00D10710 /* TitlebarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74174E671DF838EE00D10710 /* TitlebarController.swift */; };
 		74174E6A1DF83AED00D10710 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74174E691DF83AED00D10710 /* MainWindowController.swift */; };
 		74443D531DF944B000625848 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74443D521DF944B000625848 /* Configuration.swift */; };
-		74443D551DF9841900625848 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74443D541DF9841900625848 /* SettingsController.swift */; };
 		7492390D1E66B1B8005F629E /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7492390C1E66B1B8005F629E /* HeaderView.swift */; };
 		749239101E66B1DE005F629E /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7492390E1E66B1DE005F629E /* HeaderView.xib */; };
 		74AC4CAB1E7851900002A654 /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AC4CAA1E7851900002A654 /* DropView.swift */; };
@@ -25,6 +24,7 @@
 		74BD2FBA1E16B671000109F9 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BD2FB91E16B671000109F9 /* ImageData.swift */; };
 		74BD2FC11E194895000109F9 /* ThumbnailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74BD2FBF1E194895000109F9 /* ThumbnailView.xib */; };
 		74DDE1F21E09293200C6FB36 /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DDE1F11E09293200C6FB36 /* Scanner.swift */; };
+		74F4B6F61EA13B7E00FE73C7 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F4B6F51EA13B7E00FE73C7 /* SettingsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +40,6 @@
 		74174E691DF83AED00D10710 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		7434D9E11E75A8990049BD33 /* PhotoMiner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PhotoMiner.entitlements; sourceTree = "<group>"; };
 		74443D521DF944B000625848 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
-		74443D541DF9841900625848 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		7492390C1E66B1B8005F629E /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		7492390F1E66B1DE005F629E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HeaderView.xib; sourceTree = "<group>"; };
 		74AC4CAA1E7851900002A654 /* DropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
@@ -49,6 +48,7 @@
 		74BD2FB91E16B671000109F9 /* ImageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		74BD2FC01E194895000109F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ThumbnailView.xib; sourceTree = "<group>"; };
 		74DDE1F11E09293200C6FB36 /* Scanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scanner.swift; sourceTree = "<group>"; };
+		74F4B6F51EA13B7E00FE73C7 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,11 +94,11 @@
 			children = (
 				74174E581DF835C100D10710 /* AppDelegate.swift */,
 				74174E671DF838EE00D10710 /* TitlebarController.swift */,
-				74443D541DF9841900625848 /* SettingsController.swift */,
 				74174E691DF83AED00D10710 /* MainWindowController.swift */,
 				74174E5A1DF835C100D10710 /* MainViewController.swift */,
 				740820AC1E6B4554004BA3CE /* PhotoCollectionView.swift */,
 				7492390C1E66B1B8005F629E /* HeaderView.swift */,
+				74F4B6F51EA13B7E00FE73C7 /* SettingsController.swift */,
 				74BD2FB71E16B37B000109F9 /* ThumbnailView.swift */,
 				74AC4CAA1E7851900002A654 /* DropView.swift */,
 			);
@@ -156,7 +156,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = TriKatz;
 				TargetAttributes = {
 					74174E541DF835C100D10710 = {
@@ -210,8 +210,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74443D551DF9841900625848 /* SettingsController.swift in Sources */,
 				74174E5B1DF835C100D10710 /* MainViewController.swift in Sources */,
+				74F4B6F61EA13B7E00FE73C7 /* SettingsController.swift in Sources */,
 				74BD2FBA1E16B671000109F9 /* ImageData.swift in Sources */,
 				74AC4CAB1E7851900002A654 /* DropView.swift in Sources */,
 				74BD2FB81E16B37B000109F9 /* ThumbnailView.swift in Sources */,
@@ -268,6 +268,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -319,6 +320,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

@@ -39,13 +39,11 @@ class ThumbnailView: NSCollectionViewItem {
 				object.setThumbnail()
 				
 				self.textField?.stringValue = object.imageName
-				if let appDelegate = NSApp.delegate as? AppDelegate {
-					if appDelegate.configuration.creationDateAsLabel {
-						let formatter = DateFormatter()
-						formatter.dateStyle = .medium
-						formatter.timeStyle = .short
-						self.textField?.stringValue = formatter.string(from: object.creationDate)
-					}
+				if Configuration.shared.creationDateAsLabel {
+					let formatter = DateFormatter()
+					formatter.dateStyle = .medium
+					formatter.timeStyle = .short
+					self.textField?.stringValue = formatter.string(from: object.creationDate)
 				}
 				self.imageView?.bind("value", to: object, withKeyPath: "imageThumbnail", options: nil)
 			}

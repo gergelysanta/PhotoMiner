@@ -48,6 +48,24 @@ class MainViewController: NSViewController {
 		return imageArray
 	}
 	
+	func confirmAction(_ question: String, action: @escaping ((Bool) -> Swift.Void)) {
+		let popup: NSAlert = NSAlert()
+		popup.messageText = question
+		popup.informativeText = ""
+		popup.alertStyle = NSAlertStyle.warning
+		popup.addButton(withTitle: NSLocalizedString("No", comment: "No"))
+		popup.addButton(withTitle: NSLocalizedString("Yes", comment: "Yes"))
+		if let window = self.view.window {
+			popup.beginSheetModal(for: window) { (response) in
+				action((response == NSAlertSecondButtonReturn) ? true : false)
+			}
+		}
+		else {
+			let response = popup.runModal()
+			action((response == NSAlertSecondButtonReturn) ? true : false)
+		}
+	}
+	
 	@IBAction func contextMenuItemSelected(_ sender: NSMenuItem) {
 		switch sender.tag {
 		case 1:				// "Show in Finder"
@@ -142,60 +160,41 @@ class MainViewController: NSViewController {
 			}
 		}
 		
-		let trashCompletionHandler: ()->Void = {
-			var imageURLs = [URL]()
-			for imagePath in imagePathList {
-				imageURLs.append(URL(fileURLWithPath: imagePath))
-			}
-			
-			NSWorkspace.shared().recycle(imageURLs) { (trashedFiles, error) in
-				for url in imageURLs where trashedFiles[url] != nil {
-					_ = appDelegate.imageCollection.removeImage(withPath: url.path)
-					
-					if appDelegate.configuration.removeAlsoEmptyDirectories {
-						removeDirURLIfEmpty(url.deletingLastPathComponent())
-					}
+		let trashCompletionHandler = { (response: Bool)->Void in
+			if response {
+				var imageURLs = [URL]()
+				for imagePath in imagePathList {
+					imageURLs.append(URL(fileURLWithPath: imagePath))
 				}
-				self.collectionView.reloadData()
 				
-				// TODO: Make this animated:
-//				self.collectionView.performBatchUpdates({
-//					self.collectionView.deleteItems(at: Set<IndexPath>)
-//				}, completionHandler: { (result) in
-//					NSLog("Complete: %@", result ? "OK" : "NO")
-//				})
+				NSWorkspace.shared().recycle(imageURLs) { (trashedFiles, error) in
+					for url in imageURLs where trashedFiles[url] != nil {
+						_ = appDelegate.imageCollection.removeImage(withPath: url.path)
+						
+						if Configuration.shared.removeAlsoEmptyDirectories {
+							removeDirURLIfEmpty(url.deletingLastPathComponent())
+						}
+					}
+					self.collectionView.reloadData()
+					
+					// TODO: Make this animated:
+//					self.collectionView.performBatchUpdates({
+//						self.collectionView.deleteItems(at: Set<IndexPath>)
+//					}, completionHandler: { (result) in
+//						NSLog("Complete: %@", result ? "OK" : "NO")
+//					})
+				}
 			}
 		}
 		
-		if appDelegate.configuration.removeMustBeConfirmed {
+		if Configuration.shared.removeMustBeConfirmed {
 			let question = (imagePathList.count > 1)
 				? String.localizedStringWithFormat(NSLocalizedString("Are you sure you want to trash the selected %d pictures?", comment: "Confirmation for moving more pictures to trash"), imagePathList.count)
 				: NSLocalizedString("Are you sure you want to trash the selected picture?", comment: "Confirmation for moving one picture to trash")
 			self.confirmAction(question, action: trashCompletionHandler)
 		}
 		else {
-			trashCompletionHandler()
-		}
-	}
-	
-	private func confirmAction(_ question: String, action: @escaping (() -> Swift.Void)) {
-		let popup: NSAlert = NSAlert()
-		popup.messageText = question
-		popup.informativeText = ""
-		popup.alertStyle = NSAlertStyle.warning
-		popup.addButton(withTitle: NSLocalizedString("No", comment: "No"))
-		popup.addButton(withTitle: NSLocalizedString("Yes", comment: "Yes"))
-		if let window = self.view.window {
-			popup.beginSheetModal(for: window) { (response) in
-				if response == NSAlertSecondButtonReturn {
-					action()
-				}
-			}
-		}
-		else {
-			if popup.runModal() == NSAlertSecondButtonReturn {
-				action()
-			}
+			trashCompletionHandler(true)
 		}
 	}
 	

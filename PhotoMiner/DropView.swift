@@ -81,17 +81,15 @@ class DropView: NSView {
 	
 	override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
 		super.performDragOperation(sender)
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			let urls = getDirPaths(fromPasteboard: sender.draggingPasteboard())
-			var paths = [String]()
-			for url in urls {
-				paths.append(url.path)
-			}
-			if appDelegate.configuration.setLookupDirectories(paths),
-				let mainWindowController = self.window?.windowController as? MainWindowController
-			{
-				mainWindowController.startScan()
-			}
+		let urls = getDirPaths(fromPasteboard: sender.draggingPasteboard())
+		var paths = [String]()
+		for url in urls {
+			paths.append(url.path)
+		}
+		if Configuration.shared.setLookupDirectories(paths),
+			let mainWindowController = self.window?.windowController as? MainWindowController
+		{
+			mainWindowController.startScan()
 		}
 		return true
 	}

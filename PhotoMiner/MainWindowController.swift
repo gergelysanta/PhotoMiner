@@ -96,18 +96,44 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 		}
 	}
 	
+	private func internalStartScan() {
+		if !scanner.start(pathsToScan: Configuration.shared.lookupFolders,
+		                  bottomSizeLimit: Configuration.shared.ignoreImagesBelowSize)
+		{
+			// TODO: TODO: Display Warning
+		}
+		titlebarController?.progressOn(true)
+	}
+	
 	//
 	// MARK: Public methods
 	//
 	
 	func startScan() {
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			if !scanner.start(pathsToScan: appDelegate.configuration.lookupFolders,
-			                  bottomSizeLimit: appDelegate.configuration.ignoreImagesBelowSize)
-			{
-				// TODO: TODO: Display Warning
+		if Configuration.shared.newScanMustBeConfirmed,
+			let mainViewController = self.window?.contentViewController as? MainViewController,
+			mainViewController.collectionView.numberOfSections > 0
+		{
+			let scanCompletionHandler: (Bool) -> Void = { response in
+				if response {
+					self.internalStartScan()
+				}
+				else {
+					mainViewController.dropView.hide()
+				}
 			}
-			titlebarController?.progressOn(true)
+			mainViewController.confirmAction(NSLocalizedString("Are you sure you want to start a new scan?", comment: "Confirmation for starting new scan"),
+												action: scanCompletionHandler)
+		}
+		else {
+			internalStartScan()
+		}
+	}
+	
+	func refreshPhotos() {
+		if let mainViewController = self.window?.contentViewController as? MainViewController {
+			// Reftesh collectionView
+			mainViewController.collectionView.reloadData()
 		}
 	}
 	
@@ -119,24 +145,29 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 		let dialog = NSOpenPanel()
 		
 		dialog.title = "Select a directory to scan"
-		dialog.showsResizeIndicator    = true
 		dialog.showsHiddenFiles        = false
 		dialog.canChooseDirectories    = true
 		dialog.canChooseFiles          = false
-		dialog.canCreateDirectories    = false
 		dialog.allowsMultipleSelection = true
 		
-		dialog.beginSheetModal(for: self.window!) { (response) in
-			if response == NSModalResponseOK {
+		let successBlock: (Int) -> Void = { response in
+			if response == NSFileHandlingPanelOKButton {
 				var directoryList = [String]()
 				for url in dialog.urls {
 					directoryList.append(url.path)
 				}
-				if let appDelegate = NSApp.delegate as? AppDelegate {
-					_ = appDelegate.configuration.setLookupDirectories(directoryList)
-					self.startScan()
-				}
+				_ = Configuration.shared.setLookupDirectories(directoryList)
+				
+				// Start internal scan method (this bypasses confirmation)
+				self.internalStartScan()
 			}
+		}
+		
+		if let window = self.window {
+			dialog.beginSheetModal(for: window, completionHandler: successBlock)
+		}
+		else {
+			dialog.begin(completionHandler: successBlock)
 		}
 	}
 	
@@ -152,10 +183,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 			appDelegate.imageCollection = scanner.scannedCollection
 			titlebarController?.setTotalCount(scanner.scannedCollection.count)
 			
-			if let mainViewController = self.window?.contentViewController as? MainViewController {
-				// Reftesh collectionView
-				mainViewController.collectionView.reloadData()
-			}
+			refreshPhotos()
 		}
 	}
 	
@@ -167,10 +195,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 			appDelegate.imageCollection = scanner.scannedCollection
 			titlebarController?.setTotalCount(scanner.scannedCollection.count)
 			
-			if let mainViewController = self.window?.contentViewController as? MainViewController {
-				// Reftesh collectionView
-				mainViewController.collectionView.reloadData()
-			}
+			refreshPhotos()
 		}
 		titlebarController?.progressOn(false)
 	}

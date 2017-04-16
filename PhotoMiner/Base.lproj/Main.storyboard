@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -668,7 +668,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="820" height="31"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-0w-ZTD">
+                            <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-0w-ZTD">
                                 <rect key="frame" x="68" y="7" width="670" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="PhotoMiner" id="Q1P-W8-6UM">
                                     <font key="font" metaFont="system"/>
@@ -751,39 +751,50 @@
             <objects>
                 <viewController id="ARC-gx-P75" userLabel="Settings Controller Scene" customClass="SettingsController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Ax0-aT-fo1">
-                        <rect key="frame" x="0.0" y="0.0" width="329" height="136"/>
+                        <rect key="frame" x="0.0" y="0.0" width="329" height="147"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="vTb-fo-X47">
-                                <rect key="frame" x="18" y="60" width="293" height="18"/>
-                                <string key="toolTip">Directories may be left empty when the picture you delete was the last one in them. In that case they will be removed too if this option is checked.</string>
-                                <buttonCell key="cell" type="check" title="Remove empty directories after deleting" bezelStyle="regularSquare" imagePosition="left" inset="2" id="BqX-eo-Dzq">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.removeAlsoEmptyDirectories" id="gVk-aS-8qE"/>
-                                </connections>
-                            </button>
-                            <button toolTip="A confirmation dialog will be displayed before removing pictures if this option is checked." translatesAutoresizingMaskIntoConstraints="NO" id="f6e-g2-bnv">
-                                <rect key="frame" x="18" y="80" width="293" height="18"/>
-                                <buttonCell key="cell" type="check" title="Ask for confirmation before deleting pictures" bezelStyle="regularSquare" imagePosition="left" inset="2" id="DTv-xr-dpY">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.removeMustBeConfirmed" id="U2U-GP-bC4"/>
-                                </connections>
-                            </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="7oo-hi-BaQ">
-                                <rect key="frame" x="18" y="100" width="293" height="18"/>
-                                <string key="toolTip">Image names are displayed below their thumbnails in the listing except when this option is checked. In that case their creation date is displayed.</string>
+                                <rect key="frame" x="18" y="111" width="293" height="18"/>
+                                <string key="toolTip">Image names are displayed below their thumbnails in the listing except when this option is checked. If checked, their creation date is displayed.</string>
                                 <buttonCell key="cell" type="check" title="Show creation date as picture labels" bezelStyle="regularSquare" imagePosition="left" inset="2" id="zH8-yR-T1y">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.creationDateAsLabel" id="yIR-jg-yVk"/>
+                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.creationDateAsLabel" id="JYB-zB-Ji1"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="f6e-g2-bnv">
+                                <rect key="frame" x="18" y="91" width="293" height="18"/>
+                                <string key="toolTip">Starting a new scan will forget your previous one. If this option is checked, a confirmation dialog will be displayed before each scan started by dropping directory icon(s) to the application window or dock icon.</string>
+                                <buttonCell key="cell" type="check" title="Ask for confirmation before new scans" bezelStyle="regularSquare" imagePosition="left" inset="2" id="DTv-xr-dpY">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.newScanMustBeConfirmed" id="2Pi-Qc-bny"/>
+                                </connections>
+                            </button>
+                            <button toolTip="If this option is checked, a confirmation dialog will be displayed before removing pictures." translatesAutoresizingMaskIntoConstraints="NO" id="vTb-fo-X47">
+                                <rect key="frame" x="18" y="71" width="293" height="18"/>
+                                <buttonCell key="cell" type="check" title="Ask for confirmation before deleting pictures" bezelStyle="regularSquare" imagePosition="left" inset="2" id="BqX-eo-Dzq">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.removeMustBeConfirmed" id="p7K-xn-zPn"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="BZd-xT-pHQ">
+                                <rect key="frame" x="18" y="51" width="293" height="18"/>
+                                <string key="toolTip">Directories may be left empty when the picture you delete was the last one in them. If this option is checked, empty directories will be removed too.</string>
+                                <buttonCell key="cell" type="check" title="Remove empty directories after deleting" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="qPe-Ba-Ogz">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.removeAlsoEmptyDirectories" id="MeL-Da-ZpX"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EBE-jo-SzM">
@@ -793,7 +804,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="dismissController:" target="ARC-gx-P75" id="jaZ-vI-Snf"/>
+                                    <action selector="dismissController:" target="ARC-gx-P75" id="xaY-Ok-wXP"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -801,22 +812,25 @@
                             <constraint firstItem="f6e-g2-bnv" firstAttribute="top" secondItem="7oo-hi-BaQ" secondAttribute="bottom" constant="6" id="2gs-Sy-iEv"/>
                             <constraint firstItem="vTb-fo-X47" firstAttribute="top" secondItem="f6e-g2-bnv" secondAttribute="bottom" constant="6" id="7E1-Db-fP9"/>
                             <constraint firstAttribute="trailing" secondItem="EBE-jo-SzM" secondAttribute="trailing" constant="20" id="GQ5-Rs-7h0"/>
+                            <constraint firstItem="BZd-xT-pHQ" firstAttribute="top" secondItem="vTb-fo-X47" secondAttribute="bottom" constant="6" id="MFa-Aq-NY1"/>
+                            <constraint firstItem="BZd-xT-pHQ" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="Mrk-7O-Iy3"/>
                             <constraint firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" constant="20" id="PD7-ZS-ZoB"/>
                             <constraint firstItem="7oo-hi-BaQ" firstAttribute="top" secondItem="Ax0-aT-fo1" secondAttribute="top" constant="20" id="PhM-Qy-4OM"/>
-                            <constraint firstAttribute="trailing" secondItem="f6e-g2-bnv" secondAttribute="trailing" constant="20" id="QcN-w4-qLX"/>
-                            <constraint firstItem="vTb-fo-X47" firstAttribute="leading" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="X1S-fF-0Uv"/>
-                            <constraint firstItem="EBE-jo-SzM" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vTb-fo-X47" secondAttribute="bottom" constant="8" id="bJ3-NM-UwU"/>
+                            <constraint firstItem="vTb-fo-X47" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="VCH-mJ-Oct"/>
                             <constraint firstAttribute="bottom" secondItem="EBE-jo-SzM" secondAttribute="bottom" constant="20" id="caz-tL-uwC"/>
                             <constraint firstItem="7oo-hi-BaQ" firstAttribute="leading" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="iw6-WM-XGs"/>
-                            <constraint firstItem="f6e-g2-bnv" firstAttribute="leading" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="odS-w9-EOE"/>
-                            <constraint firstAttribute="trailing" secondItem="vTb-fo-X47" secondAttribute="trailing" constant="20" id="z5W-qM-deo"/>
+                            <constraint firstItem="BZd-xT-pHQ" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="ldv-hE-4W4"/>
+                            <constraint firstItem="f6e-g2-bnv" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="pFC-6S-ZFt"/>
+                            <constraint firstItem="EBE-jo-SzM" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BZd-xT-pHQ" secondAttribute="bottom" constant="8" id="rE4-3y-AlB"/>
+                            <constraint firstItem="vTb-fo-X47" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="th2-iW-0j8"/>
+                            <constraint firstItem="f6e-g2-bnv" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="xjP-Ft-aU0"/>
                         </constraints>
                     </view>
                 </viewController>
                 <customObject id="3gu-27-ohB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <userDefaultsController representsSharedInstance="YES" id="UeR-Ph-jmj"/>
+                <userDefaultsController representsSharedInstance="YES" id="yOb-kQ-SNm"/>
             </objects>
-            <point key="canvasLocation" x="564.5" y="-104"/>
+            <point key="canvasLocation" x="572" y="-104"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
