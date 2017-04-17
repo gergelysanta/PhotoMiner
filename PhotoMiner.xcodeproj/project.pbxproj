@@ -369,7 +369,7 @@
 				DEVELOPMENT_TEAM = Y9N34UZ32J;
 				INFOPLIST_FILE = PhotoMiner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.trikatz.PhotoMiner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.trikatz.photominer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -384,7 +384,7 @@
 				DEVELOPMENT_TEAM = Y9N34UZ32J;
 				INFOPLIST_FILE = PhotoMiner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.trikatz.PhotoMiner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.trikatz.photominer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
