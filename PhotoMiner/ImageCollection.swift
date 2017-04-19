@@ -37,7 +37,7 @@ class ImageCollection: NSObject {
 		
 		// Construct key for creation month of the new image
 		let dateComponents = Calendar.current.dateComponents([.year, .month], from:image.creationDate)
-		let monthKey = String(format:"%ld%02ld", dateComponents.year!, dateComponents.month!)
+		let monthKey = String(format:"%04ld%02ld", dateComponents.year!, dateComponents.month!)
 		
 		// Check if we have an array in our dictionary for this month
 		if (dictionary[monthKey] == nil) {
