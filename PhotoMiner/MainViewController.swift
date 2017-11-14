@@ -52,17 +52,17 @@ class MainViewController: NSViewController {
 		let popup: NSAlert = NSAlert()
 		popup.messageText = question
 		popup.informativeText = ""
-		popup.alertStyle = NSAlertStyle.warning
+		popup.alertStyle = NSAlert.Style.warning
 		popup.addButton(withTitle: NSLocalizedString("No", comment: "No"))
 		popup.addButton(withTitle: NSLocalizedString("Yes", comment: "Yes"))
 		if let window = self.view.window {
 			popup.beginSheetModal(for: window) { (response) in
-				action((response == NSAlertSecondButtonReturn) ? true : false)
+				action((response == NSApplication.ModalResponse.alertSecondButtonReturn) ? true : false)
 			}
 		}
 		else {
 			let response = popup.runModal()
-			action((response == NSAlertSecondButtonReturn) ? true : false)
+			action((response == NSApplication.ModalResponse.alertSecondButtonReturn) ? true : false)
 		}
 	}
 	
@@ -70,11 +70,11 @@ class MainViewController: NSViewController {
 		switch sender.tag {
 		case 1:				// "Show in Finder"
 			for image in self.selectedImages() {
-				NSWorkspace.shared().selectFile(image.imagePath, inFileViewerRootedAtPath: "")
+				NSWorkspace.shared.selectFile(image.imagePath, inFileViewerRootedAtPath: "")
 			}
 		case 2:				// "Open"
 			for image in self.selectedImages() {
-				NSWorkspace.shared().openFile(image.imagePath)
+				NSWorkspace.shared.openFile(image.imagePath)
 			}
 		case 3:				// "Quick Look"
 			QLPreviewPanel.shared().makeKeyAndOrderFront(self)
@@ -167,7 +167,7 @@ class MainViewController: NSViewController {
 					imageURLs.append(URL(fileURLWithPath: imagePath))
 				}
 				
-				NSWorkspace.shared().recycle(imageURLs) { (trashedFiles, error) in
+				NSWorkspace.shared.recycle(imageURLs) { (trashedFiles, error) in
 					for url in imageURLs where trashedFiles[url] != nil {
 						_ = appDelegate.imageCollection.removeImage(withPath: url.path)
 						
@@ -241,7 +241,7 @@ extension MainViewController: NSCollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-		let item = collectionView.makeItem(withIdentifier: "ThumbnailView", for: indexPath) as! ThumbnailView
+		let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ThumbnailView"), for: indexPath) as! ThumbnailView
 		if let imageData = self.imageAtIndexPath(indexPath: indexPath) {
 			imageData.frame = item.view.frame
 			item.representedObject = imageData
@@ -250,9 +250,9 @@ extension MainViewController: NSCollectionViewDataSource {
 		return item
 	}
 	
-	func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> NSView {
+	func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: NSCollectionView.SupplementaryElementKind, at indexPath: IndexPath) -> NSView {
 		
-		if kind != NSCollectionElementKindSectionHeader {
+		if kind != NSCollectionView.SupplementaryElementKind.sectionHeader {
 			let view = NSView()
 			view.wantsLayer = true
 			view.layer?.backgroundColor = NSColor(calibratedWhite: 0.5, alpha: 0.2).cgColor
@@ -262,7 +262,7 @@ extension MainViewController: NSCollectionViewDataSource {
 			return view
 		}
 		
-		let view = collectionView.makeSupplementaryView(ofKind: NSCollectionElementKindSectionHeader, withIdentifier: "HeaderView", for: indexPath)
+		let view = collectionView.makeSupplementaryView(ofKind: NSCollectionView.SupplementaryElementKind.sectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderView"), for: indexPath)
 		guard let headerView = view as? HeaderView else { return view }
 		
 		if let appDelegate = NSApp.delegate as? AppDelegate {
@@ -270,8 +270,8 @@ extension MainViewController: NSCollectionViewDataSource {
 				let monthKey = appDelegate.imageCollection.arrangedKeys[indexPath.section]
 				
 				let index = monthKey.index(monthKey.startIndex, offsetBy: 4)
-				let yearStr = monthKey.substring(to: index)
-				let monthStr = monthKey.substring(from: index)
+				let yearStr = monthKey[..<index]
+				let monthStr = monthKey[index...]
 				
 				headerView.setTitle(fromYear: Int(yearStr)!, andMonth: Int(monthStr)!)
 				
@@ -318,7 +318,7 @@ extension MainViewController: NSDraggingSource {
 	func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
 		if operation == .delete {
 			// Dragging session ended with delete operation (user dragged the icon to the trash)
-			if let filePathList = session.draggingPasteboard.propertyList(forType: NSFilenamesPboardType) as? [String] {
+			if let filePathList = session.draggingPasteboard.propertyList(forType: NSPasteboard.PasteboardType(kUTTypeFileURL as String)) as? [String] {
 				self.trashImages(filePathList)
 			}
 		}
@@ -395,10 +395,8 @@ extension MainViewController: ThumbnailViewDelegate {
 		
 		// Get maximum height of all screens
 		var screenHeight:CGFloat = 0.0
-		if let allScreens = NSScreen.screens() {
-			for screen in allScreens {
-				screenHeight = max(screenHeight, screen.frame.size.height)
-			}
+		for screen in NSScreen.screens {
+			screenHeight = max(screenHeight, screen.frame.size.height)
 		}
 		
 		for indexPath in collectionView.selectionIndexPaths {
@@ -424,24 +422,23 @@ extension MainViewController: ThumbnailViewDelegate {
 						continue
 					}
 					
-					if let item = ThumbnailView(nibName: "ThumbnailView", bundle: nil)
-					{
-						// Initialize ViewItem for rendering
-						item.representedObject = imageData
-						item.view.frame = imageData.frame
-						item.isSelected = true
+					let item = ThumbnailView(nibName: NSNib.Name(rawValue: "ThumbnailView"), bundle: nil)
+					
+					// Initialize ViewItem for rendering
+					item.representedObject = imageData
+					item.view.frame = imageData.frame
+					item.isSelected = true
+					
+					// Render it's view
+					if let itemImage = self.renderItemToImage(item) {
+						// We use x and y for counting minX and minY
+						fullFrame.origin.x = min(fullFrame.origin.x, item.view.frame.origin.x)
+						fullFrame.origin.y = min(fullFrame.origin.y, item.view.frame.origin.y)
+						// We use width and height for counting maxX and maxY
+						fullFrame.size.width = max(fullFrame.size.width, item.view.frame.origin.x + item.view.frame.size.width)
+						fullFrame.size.height = max(fullFrame.size.height, item.view.frame.origin.y + item.view.frame.size.height)
 						
-						// Render it's view
-						if let itemImage = self.renderItemToImage(item) {
-							// We use x and y for counting minX and minY
-							fullFrame.origin.x = min(fullFrame.origin.x, item.view.frame.origin.x)
-							fullFrame.origin.y = min(fullFrame.origin.y, item.view.frame.origin.y)
-							// We use width and height for counting maxX and maxY
-							fullFrame.size.width = max(fullFrame.size.width, item.view.frame.origin.x + item.view.frame.size.width)
-							fullFrame.size.height = max(fullFrame.size.height, item.view.frame.origin.y + item.view.frame.size.height)
-							
-							itemsArray.append( (item: item, image: itemImage) )
-						}
+						itemsArray.append( (item: item, image: itemImage) )
 					}
 				}
 			}
@@ -463,7 +460,7 @@ extension MainViewController: ThumbnailViewDelegate {
 				thumbnailPos = itemPos
 			}
 			
-			itemsArray[i].image.draw(at: itemPos, from: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
+			itemsArray[i].image.draw(at: itemPos, from: NSZeroRect, operation: .sourceOver, fraction: 1.0)
 		}
 		image.unlockFocus()
 	
@@ -474,7 +471,7 @@ extension MainViewController: ThumbnailViewDelegate {
 		if event.clickCount == 2 {
 			// Doubleclick: Open in default app
 			for image in self.selectedImages() {
-				NSWorkspace.shared().openFile(image.imagePath)
+				NSWorkspace.shared.openFile(image.imagePath)
 			}
 		}
 	}
@@ -490,9 +487,9 @@ extension MainViewController: ThumbnailViewDelegate {
 			let positionInThumbnail = thumbnail.view.convert(event.locationInWindow, from: nil)
 			let position = NSMakePoint(dragPosition.x - positionInThumbnail.x - dragImage.position.x, dragPosition.y - positionInThumbnail.y - dragImage.position.y)
 			
-			let pasteBoard = NSPasteboard(name: NSDragPboard)
-			pasteBoard.declareTypes([NSFilenamesPboardType], owner: nil)
-			pasteBoard.setPropertyList(filePathList, forType: NSFilenamesPboardType)
+			let pasteBoard = NSPasteboard(name: NSPasteboard.Name.dragPboard)
+			pasteBoard.declareTypes([NSPasteboard.PasteboardType(kUTTypeFileURL as String)], owner: nil)
+			pasteBoard.setPropertyList(filePathList, forType: NSPasteboard.PasteboardType(kUTTypeFileURL as String))
 			
 			self.view.window?.drag(dragImage.image, at: position, offset: NSZeroSize, event: event, pasteboard: pasteBoard, source: self, slideBack: true)
 		}
@@ -564,7 +561,7 @@ extension MainViewController: PhotoCollectionViewDelegate {
 				dropView.show()
 			}
 		}
-		collectionView.selectItems(at: indexPaths, scrollPosition: .centeredVertically)
+		collectionView.selectItems(at: indexPaths, scrollPosition: NSCollectionView.ScrollPosition.centeredVertically)
 	}
 	
 }

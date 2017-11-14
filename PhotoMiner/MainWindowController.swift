@@ -17,7 +17,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
         super.windowDidLoad()
 		
 		scanner.delegate = self
-		self.titlebarController = self.storyboard?.instantiateController(withIdentifier: "TitlebarController") as! TitlebarController?
+		self.titlebarController = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "TitlebarController")) as! TitlebarController?
 		
 		if let titlebarController = self.titlebarController {
 			
@@ -29,7 +29,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 			
 			// Get default title bar height
 			let frame = NSRect(x: 0, y: 0, width: 800, height: 600)
-			let contentRect = NSWindow.contentRect(forFrameRect: frame, styleMask: .titled)
+			let contentRect = NSWindow.contentRect(forFrameRect: frame, styleMask: NSWindow.StyleMask.titled)
 			let defaultTitlebarHeight = NSHeight(frame) - NSHeight(contentRect)
 			
 			// Use NSTitlebarAccessoryViewController for enhancing titlebar
@@ -65,7 +65,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 	// MARK: Private methods
 	//
 	
-	private func repositionWindowButton(_ windowButton: NSWindowButton, inView superView: NSView) {
+	private func repositionWindowButton(_ windowButton: NSWindow.ButtonType, inView superView: NSView) {
 		if let button = self.window?.standardWindowButton(windowButton) {
 			if let originalSuperView = button.superview {
 				if originalSuperView != superView {
@@ -150,8 +150,8 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 		dialog.canChooseFiles          = false
 		dialog.allowsMultipleSelection = true
 		
-		let successBlock: (Int) -> Void = { response in
-			if response == NSFileHandlingPanelOKButton {
+		let successBlock: (NSApplication.ModalResponse) -> Void = { response in
+			if response == .OK {
 				var directoryList = [String]()
 				for url in dialog.urls {
 					directoryList.append(url.path)

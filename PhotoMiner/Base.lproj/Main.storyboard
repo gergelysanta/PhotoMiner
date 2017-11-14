@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -76,7 +76,7 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="PhotoMiner" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="99" y="-224"/>
+            <point key="canvasLocation" x="-454" y="-245"/>
         </scene>
         <!--Titlebar Controller-->
         <scene sceneID="SJ8-9S-pdM">
@@ -87,33 +87,20 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-0w-ZTD">
-                                <rect key="frame" x="68" y="7" width="670" height="17"/>
+                                <rect key="frame" x="68" y="7" width="648" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="PhotoMiner" id="Q1P-W8-6UM">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q7r-cA-s9B">
-                                <rect key="frame" x="775" y="-2" width="45" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="33" id="Hra-D3-yXn"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="Settings" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ktt-xT-ylB">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <segue destination="ARC-gx-P75" kind="sheet" identifier="settingsSegue" id="EDR-b4-1Gt"/>
-                                </connections>
-                            </button>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="7Zb-5d-s0Y">
-                                <rect key="frame" x="720" y="8" width="16" height="16"/>
+                                <rect key="frame" x="698" y="8" width="16" height="16"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1nx-2V-Q21">
-                                <rect key="frame" x="736" y="-2" width="45" height="32"/>
+                                <rect key="frame" x="714" y="-2" width="56" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="33" id="D89-fk-CYJ"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="44" id="8kZ-Bg-oUy"/>
                                 </constraints>
                                 <buttonCell key="cell" type="push" bezelStyle="rounded" image="Magnifier" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ql5-lh-AqA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -121,6 +108,19 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="scanButtonPressed:" target="wo0-ub-Urj" id="yAM-pd-g4m"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q7r-cA-s9B">
+                                <rect key="frame" x="764" y="-2" width="56" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="44" id="Xoo-zK-6xp"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="Settings" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ktt-xT-ylB">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <segue destination="ARC-gx-P75" kind="sheet" identifier="settingsSegue" id="EDR-b4-1Gt"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -155,6 +155,9 @@
                         <rect key="contentRect" x="196" y="240" width="820" height="560"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
                         <value key="minSize" type="size" width="490" height="280"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="Gzy-lX-dbb"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -228,6 +231,7 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="f6e-g2-bnv" firstAttribute="top" secondItem="7oo-hi-BaQ" secondAttribute="bottom" constant="6" id="2gs-Sy-iEv"/>
+                            <constraint firstItem="EBE-jo-SzM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="6B9-5C-pRk"/>
                             <constraint firstItem="vTb-fo-X47" firstAttribute="top" secondItem="f6e-g2-bnv" secondAttribute="bottom" constant="6" id="7E1-Db-fP9"/>
                             <constraint firstAttribute="trailing" secondItem="EBE-jo-SzM" secondAttribute="trailing" constant="20" id="GQ5-Rs-7h0"/>
                             <constraint firstItem="BZd-xT-pHQ" firstAttribute="top" secondItem="vTb-fo-X47" secondAttribute="bottom" constant="6" id="MFa-Aq-NY1"/>
@@ -266,7 +270,7 @@
                                     <subviews>
                                         <collectionView selectable="YES" allowsMultipleSelection="YES" id="lNC-j3-36O" customClass="PhotoCollectionView" customModule="PhotoMiner" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="820" height="560"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="ROs-3M-pX3">
                                                 <size key="itemSize" width="148" height="138"/>
                                                 <size key="headerReferenceSize" width="32" height="32"/>
@@ -297,7 +301,7 @@
                                         <rect key="frame" x="371" y="290" width="78" height="81"/>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="DropIcon" id="HP3-jU-yq5"/>
                                     </imageView>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o9y-Q3-w1Q">
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o9y-Q3-w1Q">
                                         <rect key="frame" x="18" y="228" width="784" height="42"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Drop directories here" id="d9y-Vo-4Jl">
                                             <font key="font" size="36" name="ArialMT"/>
@@ -305,7 +309,7 @@
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pcC-K9-lNr">
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pcC-K9-lNr">
                                         <rect key="frame" x="18" y="199" width="784" height="21"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="to scan them for pictures" id="uOb-MX-pVM">
                                             <font key="font" size="18" name="ArialMT"/>

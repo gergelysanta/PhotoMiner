@@ -22,7 +22,7 @@ class DropView: NSView {
 	
 	override func draw(_ dirtyRect: NSRect) {
 		NSColor(calibratedWhite: 1.0, alpha: 0.9).setFill()
-		NSRectFill(dirtyRect)
+		dirtyRect.fill()
 		super.draw(dirtyRect)
 	}
 	
@@ -40,7 +40,7 @@ class DropView: NSView {
 			view.unregisterDraggedTypes()
 		}
 		// Register this view for handling fileURLs
-		self.register(forDraggedTypes: [kUTTypeFileURL as String])
+		self.registerForDraggedTypes([NSPasteboard.PasteboardType.init(rawValue: kUTTypeFileURL as String)])
 	}
 	
 	private func getDirPaths(fromPasteboard pasteboard: NSPasteboard) -> [URL] {

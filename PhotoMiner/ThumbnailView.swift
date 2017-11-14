@@ -45,7 +45,7 @@ class ThumbnailView: NSCollectionViewItem {
 					formatter.timeStyle = .short
 					self.textField?.stringValue = formatter.string(from: object.creationDate)
 				}
-				self.imageView?.bind("value", to: object, withKeyPath: "imageThumbnail", options: nil)
+				self.imageView?.bind(NSBindingName(rawValue: "value"), to: object, withKeyPath: "imageThumbnail", options: nil)
 			}
 		}
 	}

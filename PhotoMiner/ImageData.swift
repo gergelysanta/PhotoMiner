@@ -12,7 +12,7 @@ class ImageData: NSObject {
 	
 	private(set) var imagePath:String!
 	private(set) var imageName:String!
-	private(set) var imageThumbnail:NSImage?
+	@objc dynamic private(set) var imageThumbnail:NSImage?
 	private(set) var creationDate:Date = Date()
 	
 	private(set) var imageSize:NSSize = NSZeroSize

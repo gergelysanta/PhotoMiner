@@ -15,7 +15,7 @@ class Configuration: NSObject {
 	private(set) var lookupFolders = [String]()
 	let ignoreImagesBelowSize = 51200		// 50kB (50 * 1024 = 51200)
 
-	var creationDateAsLabel = true {
+	@objc dynamic var creationDateAsLabel = true {
 		didSet {
 			#if DEBUG
 				NSLog("creationDateAsLabel: \(creationDateAsLabel)")
@@ -24,7 +24,7 @@ class Configuration: NSObject {
 		}
 	}
 	
-	var newScanMustBeConfirmed = true {
+	@objc dynamic var newScanMustBeConfirmed = true {
 		didSet {
 			#if DEBUG
 				NSLog("newScanMustBeConfirmed: \(newScanMustBeConfirmed)")
@@ -33,7 +33,7 @@ class Configuration: NSObject {
 		}
 	}
 	
-	var removeMustBeConfirmed = true {
+	@objc dynamic var removeMustBeConfirmed = true {
 		didSet {
 			#if DEBUG
 				NSLog("removeMustBeConfirmed: \(removeMustBeConfirmed)")
@@ -42,7 +42,7 @@ class Configuration: NSObject {
 		}
 	}
 	
-	var removeAlsoEmptyDirectories = false {
+	@objc dynamic var removeAlsoEmptyDirectories = false {
 		didSet {
 			#if DEBUG
 				NSLog("removeAlsoEmptyDirectories: \(removeAlsoEmptyDirectories)")

@@ -86,7 +86,7 @@ class Scanner: NSObject {
 							
 							let typePrefix = "public."
 							if fileType.hasPrefix(typePrefix) {
-								fileType.removeSubrange(fileType.startIndex..<fileType.index(fileType.startIndex, offsetBy: typePrefix.characters.count))
+								fileType.removeSubrange(fileType.startIndex..<fileType.index(fileType.startIndex, offsetBy: typePrefix.count))
 							}
 							else {
 								fileType = fileURL.pathExtension

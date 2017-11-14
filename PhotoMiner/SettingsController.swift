@@ -10,7 +10,7 @@ import Cocoa
 
 class SettingsController: NSViewController {
 	
-	let configuration = Configuration.shared
+	@objc dynamic let configuration = Configuration.shared
 	
 	override func dismiss(_ sender: Any?) {
 		super.dismiss(sender)
