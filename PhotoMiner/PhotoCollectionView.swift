@@ -29,14 +29,9 @@ class PhotoCollectionView: NSCollectionView {
 	}
 	
 	override func reloadData() {
-		if let delegate = self.keyDelegate {
-			delegate.preReloadData(self)
-			super.reloadData()
-			delegate.postReloadData(self)
-		}
-		else {
-			super.reloadData()
-		}
+		keyDelegate?.preReloadData(self)
+		super.reloadData()
+		keyDelegate?.postReloadData(self)
 	}
 	
 }
