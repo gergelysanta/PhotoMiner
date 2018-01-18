@@ -100,7 +100,7 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 		if !scanner.start(pathsToScan: Configuration.shared.lookupFolders,
 		                  bottomSizeLimit: Configuration.shared.ignoreImagesBelowSize)
 		{
-			// TODO: TODO: Display Warning
+			// TODO: Display Warning
 		}
 		titlebarController?.progressOn(true)
 	}
