@@ -8,23 +8,23 @@
 
 import Cocoa
 
-class ImageData: NSObject {
+class ImageData: NSObject, Codable {
 	
 	private(set) var imagePath:String!
 	private(set) var imageName:String!
 	@objc dynamic private(set) var imageThumbnail:NSImage?
 	private(set) var creationDate:Date = Date()
 	
-	private(set) var imageSize:NSSize = NSZeroSize
+	private(set) var dimensions:NSSize = NSZeroSize
 	private(set) var isLandscape:Bool = false
 	
 	private let thumbnailQueue = DispatchQueue(label: "com.trikatz.thumbnailQueue", qos: .utility)
 	private let mainQueue = DispatchQueue.main
 	
-	var frame = NSZeroRect			// This will be set when iage displayed first time
+	var frame = NSZeroRect			// This will be set when image displayed first time
 	
 	//
-	// MARK: Class/Type methods and arguments
+	// MARK: - Class/Type methods and arguments
 	//
 	
 	// Lazy initialization of dateFormatter
@@ -36,7 +36,41 @@ class ImageData: NSObject {
 	}()
 	
 	//
-	// MARK: Instance methods
+	// MARK: - Serialization
+	//
+	
+	public enum CodingKeys: String, CodingKey {
+		case imagePath = "path"
+		case imageName = "name"
+		case creationDate = "date"
+		case dimensions
+		case isLandscape = "landscape"
+	}
+	
+	// Encode object to serialized data
+	func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(imagePath, forKey: .imagePath)
+		try container.encode(imageName, forKey: .imageName)
+		try container.encode(creationDate, forKey: .creationDate)
+		try container.encode(dimensions, forKey: .dimensions)
+		try container.encode(isLandscape, forKey: .isLandscape)
+	}
+	
+	// Initializing object from serialized data
+	required init(from decoder: Decoder) throws {
+		super.init()
+		let values = try decoder.container(keyedBy: CodingKeys.self)
+		imagePath = try values.decode(String.self, forKey: .imagePath)
+		imageName = try values.decode(String.self, forKey: .imageName)
+		creationDate = try values.decode(Date.self, forKey: .creationDate)
+		dimensions = try values.decode(NSSize.self, forKey: .dimensions)
+		isLandscape = try values.decode(Bool.self, forKey: .isLandscape)
+	}
+	
+	
+	//
+	// MARK: - Instance methods
 	//
 	
 	// Disable default constructor (by making it private)
@@ -80,17 +114,17 @@ class ImageData: NSObject {
 				
 				if let orientation = imageProperties[kCGImagePropertyOrientation as String]?.int8Value {
 					if orientation <= 4 {
-						self.imageSize = NSSize(width: width, height: height)
+						self.dimensions = NSSize(width: width, height: height)
 					}
 					else {
-						self.imageSize = NSSize(width: height, height: width)
+						self.dimensions = NSSize(width: height, height: width)
 					}
 				}
 				else {
-					self.imageSize = NSSize(width: width, height: height)
+					self.dimensions = NSSize(width: width, height: height)
 				}
 				
-				if self.imageSize.width > self.imageSize.height {
+				if self.dimensions.width > self.dimensions.height {
 					self.isLandscape = true
 				}
 				
@@ -106,7 +140,7 @@ class ImageData: NSObject {
 	}
 
 	//
-	// MARK: Load thumbnail in operation queue
+	// MARK: - Load thumbnail in operation queue
 	//
 	
 	/* Many kinds of image files contain prerendered thumbnail images that can be quickly loaded without having to decode

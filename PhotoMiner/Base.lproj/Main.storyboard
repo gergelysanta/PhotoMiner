@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -67,6 +67,24 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="File" id="hFd-NC-7TP">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="File" id="ABF-SI-MCM">
+                                    <items>
+                                        <menuItem title="Open Scan" keyEquivalent="o" id="5cv-XQ-NcO">
+                                            <connections>
+                                                <action selector="openMenuItemPressed:" target="Voe-Tx-rLC" id="kbf-45-Hqh"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Save Scan" keyEquivalent="s" id="c8b-uK-paL">
+                                            <connections>
+                                                <action selector="saveMenuItemPressed:" target="Voe-Tx-rLC" id="E1y-HI-Jj8"/>
+                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.isListingAvailable" id="iQd-cg-JNn"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                         </items>
                     </menu>
                     <connections>
@@ -75,6 +93,7 @@
                 </application>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="PhotoMiner" customModuleProvider="target"/>
+                <userDefaultsController id="2Lc-p9-3rX"/>
             </objects>
             <point key="canvasLocation" x="-454" y="-245"/>
         </scene>

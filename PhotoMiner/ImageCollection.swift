@@ -8,11 +8,11 @@
 
 import Cocoa
 
-class ImageCollection: NSObject {
+class ImageCollection: NSObject, Codable {
 
 	private(set) var dictionary = [String:[ImageData]]()	// Dictionary have unarranged keys
 	private(set) var arrangedKeys = [String]()				// So we're storing arranged keys here
-	private(set) var count = 0								// Count of all objects in dictionary
+	private(set) var count:Int = 0							// Count of all objects in dictionary
 	
 	private var allImagesArray = [ImageData]()				// Inner array caching arranged array of all images when requested
 	private var allImagesArrayActualized = false			// Flag indicating if inner array of all images is actualized
@@ -33,9 +33,45 @@ class ImageCollection: NSObject {
 		}
 	}
 	
+	//
+	// MARK: - Serialization
+	//
+	
+	public enum CodingKeys: String, CodingKey {
+		case dictionary = "images"
+		case arrangedKeys = "ordered"
+		case count = "count"
+	}
+	
+	// Encode object to serialized data
+	func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(dictionary, forKey: .dictionary)
+		try container.encode(arrangedKeys, forKey: .arrangedKeys)
+		try container.encode(count, forKey: .count)
+	}
+	
+	// Initializing object from serialized data
+	required init(from decoder: Decoder) throws {
+		let values = try decoder.container(keyedBy: CodingKeys.self)
+		dictionary = try values.decode([String:[ImageData]].self, forKey: .dictionary)
+		arrangedKeys = try values.decode([String].self, forKey: .arrangedKeys)
+		count = try values.decode(Int.self, forKey: .count)
+	}
+	
+	//
+	// MARK: - Instance methods
+	//
+	
+	// Disable default constructor (by making it private)
+	override init() {
+		super.init()
+	}
+	
+
 	func addImage(_ image:ImageData) -> Bool {
 		
-		// Construct key for creation month of the new image
+		// Construct key for creating month of the new image
 		let dateComponents = Calendar.current.dateComponents([.year, .month], from:image.creationDate)
 		let monthKey = String(format:"%04ld%02ld", dateComponents.year!, dateComponents.month!)
 		
