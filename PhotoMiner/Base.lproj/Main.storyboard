@@ -113,6 +113,19 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fo8-IL-FaX">
+                                <rect key="frame" x="640" y="-2" width="56" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="44" id="DFh-TL-oh5"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="Cancel" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EUg-QV-OMI">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cancelButtonPressed:" target="wo0-ub-Urj" id="vPZ-I5-Nwt"/>
+                                </connections>
+                            </button>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="7Zb-5d-s0Y">
                                 <rect key="frame" x="698" y="8" width="16" height="16"/>
                             </progressIndicator>
@@ -148,14 +161,17 @@
                             <constraint firstItem="7Zb-5d-s0Y" firstAttribute="trailing" secondItem="nJc-0w-ZTD" secondAttribute="trailing" id="ATk-vG-Pzb"/>
                             <constraint firstItem="1nx-2V-Q21" firstAttribute="leading" secondItem="nJc-0w-ZTD" secondAttribute="trailing" constant="6" id="DRd-TX-1nn"/>
                             <constraint firstItem="nJc-0w-ZTD" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="Hf3-R1-MlF"/>
+                            <constraint firstItem="7Zb-5d-s0Y" firstAttribute="leading" secondItem="fo8-IL-FaX" secondAttribute="trailing" constant="8" id="IwQ-kf-6Sw"/>
                             <constraint firstItem="nJc-0w-ZTD" firstAttribute="leading" secondItem="bBq-kg-Pkg" secondAttribute="leading" constant="70" id="ax5-el-WYv"/>
                             <constraint firstItem="1nx-2V-Q21" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="hzi-9T-z5U"/>
                             <constraint firstItem="7Zb-5d-s0Y" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="nBa-ta-Kt3"/>
                             <constraint firstAttribute="trailing" secondItem="Q7r-cA-s9B" secondAttribute="trailing" constant="6" id="t8d-sc-ITI"/>
                             <constraint firstItem="Q7r-cA-s9B" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="v2g-Ih-tj2"/>
+                            <constraint firstItem="fo8-IL-FaX" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="yl5-3K-ZG3"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cancelButton" destination="fo8-IL-FaX" id="Q6e-qp-bab"/>
                         <outlet property="progressIndicator" destination="7Zb-5d-s0Y" id="CAQ-1Y-Rx2"/>
                         <outlet property="titleField" destination="nJc-0w-ZTD" id="nYk-BI-LGV"/>
                     </connections>
@@ -427,8 +443,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Cancel" width="32" height="32"/>
         <image name="DropIcon" width="78" height="81"/>
-        <image name="Magnifier" width="64" height="64"/>
-        <image name="Settings" width="64" height="64"/>
+        <image name="Magnifier" width="32" height="32"/>
+        <image name="Settings" width="32" height="32"/>
     </resources>
 </document>
