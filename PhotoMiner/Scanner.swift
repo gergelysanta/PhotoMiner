@@ -24,6 +24,8 @@ class Scanner: NSObject {
 	private let scanQueue = DispatchQueue(label: "com.trikatz.scanQueue", qos: .utility)
 	private let mainQueue = DispatchQueue.main
 	
+	private var stopRequested = false
+	
 	func start(pathsToScan lookupFolders: [String], bottomSizeLimit: Int) -> Bool {
 		if isRunning {
 			return false
@@ -67,6 +69,12 @@ class Scanner: NSObject {
 				                                                   includingPropertiesForKeys: Array(resourceKeys))
 				while let fileURL = dirEnumerator?.nextObject() as? URL {
 					let filePath = fileURL.path
+					
+					if self.stopRequested {
+						self.stopRequested = false
+						break
+					}
+					
 					do {
 						let resource = try fileURL.resourceValues(forKeys: resourceKeys)
 						
@@ -150,6 +158,18 @@ class Scanner: NSObject {
 		}
 		
 		return true
+	}
+	
+	func stop() {
+		if !isRunning { return }
+		
+		DispatchQueue(label: "com.trikatz.stopScanQueue", qos: .utility).async {
+			#if DEBUG
+				NSLog("ScanQueue: Stop scanning...")
+			#endif
+			
+			self.stopRequested = true
+		}
 	}
 	
 }

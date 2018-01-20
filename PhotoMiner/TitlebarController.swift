@@ -10,6 +10,7 @@ import Cocoa
 
 protocol TitlebarDelegate {
 	func scanButtonPressed(_ sender: NSButton)
+	func cancelButtonPressed(_ sender: NSButton)
 }
 
 class TitlebarController: NSViewController {
@@ -17,6 +18,7 @@ class TitlebarController: NSViewController {
 	var delegate:TitlebarDelegate?
 	
 	@IBOutlet private weak var titleField: NSTextField!
+	@IBOutlet private weak var cancelButton: NSButton!
 	@IBOutlet private weak var progressIndicator: NSProgressIndicator!
 	
 	override func viewDidLoad() {
@@ -26,19 +28,23 @@ class TitlebarController: NSViewController {
 	}
 	
 	@IBAction func scanButtonPressed(_ sender: NSButton) {
-		if let delegate = self.delegate {
-			delegate.scanButtonPressed(sender);
-		}
+		delegate?.scanButtonPressed(sender);
+	}
+	
+	@IBAction func cancelButtonPressed(_ sender: NSButton) {
+		delegate?.cancelButtonPressed(sender);
 	}
 	
 	func progressOn(_ progress: Bool) {
 		if progress {
 			progressIndicator.startAnimation(self)
 			progressIndicator.isHidden = false
+			cancelButton.isHidden = false
 		}
 		else {
 			progressIndicator.stopAnimation(self)
 			progressIndicator.isHidden = true
+			cancelButton.isHidden = true
 		}
 	}
 	

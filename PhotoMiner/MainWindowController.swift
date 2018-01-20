@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegate {
+class MainWindowController: NSWindowController {
 	
 	let scanner = Scanner()
 	var titlebarController: TitlebarController? = nil
@@ -137,9 +137,10 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 		}
 	}
 	
-	//
-	// MARK: TitlebarDelegate methods
-	//
+}
+
+// MARK: TitlebarDelegate methods
+extension MainWindowController: TitlebarDelegate {
 	
 	func scanButtonPressed(_ sender: NSButton) {
 		let dialog = NSOpenPanel()
@@ -171,9 +172,14 @@ class MainWindowController: NSWindowController, TitlebarDelegate, ScannerDelegat
 		}
 	}
 	
-	//
-	// MARK: ScannerDelegate methods
-	//
+	func cancelButtonPressed(_ sender: NSButton) {
+		self.scanner.stop()
+	}
+	
+}
+
+// MARK: ScannerDelegate methods
+extension MainWindowController: ScannerDelegate {
 	
 	func scanSubResult(scanner: Scanner) {
 		if let appDelegate = NSApp.delegate as? AppDelegate {
