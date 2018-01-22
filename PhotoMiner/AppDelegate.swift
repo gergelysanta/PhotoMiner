@@ -55,7 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
 		if filename.hasSuffix(".\(Configuration.shared.saveDataExtension)") {
-			loadImageDatabase(URL(fileURLWithPath: filename), onError: {})
+			return loadImageDatabase(URL(fileURLWithPath: filename), onError: {})
 		}
 		else if Configuration.shared.setLookupDirectories([filename]) {
 			mainWindowController?.startScan()
@@ -91,26 +91,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		displayErrorSheet(withMessage: message, andInformativeText: nil, forWindow: window)
 	}
 	
-	@discardableResult private func saveImageDatabase(onError errorHandler: () -> Void) -> Bool {
-		guard let window = mainWindowController?.window else { return false }
-		guard let fileUrl = Configuration.shared.openedFileUrl else { return false }
-		
-		if let jsonData = try? JSONEncoder().encode(self.imageCollection) {
-			do {
-				try jsonData.write(to: fileUrl)
-				return true
-			} catch {
-				errorHandler();
-				displayErrorSheet(withMessage: "Couldn't save scan to \(fileUrl.path)", forWindow: window)
-			}
-		}
-		else {
-			errorHandler()
-			displayErrorSheet(withMessage: "Couldn't prepare data for saving", forWindow: window)
-		}
-		return false
-	}
-	
 	@discardableResult func loadImageDatabase(_ fileUrl: URL, onError errorHandler: () -> Void) -> Bool {
 		do {
 			self.imageCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
@@ -118,11 +98,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			self.mainWindowController?.refreshPhotos()
 			return true
 		} catch {
-			errorHandler();
+			errorHandler()
 			if let window = mainWindowController?.window {
 				self.displayErrorSheet(withMessage: "Couldn't parse scan from \(fileUrl.path)",
 				                andInformativeText: "File is corrupted or it's not a scan result",
 				                         forWindow: window)
+			}
+		}
+		return false
+	}
+	
+	@discardableResult private func saveImageDatabase(_ fileUrl: URL, onError errorHandler: () -> Void) -> Bool {
+		if let jsonData = try? JSONEncoder().encode(self.imageCollection) {
+			do {
+				try jsonData.write(to: fileUrl)
+				return true
+			} catch {
+				errorHandler()
+				if let window = mainWindowController?.window {
+					displayErrorSheet(withMessage: "Couldn't save scan to \(fileUrl.path)", forWindow: window)
+				}
+			}
+		}
+		else {
+			errorHandler()
+			if let window = mainWindowController?.window {
+				displayErrorSheet(withMessage: "Couldn't prepare data for saving", forWindow: window)
 			}
 		}
 		return false
@@ -156,7 +157,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	@IBAction func saveMenuItemPressed(_ sender: NSMenuItem) {
-		saveImageDatabase(onError: {})
+		if let fileUrl = Configuration.shared.openedFileUrl {
+			saveImageDatabase(fileUrl, onError: {})
+		}
 	}
 	
 	@IBAction func saveAsMenuItemPressed(_ sender: NSMenuItem) {
@@ -168,8 +171,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 		savePanel.beginSheetModal(for: window, completionHandler: { (response:NSApplication.ModalResponse) in
 			if response == .OK {
-				if self.saveImageDatabase(onError: { savePanel.close() }) {
-					Configuration.shared.openedFileUrl = savePanel.url
+				if let fileUrl = savePanel.url {
+					if self.saveImageDatabase(fileUrl, onError: { savePanel.close() }) {
+						Configuration.shared.openedFileUrl = fileUrl
+					}
 				}
 			}
 		})
