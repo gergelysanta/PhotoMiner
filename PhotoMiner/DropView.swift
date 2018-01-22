@@ -43,26 +43,30 @@ class DropView: NSView {
 		self.registerForDraggedTypes([NSPasteboard.PasteboardType.init(rawValue: kUTTypeFileURL as String)])
 	}
 	
-	private func getDirPaths(fromPasteboard pasteboard: NSPasteboard) -> [URL] {
-		var urls = [URL]()
+	private func getAcceptedPaths(fromPasteboard pasteboard: NSPasteboard) -> [URL] {
+		var dirUrls = [URL]()
+		var dbUrls = [URL]()
 		if let pboardUrls = pasteboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] {
 			for url in pboardUrls {
 				var isDirectory:ObjCBool = false
 				if FileManager.default.fileExists(atPath: url.path, isDirectory:&isDirectory) {
 					if isDirectory.boolValue {
-						urls.append(url)
+						dirUrls.append(url)
+					}
+					else if url.path.hasSuffix(".\(Configuration.shared.saveDataExtension)") {
+						dbUrls.append(url)
 					}
 				}
 			}
 		}
-		return urls
+		return dbUrls.count > 0 ? dbUrls : dirUrls
 	}
 	
 	// MARK: NSDraggingDestination methods
 	
 	override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
 		super.draggingEntered(sender)
-		let validDrop = (getDirPaths(fromPasteboard: sender.draggingPasteboard()).count > 0) ? true : false
+		let validDrop = (getAcceptedPaths(fromPasteboard: sender.draggingPasteboard()).count > 0) ? true : false
 		if validDrop {
 			show()
 			return .copy
@@ -81,10 +85,20 @@ class DropView: NSView {
 	
 	override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
 		super.performDragOperation(sender)
-		let urls = getDirPaths(fromPasteboard: sender.draggingPasteboard())
+		let urls = getAcceptedPaths(fromPasteboard: sender.draggingPasteboard())
 		var paths = [String]()
 		for url in urls {
 			paths.append(url.path)
+			if let appDelegate = NSApp.delegate as? AppDelegate {
+				if url.path.hasSuffix(".\(Configuration.shared.saveDataExtension)") &&
+					appDelegate.loadImageDatabase(url, onError:{})
+				{
+					// Found correct savefile and loaded successfully
+					// There's nothing else we need here
+					appDelegate.mainWindowController?.window?.makeKeyAndOrderFront(self)
+					return true
+				}
+			}
 		}
 		if Configuration.shared.setLookupDirectories(paths),
 			let mainWindowController = self.window?.windowController as? MainWindowController

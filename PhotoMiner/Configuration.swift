@@ -14,6 +14,9 @@ class Configuration: NSObject {
 	
 	private(set) var lookupFolders = [String]()
 	let ignoreImagesBelowSize = 51200		// 50kB (50 * 1024 = 51200)
+	
+	var openedFileUrl:URL?
+	let saveDataExtension = "pmr"
 
 	@objc dynamic var creationDateAsLabel = true {
 		didSet {
@@ -87,6 +90,7 @@ class Configuration: NSObject {
 		}
 		if haveValidPath {
 			lookupFolders = newLookupFolders
+			openedFileUrl = nil
 		}
 		return haveValidPath
 	}

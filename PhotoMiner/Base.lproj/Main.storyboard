@@ -78,8 +78,14 @@
                                         </menuItem>
                                         <menuItem title="Save Scan" keyEquivalent="s" id="c8b-uK-paL">
                                             <connections>
-                                                <action selector="saveMenuItemPressed:" target="Voe-Tx-rLC" id="E1y-HI-Jj8"/>
-                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.isListingAvailable" id="iQd-cg-JNn"/>
+                                                <action selector="saveMenuItemPressed:" target="Voe-Tx-rLC" id="ppR-s7-sfx"/>
+                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.isSaveAvailable" id="tbj-3Z-C9a"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Save Scan As..." keyEquivalent="S" id="XIt-ZT-LXs">
+                                            <connections>
+                                                <action selector="saveAsMenuItemPressed:" target="Voe-Tx-rLC" id="09S-em-7JI"/>
+                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.isListingAvailable" id="fEQ-rN-UGX"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -94,6 +100,7 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="PhotoMiner" customModuleProvider="target"/>
                 <userDefaultsController id="2Lc-p9-3rX"/>
+                <userDefaultsController id="DNJ-94-bZE"/>
             </objects>
             <point key="canvasLocation" x="-454" y="-245"/>
         </scene>
@@ -443,9 +450,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Cancel" width="32" height="32"/>
+        <image name="Cancel" width="64" height="64"/>
         <image name="DropIcon" width="78" height="81"/>
-        <image name="Magnifier" width="32" height="32"/>
-        <image name="Settings" width="32" height="32"/>
+        <image name="Magnifier" width="64" height="64"/>
+        <image name="Settings" width="64" height="64"/>
     </resources>
 </document>
