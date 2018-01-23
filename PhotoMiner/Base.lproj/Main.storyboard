@@ -213,12 +213,12 @@
         <scene sceneID="dpf-bd-b1M">
             <objects>
                 <viewController id="ARC-gx-P75" userLabel="Settings Controller Scene" customClass="SettingsController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="Ax0-aT-fo1">
-                        <rect key="frame" x="0.0" y="0.0" width="329" height="147"/>
+                    <view key="view" misplaced="YES" id="Ax0-aT-fo1">
+                        <rect key="frame" x="0.0" y="0.0" width="329" height="162"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="7oo-hi-BaQ">
-                                <rect key="frame" x="18" y="111" width="293" height="18"/>
+                                <rect key="frame" x="18" y="127" width="293" height="18"/>
                                 <string key="toolTip">Image names are displayed below their thumbnails in the listing except when this option is checked. If checked, their creation date is displayed.</string>
                                 <buttonCell key="cell" type="check" title="Show creation date as picture labels" bezelStyle="regularSquare" imagePosition="left" inset="2" id="zH8-yR-T1y">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -229,7 +229,7 @@
                                 </connections>
                             </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="f6e-g2-bnv">
-                                <rect key="frame" x="18" y="91" width="293" height="18"/>
+                                <rect key="frame" x="18" y="107" width="293" height="18"/>
                                 <string key="toolTip">Starting a new scan will forget your previous one. If this option is checked, a confirmation dialog will be displayed before each scan started by dropping directory icon(s) to the application window or dock icon.</string>
                                 <buttonCell key="cell" type="check" title="Ask for confirmation before new scans" bezelStyle="regularSquare" imagePosition="left" inset="2" id="DTv-xr-dpY">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -240,7 +240,7 @@
                                 </connections>
                             </button>
                             <button toolTip="If this option is checked, a confirmation dialog will be displayed before removing pictures." translatesAutoresizingMaskIntoConstraints="NO" id="vTb-fo-X47">
-                                <rect key="frame" x="18" y="71" width="293" height="18"/>
+                                <rect key="frame" x="18" y="87" width="293" height="18"/>
                                 <buttonCell key="cell" type="check" title="Ask for confirmation before deleting pictures" bezelStyle="regularSquare" imagePosition="left" inset="2" id="BqX-eo-Dzq">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -250,7 +250,7 @@
                                 </connections>
                             </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="BZd-xT-pHQ">
-                                <rect key="frame" x="18" y="51" width="293" height="18"/>
+                                <rect key="frame" x="18" y="67" width="293" height="18"/>
                                 <string key="toolTip">Directories may be left empty when the picture you delete was the last one in them. If this option is checked, empty directories will be removed too.</string>
                                 <buttonCell key="cell" type="check" title="Remove empty directories after deleting" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="qPe-Ba-Ogz">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -270,9 +270,22 @@
                                     <action selector="dismissController:" target="ARC-gx-P75" id="xaY-Ok-wXP"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aKa-u5-dwx">
+                                <rect key="frame" x="18" y="47" width="293" height="18"/>
+                                <string key="toolTip">Pictures mostly hold their creation date in their EXIF data. This data may not be present mostly when image was not taken by camera. In this case date of creation is detected from filesystem which may be not correct. Such pictures are highlighted with a light border when this is checked.</string>
+                                <buttonCell key="cell" type="check" title="Highlight pictures with not real date" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jvh-hS-u18">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.highlightPicturesWithoutExif" id="cwz-fW-Bdc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="f6e-g2-bnv" firstAttribute="top" secondItem="7oo-hi-BaQ" secondAttribute="bottom" constant="6" id="2gs-Sy-iEv"/>
+                            <constraint firstItem="aKa-u5-dwx" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="3Y4-s9-V2u"/>
+                            <constraint firstItem="aKa-u5-dwx" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="54P-R3-LTl"/>
                             <constraint firstItem="EBE-jo-SzM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="6B9-5C-pRk"/>
                             <constraint firstItem="vTb-fo-X47" firstAttribute="top" secondItem="f6e-g2-bnv" secondAttribute="bottom" constant="6" id="7E1-Db-fP9"/>
                             <constraint firstAttribute="trailing" secondItem="EBE-jo-SzM" secondAttribute="trailing" constant="20" id="GQ5-Rs-7h0"/>
@@ -284,17 +297,18 @@
                             <constraint firstAttribute="bottom" secondItem="EBE-jo-SzM" secondAttribute="bottom" constant="20" id="caz-tL-uwC"/>
                             <constraint firstItem="7oo-hi-BaQ" firstAttribute="leading" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="iw6-WM-XGs"/>
                             <constraint firstItem="BZd-xT-pHQ" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="ldv-hE-4W4"/>
+                            <constraint firstItem="EBE-jo-SzM" firstAttribute="top" secondItem="aKa-u5-dwx" secondAttribute="bottom" constant="8" id="nWA-YH-lmg"/>
                             <constraint firstItem="f6e-g2-bnv" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="pFC-6S-ZFt"/>
-                            <constraint firstItem="EBE-jo-SzM" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BZd-xT-pHQ" secondAttribute="bottom" constant="8" id="rE4-3y-AlB"/>
                             <constraint firstItem="vTb-fo-X47" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="th2-iW-0j8"/>
                             <constraint firstItem="f6e-g2-bnv" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="xjP-Ft-aU0"/>
+                            <constraint firstItem="aKa-u5-dwx" firstAttribute="top" secondItem="BZd-xT-pHQ" secondAttribute="bottom" constant="6" id="zyV-hr-uaa"/>
                         </constraints>
                     </view>
                 </viewController>
                 <customObject id="3gu-27-ohB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="yOb-kQ-SNm"/>
             </objects>
-            <point key="canvasLocation" x="572" y="-104"/>
+            <point key="canvasLocation" x="571.5" y="-94.5"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">

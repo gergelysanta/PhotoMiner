@@ -18,8 +18,18 @@ class ImageData: NSObject, Codable {
 	private(set) var dimensions:NSSize = NSZeroSize
 	private(set) var isLandscape:Bool = false
 	
+	private(set) var exifData = [String: AnyObject]()
+	
+	var hasExif:Bool {
+		get {
+			return exifData.keys.count > 0
+		}
+	}
+	
 	private let thumbnailQueue = DispatchQueue(label: "com.trikatz.thumbnailQueue", qos: .utility)
 	private let mainQueue = DispatchQueue.main
+	
+	private var imagePropertiesParsed = false
 	
 	var frame = NSZeroRect			// This will be set when image displayed first time
 	
@@ -83,7 +93,7 @@ class ImageData: NSObject, Codable {
 		self.imagePath = path
 		self.imageName = URL(fileURLWithPath: path).lastPathComponent
 		self.creationDate = creationDate
-		detectSizeAndCreationDate()
+		parseImageProperties()
 	}
 
 	convenience init (path:String) {
@@ -105,7 +115,10 @@ class ImageData: NSObject, Codable {
 		return nil
 	}
 	
-	private func detectSizeAndCreationDate() {
+	func parseImageProperties() {
+		if imagePropertiesParsed { return }
+		imagePropertiesParsed = true
+		
 		if let imageSource = self.createImageSource() {
 			let options:CFDictionary = [ kCGImageSourceShouldCache as String : false ] as CFDictionary
 			if let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, options) as? [String: AnyObject] {
@@ -128,8 +141,9 @@ class ImageData: NSObject, Codable {
 					self.isLandscape = true
 				}
 				
-				if let exifDictionary = imageProperties[kCGImagePropertyExifDictionary as String] {
-					if let dateTakenString = exifDictionary[kCGImagePropertyExifDateTimeOriginal as String] as? String {
+				if let exifDictionary = imageProperties[kCGImagePropertyExifDictionary as String] as? [String: AnyObject] {
+					exifData = exifDictionary
+					if let dateTakenString = exifData[kCGImagePropertyExifDateTimeOriginal as String] as? String {
 						if let exifCreationDate = ImageData.dateFormatter.date(from: dateTakenString) {
 							self.creationDate = exifCreationDate
 						}

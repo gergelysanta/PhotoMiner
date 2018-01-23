@@ -54,6 +54,15 @@ class Configuration: NSObject {
 		}
 	}
 	
+	@objc dynamic var highlightPicturesWithoutExif = false {
+		didSet {
+			#if DEBUG
+				NSLog("highlightPicturesWithoutExif: \(highlightPicturesWithoutExif)")
+			#endif
+			self.saveConfiguration()
+		}
+	}
+	
 	private override init() {
 		super.init()
 		// Load configuration
@@ -69,6 +78,9 @@ class Configuration: NSObject {
 		}
 		if let boolValue = userDefaults.value(forKey: "removeAlsoEmptyDirectories") as? Bool {
 			removeAlsoEmptyDirectories = boolValue
+		}
+		if let boolValue = userDefaults.value(forKey: "highlightPicturesWithoutExif") as? Bool {
+			highlightPicturesWithoutExif = boolValue
 		}
 	}
 	
@@ -100,6 +112,7 @@ class Configuration: NSObject {
 		UserDefaults.standard.set(newScanMustBeConfirmed, forKey: "newScanMustBeConfirmed")
 		UserDefaults.standard.set(removeMustBeConfirmed, forKey: "removeMustBeConfirmed")
 		UserDefaults.standard.set(removeAlsoEmptyDirectories, forKey: "removeAlsoEmptyDirectories")
+		UserDefaults.standard.set(highlightPicturesWithoutExif, forKey: "highlightPicturesWithoutExif")
 		UserDefaults.standard.synchronize()
 	}
 	
