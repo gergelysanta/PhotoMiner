@@ -17,8 +17,8 @@ class MainViewController: NSViewController {
 	@IBOutlet weak var dropView: DropView!
 	
 	@IBOutlet var contextMenu: NSMenu!
-	fileprivate var quickLookActive = false
-	fileprivate var reloadHelperArray = [ImageData]()
+	private var quickLookActive = false
+	private var reloadHelperArray = [ImageData]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -143,7 +143,7 @@ class MainViewController: NSViewController {
 		return true
 	}
 	
-	fileprivate func trashImages(_ imagePathList:[String]) {
+	private func trashImages(_ imagePathList:[String]) {
 		guard imagePathList.count > 0 else { return }
 		guard let appDelegate = NSApp.delegate as? AppDelegate else { return }
 		
