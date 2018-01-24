@@ -18,7 +18,7 @@ class ImageData: NSObject, Codable {
 	private(set) var dimensions:NSSize = NSZeroSize
 	private(set) var isLandscape:Bool = false
 	
-	private(set) var exifData = [String: AnyObject]()
+	private var exifData = [String: AnyObject]()
 	
 	var hasExif:Bool {
 		get {
@@ -152,7 +152,58 @@ class ImageData: NSObject, Codable {
 			}
 		}
 	}
-
+	
+	func exifToString() -> String {
+		var string = ""
+		
+		func arrayToString(_ array: [AnyObject]) -> String {
+			var string = "[ "
+			for value in array {
+				if string.count > 2 {
+					string += ", "
+				}
+				if let strValue = value as? String {
+					string += strValue
+				}
+				else if let intValue = value as? Int {
+					string += String(intValue)
+				}
+				else if let doubleValue = value as? Double {
+					string += String(doubleValue)
+				}
+				else {
+					string += "<unknown data>"
+				}
+			}
+			string += " ]"
+			return string
+		}
+		
+		for key in exifData.keys {
+			string += key + ": "
+			if let value = exifData[key] as? String {
+				string += value
+			}
+			else if let value = exifData[key] as? Int {
+				string += String(value)
+			}
+			else if let value = exifData[key] as? Double {
+				string += String(value)
+			}
+			else if let value = exifData[key] as? [AnyObject] {
+				string += arrayToString(value)
+			}
+			else {
+				string += "<unknown data>"
+			}
+			string += "\n"
+		}
+		if !string.isEmpty {
+			string.removeLast()
+		}
+		return string
+	}
+	
 	//
 	// MARK: - Load thumbnail in operation queue
 	//
