@@ -9,30 +9,57 @@
 import Cocoa
 
 protocol TitlebarDelegate {
-	func scanButtonPressed(_ sender: NSButton)
-	func cancelButtonPressed(_ sender: NSButton)
+	func titlebar(_ controller: TitlebarController, scanButtonPressed sender: NSButton)
+	func titlebar(_ controller: TitlebarController, cancelButtonPressed sender: NSButton)
+	func titlebarSidebarToggled(_ controller: TitlebarController)
 }
 
 class TitlebarController: NSViewController {
+	
+	static let sidebarOnNotification  = Notification.Name("TitlebarSidebarOn")
+	static let sidebarOffNotification = Notification.Name("TitlebarSidebarOff")
 	
 	var delegate:TitlebarDelegate?
 	
 	@IBOutlet private weak var titleField: NSTextField!
 	@IBOutlet private weak var cancelButton: NSButton!
+	@IBOutlet private weak var sidebarButton: NSButton!
 	@IBOutlet private weak var progressIndicator: NSProgressIndicator!
+	
+	private let sidebarOnImage  = NSImage(named: NSImage.Name("SidebarOn"))
+	private let sidebarOffImage = NSImage(named: NSImage.Name("SidebarOff"))
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.setTotalCount(0)
 		self.progressOn(false)
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(self.sidebarOnNotification(notification:)),  name: TitlebarController.sidebarOnNotification,  object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.sidebarOffNotification(notification:)), name: TitlebarController.sidebarOffNotification, object: nil)
+	}
+	
+	deinit {
+		NotificationCenter.default.removeObserver(self)
+	}
+	
+	@objc func sidebarOnNotification(notification: Notification){
+		sidebarButton.image = sidebarOnImage
+	}
+	
+	@objc func sidebarOffNotification(notification: Notification){
+		sidebarButton.image = sidebarOffImage
 	}
 	
 	@IBAction func scanButtonPressed(_ sender: NSButton) {
-		delegate?.scanButtonPressed(sender);
+		delegate?.titlebar(self, scanButtonPressed: sender)
 	}
 	
 	@IBAction func cancelButtonPressed(_ sender: NSButton) {
-		delegate?.cancelButtonPressed(sender);
+		delegate?.titlebar(self, cancelButtonPressed: sender)
+	}
+	
+	@IBAction func sidebarButtonPressed(_ sender: NSButton) {
+		delegate?.titlebarSidebarToggled(self)
 	}
 	
 	func progressOn(_ progress: Bool) {

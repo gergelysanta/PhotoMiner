@@ -11,6 +11,8 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 	
+	// MARK: - Instance properties
+	
 	var imageCollection = ImageCollection()
 	
 	var mainWindowController:MainWindowController? {
@@ -40,9 +42,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			return isListingAvailable && (Configuration.shared.openedFileUrl != nil)
 		}
 	}
-
+	
+	// MARK: - NSApplicationDelegate methods
+	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		// Insert code here to initialize your application
 	}
 	
 	func applicationWillTerminate(_ aNotification: Notification) {
@@ -78,6 +81,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
+	// MARK: - Instance methods
+
 	func displayErrorSheet(withMessage message: String, andInformativeText infoText: String?, forWindow window: NSWindow) {
 		let alert = NSAlert()
 		alert.messageText = message
@@ -128,6 +133,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 		return false
 	}
+	
+	// MARK: - Actions
 	
 	@IBAction func prefsMenuItemPressed(_ sender: NSMenuItem) {
 		if let titleBarController = self.mainWindowController?.titlebarController {
@@ -181,4 +188,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 }
-

@@ -15,6 +15,9 @@ class Configuration: NSObject {
 	private(set) var lookupFolders = [String]()
 	let ignoreImagesBelowSize = 51200		// 50kB (50 * 1024 = 51200)
 	
+	let sidepanelMinSize = 150
+	let sidePanelMaxSize = 400
+	
 	var openedFileUrl:URL?
 	let saveDataExtension = "pmr"
 

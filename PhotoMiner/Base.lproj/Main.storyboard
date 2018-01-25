@@ -100,9 +100,8 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="PhotoMiner" customModuleProvider="target"/>
                 <userDefaultsController id="2Lc-p9-3rX"/>
-                <userDefaultsController id="DNJ-94-bZE"/>
             </objects>
-            <point key="canvasLocation" x="-454" y="-245"/>
+            <point key="canvasLocation" x="-434" y="-245"/>
         </scene>
         <!--Titlebar Controller-->
         <scene sceneID="SJ8-9S-pdM">
@@ -113,7 +112,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-0w-ZTD">
-                                <rect key="frame" x="68" y="7" width="648" height="17"/>
+                                <rect key="frame" x="68" y="7" width="598" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="PhotoMiner" id="Q1P-W8-6UM">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -121,7 +120,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fo8-IL-FaX">
-                                <rect key="frame" x="640" y="-2" width="56" height="32"/>
+                                <rect key="frame" x="590" y="-2" width="56" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="44" id="DFh-TL-oh5"/>
                                 </constraints>
@@ -134,10 +133,10 @@
                                 </connections>
                             </button>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="7Zb-5d-s0Y">
-                                <rect key="frame" x="698" y="8" width="16" height="16"/>
+                                <rect key="frame" x="648" y="8" width="16" height="16"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1nx-2V-Q21">
-                                <rect key="frame" x="714" y="-2" width="56" height="32"/>
+                                <rect key="frame" x="664" y="-2" width="56" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="44" id="8kZ-Bg-oUy"/>
                                 </constraints>
@@ -150,7 +149,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q7r-cA-s9B">
-                                <rect key="frame" x="764" y="-2" width="56" height="32"/>
+                                <rect key="frame" x="714" y="-2" width="56" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="44" id="Xoo-zK-6xp"/>
                                 </constraints>
@@ -162,6 +161,19 @@
                                     <segue destination="ARC-gx-P75" kind="sheet" identifier="settingsSegue" id="EDR-b4-1Gt"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AcS-by-NKZ">
+                                <rect key="frame" x="764" y="-2" width="56" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="44" id="o6C-PQ-9Wm"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="SidebarOff" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eNc-pV-QIS">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="sidebarButtonPressed:" target="wo0-ub-Urj" id="1TI-wA-JZP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Q7r-cA-s9B" firstAttribute="leading" secondItem="1nx-2V-Q21" secondAttribute="trailing" constant="6" id="4EF-g3-RlA"/>
@@ -169,10 +181,12 @@
                             <constraint firstItem="1nx-2V-Q21" firstAttribute="leading" secondItem="nJc-0w-ZTD" secondAttribute="trailing" constant="6" id="DRd-TX-1nn"/>
                             <constraint firstItem="nJc-0w-ZTD" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="Hf3-R1-MlF"/>
                             <constraint firstItem="7Zb-5d-s0Y" firstAttribute="leading" secondItem="fo8-IL-FaX" secondAttribute="trailing" constant="8" id="IwQ-kf-6Sw"/>
+                            <constraint firstAttribute="trailing" secondItem="AcS-by-NKZ" secondAttribute="trailing" constant="6" id="OU8-tO-jih"/>
+                            <constraint firstItem="AcS-by-NKZ" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="Zd2-Ju-BES"/>
                             <constraint firstItem="nJc-0w-ZTD" firstAttribute="leading" secondItem="bBq-kg-Pkg" secondAttribute="leading" constant="70" id="ax5-el-WYv"/>
                             <constraint firstItem="1nx-2V-Q21" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="hzi-9T-z5U"/>
                             <constraint firstItem="7Zb-5d-s0Y" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="nBa-ta-Kt3"/>
-                            <constraint firstAttribute="trailing" secondItem="Q7r-cA-s9B" secondAttribute="trailing" constant="6" id="t8d-sc-ITI"/>
+                            <constraint firstItem="AcS-by-NKZ" firstAttribute="leading" secondItem="Q7r-cA-s9B" secondAttribute="trailing" constant="6" id="svI-Ad-aFW"/>
                             <constraint firstItem="Q7r-cA-s9B" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="v2g-Ih-tj2"/>
                             <constraint firstItem="fo8-IL-FaX" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="yl5-3K-ZG3"/>
                         </constraints>
@@ -180,10 +194,12 @@
                     <connections>
                         <outlet property="cancelButton" destination="fo8-IL-FaX" id="Q6e-qp-bab"/>
                         <outlet property="progressIndicator" destination="7Zb-5d-s0Y" id="CAQ-1Y-Rx2"/>
+                        <outlet property="sidebarButton" destination="AcS-by-NKZ" id="uYd-xj-NwP"/>
                         <outlet property="titleField" destination="nJc-0w-ZTD" id="nYk-BI-LGV"/>
                     </connections>
                 </viewController>
                 <customObject id="rpa-zo-hxT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController id="wZu-ZY-tVs"/>
             </objects>
             <point key="canvasLocation" x="-110" y="-103.5"/>
         </scene>
@@ -194,7 +210,7 @@
                     <window key="window" title="PhotoMiner" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="820" height="560"/>
+                        <rect key="contentRect" x="196" y="240" width="571" height="381"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
                         <value key="minSize" type="size" width="490" height="280"/>
                         <connections>
@@ -202,19 +218,19 @@
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
+                        <segue destination="8Jg-wj-tk9" kind="relationship" relationship="window.shadowedContentViewController" id="94P-bx-9jR"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-110" y="367"/>
+            <point key="canvasLocation" x="-234.5" y="277.5"/>
         </scene>
         <!--Settings Controller Scene-->
         <scene sceneID="dpf-bd-b1M">
             <objects>
                 <viewController id="ARC-gx-P75" userLabel="Settings Controller Scene" customClass="SettingsController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="Ax0-aT-fo1">
-                        <rect key="frame" x="0.0" y="0.0" width="329" height="162"/>
+                    <view key="view" id="Ax0-aT-fo1">
+                        <rect key="frame" x="0.0" y="0.0" width="329" height="163"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="7oo-hi-BaQ">
@@ -315,17 +331,17 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="820" height="560"/>
+                        <rect key="frame" x="0.0" y="0.0" width="571" height="381"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqh-py-6nF">
-                                <rect key="frame" x="-1" y="-1" width="822" height="562"/>
+                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqh-py-6nF">
+                                <rect key="frame" x="0.0" y="0.0" width="571" height="381"/>
                                 <clipView key="contentView" drawsBackground="NO" id="Txi-qI-Efj">
-                                    <rect key="frame" x="1" y="1" width="820" height="560"/>
+                                    <rect key="frame" x="1" y="1" width="569" height="379"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView selectable="YES" allowsMultipleSelection="YES" id="lNC-j3-36O" customClass="PhotoCollectionView" customModule="PhotoMiner" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="820" height="560"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="569" height="379"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="ROs-3M-pX3">
                                                 <size key="itemSize" width="148" height="138"/>
@@ -342,23 +358,23 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="i31-Rb-dhg">
-                                    <rect key="frame" x="1" y="253" width="478" height="16"/>
+                                    <rect key="frame" x="-100" y="-100" width="478" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="ZD6-9a-t9N">
-                                    <rect key="frame" x="417" y="1" width="16" height="241"/>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="ZD6-9a-t9N">
+                                    <rect key="frame" x="581" y="1" width="16" height="345"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="6ID-Zn-x24" customClass="DropView" customModule="PhotoMiner" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="820" height="560"/>
+                                <rect key="frame" x="0.0" y="0.0" width="571" height="381"/>
                                 <subviews>
                                     <imageView translatesAutoresizingMaskIntoConstraints="NO" id="nk0-yk-qUX">
-                                        <rect key="frame" x="371" y="290" width="78" height="81"/>
+                                        <rect key="frame" x="247" y="200" width="78" height="81"/>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="DropIcon" id="HP3-jU-yq5"/>
                                     </imageView>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o9y-Q3-w1Q">
-                                        <rect key="frame" x="18" y="228" width="784" height="42"/>
+                                        <rect key="frame" x="18" y="138" width="535" height="42"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Drop directories here" id="d9y-Vo-4Jl">
                                             <font key="font" size="36" name="ArialMT"/>
                                             <color key="textColor" red="0.79991227388381958" green="0.80005055665969849" blue="0.7999035120010376" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -366,7 +382,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pcC-K9-lNr">
-                                        <rect key="frame" x="18" y="199" width="784" height="21"/>
+                                        <rect key="frame" x="18" y="109" width="535" height="21"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="to scan them for pictures" id="uOb-MX-pVM">
                                             <font key="font" size="18" name="ArialMT"/>
                                             <color key="textColor" red="0.79599106311798096" green="0.79612869024276733" blue="0.79598242044448853" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -387,14 +403,14 @@
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="uqh-py-6nF" secondAttribute="trailing" constant="-1" id="4ni-lk-f23"/>
-                            <constraint firstAttribute="trailing" secondItem="6ID-Zn-x24" secondAttribute="trailing" id="CpI-kb-jqv"/>
-                            <constraint firstAttribute="bottom" secondItem="6ID-Zn-x24" secondAttribute="bottom" id="K5X-V0-RfU"/>
-                            <constraint firstAttribute="bottom" secondItem="uqh-py-6nF" secondAttribute="bottom" constant="-1" id="P04-U3-czM"/>
-                            <constraint firstItem="uqh-py-6nF" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="-1" id="cir-op-idB"/>
-                            <constraint firstItem="6ID-Zn-x24" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="cxD-Dn-S1p"/>
-                            <constraint firstItem="uqh-py-6nF" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="-1" id="ghG-jd-kqY"/>
-                            <constraint firstItem="6ID-Zn-x24" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="osa-g6-FGz"/>
+                            <constraint firstAttribute="bottom" secondItem="6ID-Zn-x24" secondAttribute="bottom" id="Asv-bQ-eFx"/>
+                            <constraint firstAttribute="trailing" secondItem="6ID-Zn-x24" secondAttribute="trailing" id="WYg-ki-exo"/>
+                            <constraint firstItem="uqh-py-6nF" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Wbx-SU-SAR"/>
+                            <constraint firstItem="6ID-Zn-x24" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="dYB-3t-JX7"/>
+                            <constraint firstAttribute="trailing" secondItem="uqh-py-6nF" secondAttribute="trailing" id="eq6-Q1-MjH"/>
+                            <constraint firstItem="6ID-Zn-x24" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="gEh-aY-kN4"/>
+                            <constraint firstItem="uqh-py-6nF" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="nzI-TZ-BcP"/>
+                            <constraint firstAttribute="bottom" secondItem="uqh-py-6nF" secondAttribute="bottom" id="ohk-hi-nCd"/>
                         </constraints>
                     </view>
                     <connections>
@@ -460,7 +476,73 @@
                     </items>
                 </menu>
             </objects>
-            <point key="canvasLocation" x="817" y="367"/>
+            <point key="canvasLocation" x="238" y="850"/>
+        </scene>
+        <!--Main Split View Controller-->
+        <scene sceneID="oLM-M0-Fzm">
+            <objects>
+                <customObject id="b4g-vz-5gZ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <splitViewController id="8Jg-wj-tk9" customClass="MainSplitViewController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
+                    <splitViewItems>
+                        <splitViewItem id="ybe-U8-0xY"/>
+                        <splitViewItem id="Dw6-eJ-uP6"/>
+                    </splitViewItems>
+                    <splitView key="splitView" dividerStyle="thin" vertical="YES" id="z8r-4D-JKb" customClass="MainSplitView" customModule="PhotoMiner" customModuleProvider="target">
+                        <rect key="frame" x="-37" y="0.0" width="571" height="381"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <outlet property="delegate" destination="8Jg-wj-tk9" id="dl7-9e-U5h"/>
+                        </connections>
+                    </splitView>
+                    <connections>
+                        <outlet property="splitView" destination="z8r-4D-JKb" id="FJ1-Kb-diO"/>
+                        <segue destination="XfG-lQ-9wD" kind="relationship" relationship="splitItems" id="lXw-qp-fvo"/>
+                        <segue destination="EFq-3A-u9o" kind="relationship" relationship="splitItems" id="Uft-l6-k9H"/>
+                    </connections>
+                </splitViewController>
+            </objects>
+            <point key="canvasLocation" x="451" y="278"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="2mB-SI-cuZ">
+            <objects>
+                <customObject id="5CL-F2-ts5" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <viewController id="EFq-3A-u9o" sceneMemberID="viewController">
+                    <view key="view" id="O3Z-HA-BoH">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="381"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aKA-bV-Fh9">
+                                <rect key="frame" x="6" y="356" width="64" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="jaz-Hn-tzd"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Path:" id="PwR-RQ-HT8">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="idc-Vs-igG">
+                                <rect key="frame" x="74" y="356" width="120" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="9jA-8j-n65">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="idc-Vs-igG" secondAttribute="trailing" constant="8" id="Iza-CL-78L"/>
+                            <constraint firstItem="idc-Vs-igG" firstAttribute="top" secondItem="O3Z-HA-BoH" secondAttribute="top" constant="8" id="VWS-YC-2Fg"/>
+                            <constraint firstItem="idc-Vs-igG" firstAttribute="leading" secondItem="aKA-bV-Fh9" secondAttribute="trailing" constant="8" id="VoO-b9-qW8"/>
+                            <constraint firstItem="aKA-bV-Fh9" firstAttribute="leading" secondItem="O3Z-HA-BoH" secondAttribute="leading" constant="8" id="oMR-Gg-raf"/>
+                            <constraint firstItem="aKA-bV-Fh9" firstAttribute="top" secondItem="O3Z-HA-BoH" secondAttribute="top" constant="8" id="vnb-Nn-Bke"/>
+                        </constraints>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="636" y="850"/>
         </scene>
     </scenes>
     <resources>
@@ -468,5 +550,6 @@
         <image name="DropIcon" width="78" height="81"/>
         <image name="Magnifier" width="64" height="64"/>
         <image name="Settings" width="64" height="64"/>
+        <image name="SidebarOff" width="64" height="64"/>
     </resources>
 </document>

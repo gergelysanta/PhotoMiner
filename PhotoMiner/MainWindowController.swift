@@ -13,52 +13,61 @@ class MainWindowController: NSWindowController {
 	let scanner = Scanner()
 	var titlebarController: TitlebarController? = nil
 	
+	var mainViewController:MainViewController? {
+		get {
+			return MainViewController.instance
+		}
+	}
+	
     override func windowDidLoad() {
         super.windowDidLoad()
 		
+		// Set initial size of the window
+		if let window = self.window {
+			window.setFrame(NSRect(origin: window.frame.origin, size: CGSize(width: 820, height: 590)), display: true)
+		}
+
 		scanner.delegate = self
 		self.titlebarController = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "TitlebarController")) as! TitlebarController?
+		guard let titlebarController = self.titlebarController else { return }
 		
-		if let titlebarController = self.titlebarController {
-			
-			let titleViewFrame = titlebarController.view.frame
-			titlebarController.delegate = self
-			
-			// Hide window title (text only, not the title bar)
-			self.window?.titleVisibility = .hidden
-			
-			// Get default title bar height
-			let frame = NSRect(x: 0, y: 0, width: 800, height: 600)
-			let contentRect = NSWindow.contentRect(forFrameRect: frame, styleMask: NSWindow.StyleMask.titled)
-			let defaultTitlebarHeight = NSHeight(frame) - NSHeight(contentRect)
-			
-			// Use NSTitlebarAccessoryViewController for enhancing titlebar
-			let dummyTitleBarViewController = NSTitlebarAccessoryViewController()
-			dummyTitleBarViewController.view = NSView(frame: NSRect(x: 0.0, y: 0.0, width: 10.0, height: titleViewFrame.size.height - defaultTitlebarHeight))
-			
-			dummyTitleBarViewController.layoutAttribute = .bottom
-			dummyTitleBarViewController.fullScreenMinHeight = 0
-			self.window?.addTitlebarAccessoryViewController(dummyTitleBarViewController)
-			
-			// Add our title view to window title
-			if let closeButton = self.window?.standardWindowButton(.closeButton) {
-				if let winTitlebarView = closeButton.superview {
-					titlebarController.view.frame = NSRect(x: 0, y: 0, width: winTitlebarView.frame.size.width, height: titleViewFrame.size.height)
-					
-					// Add titleView into superview
-					titlebarController.view.translatesAutoresizingMaskIntoConstraints = false
-					winTitlebarView.addSubview(titlebarController.view)
-					
-					let viewsDict = [ "subview": titlebarController.view ]
-					NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0.0-[subview]-0.0-|", options: [], metrics: nil, views: viewsDict))
-					NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0.0-[subview]-0.0-|", options: [], metrics: nil, views: viewsDict))
-				}
+		let titleViewFrame = titlebarController.view.frame
+		titlebarController.delegate = self
+		
+		// Hide window title (text only, not the title bar)
+		self.window?.titleVisibility = .hidden
+		
+		// Get default title bar height
+		let frame = NSRect(x: 0, y: 0, width: 800, height: 600)
+		let contentRect = NSWindow.contentRect(forFrameRect: frame, styleMask: NSWindow.StyleMask.titled)
+		let defaultTitlebarHeight = NSHeight(frame) - NSHeight(contentRect)
+		
+		// Use NSTitlebarAccessoryViewController for enhancing titlebar
+		let dummyTitleBarViewController = NSTitlebarAccessoryViewController()
+		dummyTitleBarViewController.view = NSView(frame: NSRect(x: 0.0, y: 0.0, width: 10.0, height: titleViewFrame.size.height - defaultTitlebarHeight))
+		
+		dummyTitleBarViewController.layoutAttribute = .bottom
+		dummyTitleBarViewController.fullScreenMinHeight = 0
+		self.window?.addTitlebarAccessoryViewController(dummyTitleBarViewController)
+		
+		// Add our title view to window title
+		if let closeButton = self.window?.standardWindowButton(.closeButton) {
+			if let winTitlebarView = closeButton.superview {
+				titlebarController.view.frame = NSRect(x: 0, y: 0, width: winTitlebarView.frame.size.width, height: titleViewFrame.size.height)
+				
+				// Add titleView into superview
+				titlebarController.view.translatesAutoresizingMaskIntoConstraints = false
+				winTitlebarView.addSubview(titlebarController.view)
+				
+				let viewsDict = [ "subview": titlebarController.view ]
+				NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0.0-[subview]-0.0-|", options: [], metrics: nil, views: viewsDict))
+				NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0.0-[subview]-0.0-|", options: [], metrics: nil, views: viewsDict))
 			}
-			
-			self.repositionWindowButton(.closeButton, inView: titlebarController.view)
-			self.repositionWindowButton(.miniaturizeButton, inView: titlebarController.view)
-			self.repositionWindowButton(.zoomButton, inView: titlebarController.view)
 		}
+		
+		self.repositionWindowButton(.closeButton, inView: titlebarController.view)
+		self.repositionWindowButton(.miniaturizeButton, inView: titlebarController.view)
+		self.repositionWindowButton(.zoomButton, inView: titlebarController.view)
     }
 	
 	//
@@ -111,19 +120,18 @@ class MainWindowController: NSWindowController {
 	
 	func startScan() {
 		if Configuration.shared.newScanMustBeConfirmed,
-			let mainViewController = self.window?.contentViewController as? MainViewController,
-			mainViewController.collectionView.numberOfSections > 0
+			(mainViewController?.collectionView.numberOfSections ?? 0) > 0
 		{
 			let scanCompletionHandler: (Bool) -> Void = { response in
 				if response {
 					self.internalStartScan()
 				}
 				else {
-					mainViewController.dropView.hide()
+					self.mainViewController?.dropView.hide()
 				}
 			}
-			mainViewController.confirmAction(NSLocalizedString("Are you sure you want to start a new scan?", comment: "Confirmation for starting new scan"),
-												action: scanCompletionHandler)
+			mainViewController?.confirmAction(NSLocalizedString("Are you sure you want to start a new scan?", comment: "Confirmation for starting new scan"),
+											  action: scanCompletionHandler)
 		}
 		else {
 			internalStartScan()
@@ -131,10 +139,8 @@ class MainWindowController: NSWindowController {
 	}
 	
 	func refreshPhotos() {
-		if let mainViewController = self.window?.contentViewController as? MainViewController {
-			// Reftesh collectionView
-			mainViewController.collectionView.reloadData()
-		}
+		// Reftesh collectionView
+		mainViewController?.collectionView.reloadData()
 	}
 	
 }
@@ -142,7 +148,7 @@ class MainWindowController: NSWindowController {
 // MARK: TitlebarDelegate methods
 extension MainWindowController: TitlebarDelegate {
 	
-	func scanButtonPressed(_ sender: NSButton) {
+	func titlebar(_ controller: TitlebarController, scanButtonPressed sender: NSButton) {
 		let dialog = NSOpenPanel()
 		
 		dialog.title = "Select a directory to scan"
@@ -172,8 +178,12 @@ extension MainWindowController: TitlebarDelegate {
 		}
 	}
 	
-	func cancelButtonPressed(_ sender: NSButton) {
+	func titlebar(_ controller: TitlebarController, cancelButtonPressed sender: NSButton) {
 		self.scanner.stop()
+	}
+	
+	func titlebarSidebarToggled(_ controller: TitlebarController) {
+		MainSplitViewController.instance?.toggleSidebar(self)
 	}
 	
 }

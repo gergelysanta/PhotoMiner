@@ -20,8 +20,11 @@ class MainViewController: NSViewController {
 	private var quickLookActive = false
 	private var reloadHelperArray = [ImageData]()
 	
+	static var instance:MainViewController?
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		MainViewController.instance = self
 		view.wantsLayer = true
 		if #available(OSX 10.12, *) {
 			collectionViewFlowLayout.sectionHeadersPinToVisibleBounds = true
