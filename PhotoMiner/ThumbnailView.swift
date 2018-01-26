@@ -46,7 +46,6 @@ class ThumbnailView: NSCollectionViewItem {
 			if let object = representedObject as? ImageData {
 				object.setThumbnail()
 				hasBorder = Configuration.shared.highlightPicturesWithoutExif ? !object.hasExif : false
-				self.view.toolTip = object.exifToString()
 				
 				self.textField?.stringValue = object.imageName
 				if Configuration.shared.creationDateAsLabel {

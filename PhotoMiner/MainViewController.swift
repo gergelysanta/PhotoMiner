@@ -300,8 +300,28 @@ extension MainViewController: NSCollectionViewDataSource {
 extension MainViewController: NSCollectionViewDelegate {
 	
 	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
+		if let sidebarController = SidebarController.instance,
+			let indexPath = indexPaths.first,
+			let image = self.imageAtIndexPath(indexPath: indexPath)
+		{
+			sidebarController.imagePath = image.imagePath
+			sidebarController.exifData = image.exifData
+		}
+		
 		if self.quickLookActive {
 			QLPreviewPanel.shared().reloadData()
+		}
+	}
+	
+	func collectionView(_ collectionView: NSCollectionView, didDeselectItemsAt indexPaths: Set<IndexPath>) {
+		if let sidebarController = SidebarController.instance,
+			let indexPath = indexPaths.first,
+			let image = self.imageAtIndexPath(indexPath: indexPath)
+		{
+			if sidebarController.imagePath.compare(image.imagePath) == .orderedSame {
+				sidebarController.imagePath = ""
+				sidebarController.exifData = [:]
+			}
 		}
 	}
 	
