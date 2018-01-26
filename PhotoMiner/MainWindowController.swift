@@ -141,6 +141,10 @@ class MainWindowController: NSWindowController {
 	func refreshPhotos() {
 		// Reftesh collectionView
 		mainViewController?.collectionView.reloadData()
+		// Refresh window title
+		if let appDelegate = NSApp.delegate as? AppDelegate {
+			titlebarController?.setTotalCount(appDelegate.imageCollection.count)
+		}
 	}
 	
 }
@@ -197,7 +201,6 @@ extension MainWindowController: ScannerDelegate {
 			NSLog("Scan subresult: %d items", scanner.scannedCollection.count)
 			#endif
 			appDelegate.imageCollection = scanner.scannedCollection
-			titlebarController?.setTotalCount(scanner.scannedCollection.count)
 			
 			refreshPhotos()
 		}
@@ -209,7 +212,6 @@ extension MainWindowController: ScannerDelegate {
 			NSLog("Scan result: %d items", scanner.scannedCollection.count)
 			#endif
 			appDelegate.imageCollection = scanner.scannedCollection
-			titlebarController?.setTotalCount(scanner.scannedCollection.count)
 			
 			refreshPhotos()
 		}
