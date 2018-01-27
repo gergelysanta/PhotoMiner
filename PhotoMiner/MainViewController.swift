@@ -294,12 +294,7 @@ extension MainViewController: NSCollectionViewDataSource {
 		return headerView
 	}
 	
-}
-
-// MARK: NSCollectionViewDelegate
-extension MainViewController: NSCollectionViewDelegate {
-	
-	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
+	private func didSelectItems(_ indexPaths: Set<IndexPath>) {
 		if let sidebarController = SidebarController.instance,
 			let indexPath = indexPaths.first,
 			let image = self.imageAtIndexPath(indexPath: indexPath)
@@ -311,6 +306,15 @@ extension MainViewController: NSCollectionViewDelegate {
 		if self.quickLookActive {
 			QLPreviewPanel.shared().reloadData()
 		}
+	}
+	
+}
+
+// MARK: NSCollectionViewDelegate
+extension MainViewController: NSCollectionViewDelegate {
+	
+	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
+		didSelectItems(indexPaths)
 	}
 	
 	func collectionView(_ collectionView: NSCollectionView, didDeselectItemsAt indexPaths: Set<IndexPath>) {
@@ -526,6 +530,7 @@ extension MainViewController: ThumbnailViewDelegate {
 			if collectionView.selectionIndexPaths.count <= 1 {
 				collectionView.deselectAll(self)
 				collectionView.selectItems(at: [indexPath], scrollPosition: [])
+				self.didSelectItems([indexPath])
 			}
 		}
 		// Display context menu
@@ -586,6 +591,7 @@ extension MainViewController: PhotoCollectionViewDelegate {
 			}
 		}
 		collectionView.selectItems(at: indexPaths, scrollPosition: NSCollectionView.ScrollPosition.centeredVertically)
+		self.didSelectItems(indexPaths)
 	}
 	
 }
