@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "cancel_32.png",
+      "filename" : "cancel_16.png",
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
-      "filename" : "cancel_64.png",
+      "filename" : "cancel_32.png",
       "scale" : "2x"
     }
   ],

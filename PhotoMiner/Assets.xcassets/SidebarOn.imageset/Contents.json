@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "sidebar_on_32.png",
+      "filename" : "sidebar_on_16.png",
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
-      "filename" : "sidebar_on_64.png",
+      "filename" : "sidebar_on_32.png",
       "scale" : "2x"
     }
   ],

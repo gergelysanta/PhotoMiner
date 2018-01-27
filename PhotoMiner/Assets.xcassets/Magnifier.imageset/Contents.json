@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "magnifier_32.png",
+      "filename" : "magnifier_16.png",
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
-      "filename" : "magnifier_64.png",
+      "filename" : "magnifier_32.png",
       "scale" : "2x"
     }
   ],
