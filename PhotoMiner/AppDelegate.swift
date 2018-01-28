@@ -105,8 +105,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		} catch {
 			errorHandler()
 			if let window = mainWindowController?.window {
-				self.displayErrorSheet(withMessage: "Couldn't parse scan from \(fileUrl.path)",
-				                andInformativeText: "File is corrupted or it's not a scan result",
+				self.displayErrorSheet(withMessage: String.localizedStringWithFormat(NSLocalizedString("Couldn't parse scan from %@", comment: "Couldn't parse scan from file"), fileUrl.path),
+				                andInformativeText: NSLocalizedString("File is corrupted or it's not a scan result", comment: "File is corrupted or it's not a scan result"),
 				                         forWindow: window)
 			}
 		}
@@ -121,14 +121,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			} catch {
 				errorHandler()
 				if let window = mainWindowController?.window {
-					displayErrorSheet(withMessage: "Couldn't save scan to \(fileUrl.path)", forWindow: window)
+					displayErrorSheet(withMessage: String.localizedStringWithFormat(NSLocalizedString("Couldn't save scan to %@", comment: "Couldn't save scan to file"), fileUrl.path),
+					                    forWindow: window)
 				}
 			}
 		}
 		else {
 			errorHandler()
 			if let window = mainWindowController?.window {
-				displayErrorSheet(withMessage: "Couldn't prepare data for saving", forWindow: window)
+				displayErrorSheet(withMessage: NSLocalizedString("Couldn't prepare data for saving", comment: "Couldn't prepare data for saving"), forWindow: window)
 			}
 		}
 		return false

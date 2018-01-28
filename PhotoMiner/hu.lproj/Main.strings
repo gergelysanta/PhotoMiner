@@ -1,0 +1,114 @@
+
+/* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
+"AYu-sK-qS6.title" = "Főmenü";
+
+/* Class = "NSMenuItem"; title = "About PhotoMiner"; ObjectID = "5kV-Vb-QxS"; */
+"5kV-Vb-QxS.title" = "A PhotoMiner névjegye";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
+"BOF-NM-1cW.title" = "Beállítások...";
+
+/* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
+"NMo-om-nkz.title" = "Szolgáltatások";
+
+/* Class = "NSMenuItem"; title = "Hide PhotoMiner"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "PhotoMiner elrejtése";
+
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
+"Vdr-fp-XzO.title" = "A többi elrejtése";
+
+/* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
+"Kd2-mp-pUS.title" = "Összes megjelenítése";
+
+/* Class = "NSMenuItem"; title = "Enter Full Screen"; ObjectID = "4J7-dP-txa"; */
+"4J7-dP-txa.title" = "Váltás teljes képernyőre";
+
+/* Class = "NSMenuItem"; title = "Quit PhotoMiner"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "Kilépés a PhotoMinerből";
+
+/* Class = "NSMenu"; title = "Services"; ObjectID = "hz9-B4-Xy5"; */
+"hz9-B4-Xy5.title" = "Szolgáltatások";
+
+/* Class = "NSMenu"; title = "File"; ObjectID = "ABF-SI-MCM"; */
+"ABF-SI-MCM.title" = "Fájl";
+
+/* Class = "NSMenuItem"; title = "File"; ObjectID = "hFd-NC-7TP"; */
+"hFd-NC-7TP.title" = "Fájl";
+
+/* Class = "NSMenuItem"; title = "Open..."; ObjectID = "5cv-XQ-NcO"; */
+"5cv-XQ-NcO.title" = "Megnyitás...";
+
+/* Class = "NSMenuItem"; title = "Save"; ObjectID = "c8b-uK-paL"; */
+"c8b-uK-paL.title" = "Mentés";
+
+/* Class = "NSMenuItem"; title = "Save As..."; ObjectID = "XIt-ZT-LXs"; */
+"XIt-ZT-LXs.title" = "Mentés ide...";
+
+/* Class = "NSTextFieldCell"; title = "Drop directories here"; ObjectID = "d9y-Vo-4Jl"; */
+"d9y-Vo-4Jl.title" = "Húzz ide egy könyvtárat";
+
+/* Class = "NSTextFieldCell"; title = "to scan them for pictures"; ObjectID = "uOb-MX-pVM"; */
+"uOb-MX-pVM.title" = "képek keresésére";
+
+/* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "EGD-d3-Fg1"; */
+"EGD-d3-Fg1.title" = "Megjelenítés a Finderben";
+
+/* Class = "NSMenuItem"; title = "Open"; ObjectID = "aGI-wt-hzt"; */
+"aGI-wt-hzt.title" = "Megnyitás";
+
+/* Class = "NSMenuItem"; title = "Quick Look"; ObjectID = "3tK-Fp-78o"; */
+"3tK-Fp-78o.title" = "Gyorsnézet";
+
+/* Class = "NSMenuItem"; title = "Move to Trash"; ObjectID = "nsn-w2-Itw"; */
+"nsn-w2-Itw.title" = "Áthelyezés a kukába";
+
+/* Class = "NSMenuItem"; title = "Rotate Left"; ObjectID = "qJU-bZ-xrK"; */
+"qJU-bZ-xrK.title" = "Forgatás balra";
+
+/* Class = "NSMenuItem"; title = "Rotate Right"; ObjectID = "pkp-6d-qr1"; */
+"pkp-6d-qr1.title" = "Forgatás jobbra";
+
+/* Class = "NSMenuItem"; title = "Flip Horizontal"; ObjectID = "3i5-HX-l0f"; */
+"3i5-HX-l0f.title" = "Tükrözés vízszintesen";
+
+/* Class = "NSMenuItem"; title = "Flip Vertical"; ObjectID = "CLY-FR-1gc"; */
+"CLY-FR-1gc.title" = "Tükrözés függőlegesen";
+
+/* Class = "NSTextFieldCell"; title = "Path:"; ObjectID = "9Yx-fS-92k"; */
+"9Yx-fS-92k.title" = "Útvonal:";
+
+/* Class = "NSTextFieldCell"; title = "EXIF data:"; ObjectID = "NNr-gS-kuf"; */
+"NNr-gS-kuf.title" = "EXIF adat:";
+
+/* Class = "NSButtonCell"; title = "Show creation date as picture labels"; ObjectID = "zH8-yR-T1y"; */
+"zH8-yR-T1y.title" = "Létrehozás dátuma megjelenítése a címkén";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Image names are displayed below their thumbnails in the listing except when this option is checked. If checked, their creation date is displayed."; ObjectID = "7oo-hi-BaQ"; */
+"7oo-hi-BaQ.ibShadowedToolTip" = "A cimke a képfájl nevét tartalmazza, kivéve ha ez az opció be van állítva. Ebben az esetben a kép létrehozásának dátuma kerül megjelenítésre.";
+
+/* Class = "NSButtonCell"; title = "Ask for confirmation before new scans"; ObjectID = "DTv-xr-dpY"; */
+"DTv-xr-dpY.title" = "Megerősítés kérése új keresés indítása előtt";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Starting a new scan will forget your previous one. If this option is checked, a confirmation dialog will be displayed before each scan started by dropping directory icon(s) to the application window or dock icon."; ObjectID = "f6e-g2-bnv"; */
+"f6e-g2-bnv.ibShadowedToolTip" = "Új keresés indítása esetén a már meglévő elveszik. Ha ez az opció be van állítva, megerősítés nélkül nem indul új keresés ha az könyvtár(ak) az alkalmazás ablaka fölé vagy a Dock ikonjára húzásával indul.";
+
+/* Class = "NSButtonCell"; title = "Ask for confirmation before deleting pictures"; ObjectID = "BqX-eo-Dzq"; */
+"BqX-eo-Dzq.title" = "Megerősítés kérése képek törlése előtt";
+
+/* Class = "NSButton"; ibShadowedToolTip = "If this option is checked, a confirmation dialog will be displayed before removing pictures."; ObjectID = "vTb-fo-X47"; */
+"vTb-fo-X47.ibShadowedToolTip" = "Ha ez az opció be van állítva, megerősítés nélkül nem kerülnek törlésre képek.";
+
+/* Class = "NSButtonCell"; title = "Remove empty directories after deleting"; ObjectID = "qPe-Ba-Ogz"; */
+"qPe-Ba-Ogz.title" = "Törlés után üresen maradt könyvtárak automatikus törlése";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Directories may be left empty when the picture you delete was the last one in them. If this option is checked, empty directories will be removed too."; ObjectID = "BZd-xT-pHQ"; */
+"BZd-xT-pHQ.ibShadowedToolTip" = "Képek törlése után ha azok az utolsó fájlok voltak, üresen maradhat az azokat tartalmazó könyvtár. Ha ez az opció be van állítva, ezek az üresen maradt könyvtárak szintén törlődnek.";
+
+/* Class = "NSButtonCell"; title = "Highlight pictures with guessed date"; ObjectID = "jvh-hS-u18"; */
+"jvh-hS-u18.title" = "Feltételezett dátummal rendelkező képek kiemelése";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Pictures mostly hold their creation date in their EXIF data. This data may not be present mostly when image was not taken by camera. In this case date of creation is detected from filesystem which may be not correct. Such pictures are highlighted with a light border when this is checked."; ObjectID = "aKa-u5-dwx"; */
+"aKa-u5-dwx.ibShadowedToolTip" = "A képek at esetek többségében tartalmazzák a létrehozás dátumát az EXIF adatblokkban. Ez az adat lehetséges hogy nincs jelen ha a kép nem kamerával készült. Ilyen esetben az alkalmazás a létrehozás dátumát a fájlrendszerből határozza meg de ez nem feltétlenül helyes dátum. Ha ez az opció be van állítva, ezek a képek egy vékony keret megjelenítésével kerülnek megkülönböztetésre.";
+
+/* Class = "NSButtonCell"; title = "Close"; ObjectID = "QUC-uj-7xR"; */
+"QUC-uj-7xR.title" = "Bezár";

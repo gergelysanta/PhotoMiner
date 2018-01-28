@@ -71,18 +71,18 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="ABF-SI-MCM">
                                     <items>
-                                        <menuItem title="Open Scan" keyEquivalent="o" id="5cv-XQ-NcO">
+                                        <menuItem title="Open..." keyEquivalent="o" id="5cv-XQ-NcO">
                                             <connections>
                                                 <action selector="openMenuItemPressed:" target="Voe-Tx-rLC" id="kbf-45-Hqh"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Save Scan" keyEquivalent="s" id="c8b-uK-paL">
+                                        <menuItem title="Save" keyEquivalent="s" id="c8b-uK-paL">
                                             <connections>
                                                 <action selector="saveMenuItemPressed:" target="Voe-Tx-rLC" id="ppR-s7-sfx"/>
                                                 <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.isSaveAvailable" id="tbj-3Z-C9a"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Save Scan As..." keyEquivalent="S" id="XIt-ZT-LXs">
+                                        <menuItem title="Save As..." keyEquivalent="S" id="XIt-ZT-LXs">
                                             <connections>
                                                 <action selector="saveAsMenuItemPressed:" target="Voe-Tx-rLC" id="09S-em-7JI"/>
                                                 <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.isListingAvailable" id="fEQ-rN-UGX"/>
@@ -218,11 +218,11 @@
             <objects>
                 <viewController id="ARC-gx-P75" userLabel="Settings Controller Scene" customClass="SettingsController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Ax0-aT-fo1">
-                        <rect key="frame" x="0.0" y="0.0" width="329" height="163"/>
+                        <rect key="frame" x="0.0" y="0.0" width="336" height="163"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="7oo-hi-BaQ">
-                                <rect key="frame" x="18" y="127" width="293" height="18"/>
+                                <rect key="frame" x="18" y="127" width="300" height="18"/>
                                 <string key="toolTip">Image names are displayed below their thumbnails in the listing except when this option is checked. If checked, their creation date is displayed.</string>
                                 <buttonCell key="cell" type="check" title="Show creation date as picture labels" bezelStyle="regularSquare" imagePosition="left" inset="2" id="zH8-yR-T1y">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -233,7 +233,7 @@
                                 </connections>
                             </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="f6e-g2-bnv">
-                                <rect key="frame" x="18" y="107" width="293" height="18"/>
+                                <rect key="frame" x="18" y="107" width="300" height="18"/>
                                 <string key="toolTip">Starting a new scan will forget your previous one. If this option is checked, a confirmation dialog will be displayed before each scan started by dropping directory icon(s) to the application window or dock icon.</string>
                                 <buttonCell key="cell" type="check" title="Ask for confirmation before new scans" bezelStyle="regularSquare" imagePosition="left" inset="2" id="DTv-xr-dpY">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -244,7 +244,7 @@
                                 </connections>
                             </button>
                             <button toolTip="If this option is checked, a confirmation dialog will be displayed before removing pictures." translatesAutoresizingMaskIntoConstraints="NO" id="vTb-fo-X47">
-                                <rect key="frame" x="18" y="87" width="293" height="18"/>
+                                <rect key="frame" x="18" y="87" width="300" height="18"/>
                                 <buttonCell key="cell" type="check" title="Ask for confirmation before deleting pictures" bezelStyle="regularSquare" imagePosition="left" inset="2" id="BqX-eo-Dzq">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -254,7 +254,7 @@
                                 </connections>
                             </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="BZd-xT-pHQ">
-                                <rect key="frame" x="18" y="67" width="293" height="18"/>
+                                <rect key="frame" x="18" y="67" width="300" height="18"/>
                                 <string key="toolTip">Directories may be left empty when the picture you delete was the last one in them. If this option is checked, empty directories will be removed too.</string>
                                 <buttonCell key="cell" type="check" title="Remove empty directories after deleting" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="qPe-Ba-Ogz">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -265,7 +265,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EBE-jo-SzM">
-                                <rect key="frame" x="240" y="13" width="75" height="32"/>
+                                <rect key="frame" x="247" y="13" width="75" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QUC-uj-7xR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -278,9 +278,9 @@ DQ
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aKa-u5-dwx">
-                                <rect key="frame" x="18" y="47" width="293" height="18"/>
+                                <rect key="frame" x="18" y="47" width="300" height="18"/>
                                 <string key="toolTip">Pictures mostly hold their creation date in their EXIF data. This data may not be present mostly when image was not taken by camera. In this case date of creation is detected from filesystem which may be not correct. Such pictures are highlighted with a light border when this is checked.</string>
-                                <buttonCell key="cell" type="check" title="Highlight pictures with not real date" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jvh-hS-u18">
+                                <buttonCell key="cell" type="check" title="Highlight pictures with guessed date" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jvh-hS-u18">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>

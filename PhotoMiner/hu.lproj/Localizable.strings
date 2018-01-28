@@ -4,6 +4,9 @@
 /* Picture count: >1 pictures */
 "pictures" = "kép";
 
+/* Confirmation for starting new scan */
+"Are you sure you want to start a new scan?" = "Biztos hogy új keresést szeretnél indítani?";
+
 /* Confirmation for moving one picture to trash */
 "Are you sure you want to trash the selected picture?" = "Biztos hogy a kukába szeretnéd helyezni a kiválasztott képet?";
 
@@ -16,3 +19,14 @@
 /* Yes */
 "Yes" = "Igen";
 
+/* Couldn't parse scan from file */
+"Couldn't parse scan from %@" = "Nem lehet elemezni a képeket a %@ fájlban";
+
+/* File is corrupted or it's not a scan result */
+"File is corrupted or it's not a scan result" = "A fájl megsérült vagy nem tartalmaz valós keresési adatokat";
+
+/* Couldn't save scan to file */
+"Couldn't save scan to %@" = "Nem tudtam elmenteni a keresési adatokat a %@ fájlba";
+
+/* Couldn't prepare data for saving */
+"Couldn't prepare data for saving" = "Nem tudtam előkészíteni az adatokat mentéshez";

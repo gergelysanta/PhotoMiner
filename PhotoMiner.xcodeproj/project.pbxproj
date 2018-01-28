@@ -51,6 +51,7 @@
 		7492390F1E66B1DE005F629E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HeaderView.xib; sourceTree = "<group>"; };
 		749386301FFFE08300BAAF8E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		74950DD6201D32440051140E /* DocumentIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DocumentIcon.png; path = PhotoMiner/DocumentIcon.png; sourceTree = "<group>"; };
+		74950DD9201E1BF80051140E /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Main.strings; sourceTree = "<group>"; };
 		74AC4CAA1E7851900002A654 /* DropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		74AF40A21E65DA78009A1D47 /* ImageCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollection.swift; sourceTree = "<group>"; };
 		74BD2FB71E16B37B000109F9 /* ThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
@@ -270,6 +271,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				74174E5F1DF835C100D10710 /* Base */,
+				74950DD9201E1BF80051140E /* hu */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
