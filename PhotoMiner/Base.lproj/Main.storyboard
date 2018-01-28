@@ -112,15 +112,18 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-0w-ZTD">
-                                <rect key="frame" x="68" y="7" width="622" height="17"/>
+                                <rect key="frame" x="68" y="7" width="662" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="PhotoMiner" id="Q1P-W8-6UM">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <segue destination="ARC-gx-P75" kind="sheet" identifier="settingsSegue" id="ctp-U8-heh"/>
+                                </connections>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fo8-IL-FaX">
-                                <rect key="frame" x="628" y="3" width="36" height="25"/>
+                                <rect key="frame" x="668" y="3" width="36" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="DFh-TL-oh5"/>
                                 </constraints>
@@ -133,10 +136,10 @@
                                 </connections>
                             </button>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="7Zb-5d-s0Y">
-                                <rect key="frame" x="672" y="8" width="16" height="16"/>
+                                <rect key="frame" x="712" y="8" width="16" height="16"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1nx-2V-Q21">
-                                <rect key="frame" x="694" y="3" width="36" height="25"/>
+                                <rect key="frame" x="734" y="3" width="36" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="8kZ-Bg-oUy"/>
                                 </constraints>
@@ -146,19 +149,6 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="scanButtonPressed:" target="wo0-ub-Urj" id="yAM-pd-g4m"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q7r-cA-s9B">
-                                <rect key="frame" x="736" y="3" width="36" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="36" id="Xoo-zK-6xp"/>
-                                </constraints>
-                                <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="Settings" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ktt-xT-ylB">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <segue destination="ARC-gx-P75" kind="sheet" identifier="settingsSegue" id="EDR-b4-1Gt"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AcS-by-NKZ">
@@ -176,7 +166,6 @@
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="Q7r-cA-s9B" firstAttribute="leading" secondItem="1nx-2V-Q21" secondAttribute="trailing" constant="6" id="4EF-g3-RlA"/>
                             <constraint firstItem="7Zb-5d-s0Y" firstAttribute="trailing" secondItem="nJc-0w-ZTD" secondAttribute="trailing" id="ATk-vG-Pzb"/>
                             <constraint firstItem="1nx-2V-Q21" firstAttribute="leading" secondItem="nJc-0w-ZTD" secondAttribute="trailing" constant="6" id="DRd-TX-1nn"/>
                             <constraint firstItem="nJc-0w-ZTD" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="Hf3-R1-MlF"/>
@@ -186,8 +175,7 @@
                             <constraint firstItem="nJc-0w-ZTD" firstAttribute="leading" secondItem="bBq-kg-Pkg" secondAttribute="leading" constant="70" id="ax5-el-WYv"/>
                             <constraint firstItem="1nx-2V-Q21" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="hzi-9T-z5U"/>
                             <constraint firstItem="7Zb-5d-s0Y" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="nBa-ta-Kt3"/>
-                            <constraint firstItem="AcS-by-NKZ" firstAttribute="leading" secondItem="Q7r-cA-s9B" secondAttribute="trailing" constant="6" id="svI-Ad-aFW"/>
-                            <constraint firstItem="Q7r-cA-s9B" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="v2g-Ih-tj2"/>
+                            <constraint firstItem="AcS-by-NKZ" firstAttribute="leading" secondItem="1nx-2V-Q21" secondAttribute="trailing" constant="8" id="spz-f5-U53"/>
                             <constraint firstItem="fo8-IL-FaX" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="yl5-3K-ZG3"/>
                         </constraints>
                     </view>
@@ -281,6 +269,9 @@
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QUC-uj-7xR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
                                 </buttonCell>
                                 <connections>
                                     <action selector="dismissController:" target="ARC-gx-P75" id="xaY-Ok-wXP"/>
@@ -694,7 +685,6 @@
         <image name="Cancel" width="16" height="16"/>
         <image name="DropIcon" width="78" height="81"/>
         <image name="Magnifier" width="16" height="16"/>
-        <image name="Settings" width="16" height="16"/>
         <image name="SidebarOff" width="16" height="16"/>
     </resources>
 </document>
