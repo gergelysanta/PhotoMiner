@@ -81,10 +81,10 @@
 "NNr-gS-kuf.title" = "EXIF adat:";
 
 /* Class = "NSButtonCell"; title = "Show creation date as picture labels"; ObjectID = "zH8-yR-T1y"; */
-"zH8-yR-T1y.title" = "Létrehozás dátuma megjelenítése a címkén";
+"zH8-yR-T1y.title" = "Létrehozás dátumának megjelenítése a címkén";
 
 /* Class = "NSButton"; ibShadowedToolTip = "Image names are displayed below their thumbnails in the listing except when this option is checked. If checked, their creation date is displayed."; ObjectID = "7oo-hi-BaQ"; */
-"7oo-hi-BaQ.ibShadowedToolTip" = "A cimke a képfájl nevét tartalmazza, kivéve ha ez az opció be van állítva. Ebben az esetben a kép létrehozásának dátuma kerül megjelenítésre.";
+"7oo-hi-BaQ.ibShadowedToolTip" = "A címke a képfájl nevét tartalmazza, kivéve ha ez az opció be van állítva. Ebben az esetben a kép létrehozásának dátuma kerül megjelenítésre.";
 
 /* Class = "NSButtonCell"; title = "Ask for confirmation before new scans"; ObjectID = "DTv-xr-dpY"; */
 "DTv-xr-dpY.title" = "Megerősítés kérése új keresés indítása előtt";
