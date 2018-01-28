@@ -19,7 +19,7 @@ class Scanner: NSObject {
 	var delegate:ScannerDelegate? = nil
 	
 	private(set) var isRunning = false
-	private(set) var scannedCollection = ImageCollection()
+	private(set) var scannedCollection = ImageCollection(withDirectories: [])
 	
 	private let scanQueue = DispatchQueue(label: "com.trikatz.scanQueue", qos: .utility)
 	private let mainQueue = DispatchQueue.main
@@ -39,7 +39,7 @@ class Scanner: NSObject {
 			#endif
 			
 			var referenceDate = Date()
-			self.scannedCollection = ImageCollection()
+			self.scannedCollection = ImageCollection(withDirectories: lookupFolders)
 			
 			// Copy folders array, we're going to modify it if needed
 			var folders = lookupFolders

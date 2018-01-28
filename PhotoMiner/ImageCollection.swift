@@ -10,6 +10,7 @@ import Cocoa
 
 class ImageCollection: NSObject, Codable {
 
+	private(set) var rootDirs = [String]()					// Scanned directories
 	private(set) var dictionary = [String:[ImageData]]()	// Dictionary have unarranged keys
 	private(set) var arrangedKeys = [String]()				// So we're storing arranged keys here
 	private(set) var count:Int = 0							// Count of all objects in dictionary
@@ -38,6 +39,7 @@ class ImageCollection: NSObject, Codable {
 	//
 	
 	public enum CodingKeys: String, CodingKey {
+		case rootDirs = "root"
 		case dictionary = "images"
 		case arrangedKeys = "ordered"
 		case count = "count"
@@ -46,6 +48,7 @@ class ImageCollection: NSObject, Codable {
 	// Encode object to serialized data
 	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(rootDirs, forKey: .rootDirs)
 		try container.encode(dictionary, forKey: .dictionary)
 		try container.encode(arrangedKeys, forKey: .arrangedKeys)
 		try container.encode(count, forKey: .count)
@@ -54,6 +57,7 @@ class ImageCollection: NSObject, Codable {
 	// Initializing object from serialized data
 	required init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
+		rootDirs = try values.decode([String].self, forKey: .rootDirs)
 		dictionary = try values.decode([String:[ImageData]].self, forKey: .dictionary)
 		arrangedKeys = try values.decode([String].self, forKey: .arrangedKeys)
 		count = try values.decode(Int.self, forKey: .count)
@@ -64,10 +68,14 @@ class ImageCollection: NSObject, Codable {
 	//
 	
 	// Disable default constructor (by making it private)
-	override init() {
+	override private init() {
 		super.init()
 	}
 	
+	convenience init(withDirectories scanDirectories: [String]) {
+		self.init()
+		rootDirs = scanDirectories
+	}
 
 	func addImage(_ image:ImageData) -> Bool {
 		
