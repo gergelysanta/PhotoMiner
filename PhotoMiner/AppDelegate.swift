@@ -109,15 +109,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			openPanel.canChooseFiles = false
 			openPanel.directoryURL = URL(fileURLWithPath: directory)
 			openPanel.beginSheetModal(for: window) { (result) in
-				// Refresh collection view even when user clicked 'Cancel'
-				// Image collection will be loaded in both cases, just after 'Cancel' they'll have blank thumbnails
-				// This indicates that something went wrong
 				if directories.count > 1 {
-					var restDirectories = directories
-					restDirectories.removeFirst()
-					promptForDirs(restDirectories)
+					// There're more directories to confirm, proceed with the following ones
+					promptForDirs(Array(directories.dropFirst()))
 				}
 				else {
+					// Refresh collection view even when user clicked 'Cancel'
+					// Image collection will be loaded in both cases, just after 'Cancel' they'll have blank thumbnails
+					// This indicates that something went wrong
 					self.mainWindowController?.refreshPhotos()
 				}
 			}
