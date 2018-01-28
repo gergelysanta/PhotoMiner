@@ -9,12 +9,32 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>pms</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>DocumentIcon</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>PhotoScan</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSTypeIsPackage</key>
+			<integer>0</integer>
+			<key>NSDocumentClass</key>
+			<string>NSDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>*</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>Directory</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSTypeIsPackage</key>
+			<integer>1</integer>
 			<key>NSDocumentClass</key>
 			<string>NSDocument</string>
 		</dict>
@@ -38,7 +58,7 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2016 Gergely Sánta. All rights reserved.</string>
+	<string>Copyright © 2018 Gergely Sánta. All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>

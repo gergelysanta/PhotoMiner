@@ -19,7 +19,7 @@ class Configuration: NSObject {
 	let sidePanelMaxSize = 500
 	
 	var openedFileUrl:URL?
-	let saveDataExtension = "pmr"
+	let saveDataExtension = "pms"
 
 	@objc dynamic var creationDateAsLabel = true {
 		didSet {
