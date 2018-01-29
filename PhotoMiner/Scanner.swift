@@ -63,7 +63,8 @@ class Scanner: NSObject {
 				#if DEBUG
 				NSLog("ScanQueue:   ...scanning %@", directoryToScan)
 				#endif
-				
+				var directoryWasEmpty = true
+
 				let resourceKeys: Set<URLResourceKey> = [.isRegularFileKey, .isReadableKey, .fileSizeKey, .typeIdentifierKey, .creationDateKey, .contentModificationDateKey]
 				let dirEnumerator = FileManager.default.enumerator(at: URL(fileURLWithPath: directoryToScan),
 				                                                   includingPropertiesForKeys: Array(resourceKeys))
@@ -122,7 +123,9 @@ class Scanner: NSObject {
 							
 							// Create and add image to collection
 							if self.scannedCollection.addImage(ImageData(path: filePath, creationDate: imageDate)) {
-							
+								
+								directoryWasEmpty = false
+								
 								// Check if refresh needed
 								let now = Date()
 								if now.timeIntervalSince(referenceDate) > self.refreshScanResultsIntervalInSecs {
@@ -139,6 +142,10 @@ class Scanner: NSObject {
 						}
 					} catch {
 					}
+				}
+				
+				if directoryWasEmpty {
+					self.scannedCollection.removeDirectory(directoryToScan)
 				}
 			}
 			

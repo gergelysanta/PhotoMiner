@@ -76,7 +76,13 @@ class ImageCollection: NSObject, Codable {
 		self.init()
 		rootDirs = scanDirectories
 	}
-
+	
+	func removeDirectory(_ directory:String) {
+		if let index = rootDirs.index(of: directory) {
+			rootDirs.remove(at: index)
+		}
+	}
+	
 	func addImage(_ image:ImageData) -> Bool {
 		
 		// Construct key for creating month of the new image
