@@ -91,7 +91,7 @@ class DropView: NSView {
 			paths.append(url.path)
 			if let appDelegate = NSApp.delegate as? AppDelegate {
 				if url.path.hasSuffix(".\(Configuration.shared.saveDataExtension)") &&
-					appDelegate.loadImageDatabase(url, onError:{})
+					appDelegate.loadImageDatabase(url)
 				{
 					// Found correct savefile and loaded successfully
 					// There's nothing else we need here

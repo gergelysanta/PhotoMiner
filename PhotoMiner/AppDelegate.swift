@@ -58,7 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
 		if filename.hasSuffix(".\(Configuration.shared.saveDataExtension)") {
-			return loadImageDatabase(URL(fileURLWithPath: filename), onError: {})
+			return loadImageDatabase(URL(fileURLWithPath: filename))
 		}
 		else if Configuration.shared.setLookupDirectories([filename]) {
 			mainWindowController?.startScan()
@@ -71,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		let savedDataFiles = filenames.filter { $0.hasSuffix(".\(Configuration.shared.saveDataExtension)") }
 		if savedDataFiles.count > 0 {
 			for filename in savedDataFiles {
-				if loadImageDatabase(URL(fileURLWithPath: filename), onError: {}) {
+				if loadImageDatabase(URL(fileURLWithPath: filename)) {
 					return
 				}
 			}
@@ -141,14 +141,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
-	@discardableResult func loadImageDatabase(_ fileUrl: URL, onError errorHandler: () -> Void) -> Bool {
+	@discardableResult func loadImageDatabase(_ fileUrl: URL, onError errorHandler: (() -> Void)? = nil) -> Bool {
 		do {
 			self.imageCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
 			Configuration.shared.openedFileUrl = fileUrl
 			promptUserForDirs(self.imageCollection.rootDirs)
 			return true
 		} catch {
-			errorHandler()
+			errorHandler?()
 			if let window = mainWindowController?.window {
 				self.displayErrorSheet(withMessage: String.localizedStringWithFormat(NSLocalizedString("Couldn't parse scan from %@", comment: "Couldn't parse scan from file"), fileUrl.path),
 									   andInformativeText: NSLocalizedString("File is corrupted or it's not a scan result", comment: "File is corrupted or it's not a scan result"),
