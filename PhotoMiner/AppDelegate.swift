@@ -83,17 +83,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	// MARK: - Instance methods
 
-	func displayErrorSheet(withMessage message: String, andInformativeText infoText: String?, forWindow window: NSWindow) {
+	func displayErrorSheet(withMessage message: String, andInformativeText infoText: String?, forWindow window: NSWindow, completionHandler: (() -> Void)? = nil) {
 		let alert = NSAlert()
 		alert.messageText = message
 		alert.informativeText = infoText ?? ""
 		alert.alertStyle = .critical
 		alert.addButton(withTitle: "OK")
-		alert.beginSheetModal(for: window)
+		alert.beginSheetModal(for: window) { (result) in
+			completionHandler?()
+		}
 	}
 	
-	func displayErrorSheet(withMessage message: String, forWindow window: NSWindow) {
-		displayErrorSheet(withMessage: message, andInformativeText: nil, forWindow: window)
+	func displayErrorSheet(withMessage message: String, forWindow window: NSWindow, completionHandler: (() -> Void)? = nil) {
+		displayErrorSheet(withMessage: message, andInformativeText: nil, forWindow: window, completionHandler: completionHandler)
 	}
 	
 	private func promptUserForDirs(_ directories: [String]) {
@@ -149,8 +151,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			errorHandler()
 			if let window = mainWindowController?.window {
 				self.displayErrorSheet(withMessage: String.localizedStringWithFormat(NSLocalizedString("Couldn't parse scan from %@", comment: "Couldn't parse scan from file"), fileUrl.path),
-				                andInformativeText: NSLocalizedString("File is corrupted or it's not a scan result", comment: "File is corrupted or it's not a scan result"),
-				                         forWindow: window)
+									   andInformativeText: NSLocalizedString("File is corrupted or it's not a scan result", comment: "File is corrupted or it's not a scan result"),
+									   forWindow: window) {
+											self.mainWindowController?.refreshPhotos()
+										}
 			}
 		}
 		return false
