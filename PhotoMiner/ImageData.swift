@@ -166,7 +166,6 @@ class ImageData: NSObject, Codable {
 	 */
 	
 	func setThumbnail() {
-		if self.imageThumbnail != nil { return }	// Return if thumbnail was already generated
 		thumbnailQueue.async {
 			if let imageSource = self.createImageSource() {
 				let options:CFDictionary = [

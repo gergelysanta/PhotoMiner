@@ -119,7 +119,7 @@ class MainViewController: NSViewController {
 		}
 		
 		// Refresh QuickView if exists, it may contain picture which may changed
-		if QLPreviewPanel.sharedPreviewPanelExists() {
+		if self.quickLookActive {
 			QLPreviewPanel.shared().refreshCurrentPreviewItem()
 		}
 	}
