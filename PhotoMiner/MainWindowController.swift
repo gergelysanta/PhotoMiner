@@ -24,7 +24,7 @@ class MainWindowController: NSWindowController {
 		
 		// Set initial size of the window
 		if let window = self.window {
-			window.setFrame(NSRect(origin: window.frame.origin, size: CGSize(width: 820, height: 590)), display: true)
+			window.setFrame(NSRect(origin: window.frame.origin, size: CGSize(width: 1020, height: 700)), display: true)
 		}
 
 		scanner.delegate = self
