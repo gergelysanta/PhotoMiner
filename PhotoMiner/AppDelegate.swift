@@ -98,54 +98,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		displayErrorSheet(withMessage: message, andInformativeText: nil, forWindow: window, completionHandler: completionHandler)
 	}
 	
-	private func promptUserForDirs(_ directories: [String]) {
-		guard let window = mainWindowController?.window else { return }
-		
-		func promptForDirs(_ directories: [String]) {
-			guard let directory = directories.first else { return }
-			
-			let openPanel = NSOpenPanel()
-			openPanel.allowsMultipleSelection = false
-			openPanel.canChooseDirectories = true
-			openPanel.canCreateDirectories = false
-			openPanel.canChooseFiles = false
-			openPanel.directoryURL = URL(fileURLWithPath: directory)
-			openPanel.beginSheetModal(for: window) { (result) in
-				if directories.count > 1 {
-					// There're more directories to confirm, proceed with the following ones
-					promptForDirs(Array(directories.dropFirst()))
-				}
-				else {
-					// Refresh collection view even when user clicked 'Cancel'
-					// Image collection will be loaded in both cases, just after 'Cancel' they'll have blank thumbnails
-					// This indicates that something went wrong
-					self.mainWindowController?.refreshPhotos()
-				}
-			}
-		}
-		
-		// Display message about prompting for loaded directories
-		let alert = NSAlert()
-		if directories.count > 1 {
-			alert.messageText = NSLocalizedString("You need to allow access to all scanned directories", comment: "Allow access to all scanned directories")
-			alert.informativeText = String.localizedStringWithFormat(NSLocalizedString("In the following step you'll be asked to open all directories in this scan in order to get access to the scanned pictures. These are:\n%@", comment: "Allow access to all scanned directory explanation"), directories.joined(separator: "\n"))
-		}
-		else {
-			alert.messageText = NSLocalizedString("You need to allow access to scanned directory", comment: "Allow access to scanned directory")
-			alert.informativeText = String.localizedStringWithFormat(NSLocalizedString("In the following step you'll be asked to open the following directory in order to get access to the scanned pictures:\n%@", comment: "Allow access to scanned directory explanation"), directories.first ?? "<none>")
-		}
-		alert.alertStyle = .informational
-		alert.addButton(withTitle: "OK")
-		alert.beginSheetModal(for: window) { (result) in
-			promptForDirs(directories)
-		}
-	}
-	
 	@discardableResult func loadImageDatabase(_ fileUrl: URL, onError errorHandler: (() -> Void)? = nil) -> Bool {
 		do {
 			self.imageCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
 			Configuration.shared.openedFileUrl = fileUrl
-			promptUserForDirs(self.imageCollection.rootDirs)
+			self.mainWindowController?.refreshPhotos()
 			return true
 		} catch {
 			errorHandler?()

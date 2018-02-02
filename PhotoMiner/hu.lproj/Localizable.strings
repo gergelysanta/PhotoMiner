@@ -30,17 +30,3 @@
 
 /* Couldn't prepare data for saving */
 "Couldn't prepare data for saving" = "Nem tudtam előkészíteni az adatokat mentéshez";
-
-/* Allow access to all scanned directories */
-"You need to allow access to all scanned directories" = "Hozzáférést kell biztosítani a könyvtárakhoz amelyek a képeket tartalmazzák";
-
-/* Allow access to all scanned directory explanation */
-"In the following step you'll be asked to open all directories in this scan in order to get access to the scanned pictures. These are:\n%@" =
-"Annak érdekében hogy a mentett keresés képeihez hozzáférést adjon a rendszer, a következő lépésben meg kell nyitni az összes könyvtárat amely ezeket tartalmazza. Ezek a könyvtárak a következők:\n%@";
-
-/* Allow access to scanned directory */
-"You need to allow access to scanned directory" = "Hozzáférést kell biztosítani a könyvtárhoz amely a képeket tartalmazza";
-
-/* Allow access to scanned directory explanation */
-"In the following step you'll be asked to open the following directory in order to get access to the scanned pictures:\n%@" =
-"Annak érdekében hogy a mentett keresés képeihez hozzáférést adjon a rendszer, a következő lépésben meg kell nyitni a könyvtárat amely ezeket tartalmazza:\n%@";
