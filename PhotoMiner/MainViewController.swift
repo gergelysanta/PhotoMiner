@@ -52,10 +52,10 @@ class MainViewController: NSViewController {
 	}
 	
 	func confirmAction(_ question: String, action: @escaping ((Bool) -> Swift.Void)) {
-		let popup: NSAlert = NSAlert()
+		let popup = NSAlert()
 		popup.messageText = question
 		popup.informativeText = ""
-		popup.alertStyle = NSAlert.Style.warning
+		popup.alertStyle = .warning
 		popup.addButton(withTitle: NSLocalizedString("No", comment: "No"))
 		popup.addButton(withTitle: NSLocalizedString("Yes", comment: "Yes"))
 		if let window = self.view.window {

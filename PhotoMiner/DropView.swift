@@ -85,25 +85,24 @@ class DropView: NSView {
 	
 	override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
 		super.performDragOperation(sender)
+		
+		guard let appDelegate = NSApp.delegate as? AppDelegate else { return true }
+
 		let urls = getAcceptedPaths(fromPasteboard: sender.draggingPasteboard())
 		var paths = [String]()
 		for url in urls {
 			paths.append(url.path)
-			if let appDelegate = NSApp.delegate as? AppDelegate {
-				if url.path.hasSuffix(".\(Configuration.shared.saveDataExtension)") &&
-					appDelegate.loadImageDatabase(url)
-				{
-					// Found correct savefile and loaded successfully
-					// There's nothing else we need here
-					appDelegate.mainWindowController?.window?.makeKeyAndOrderFront(self)
-					return true
-				}
+			if url.path.hasSuffix(".\(Configuration.shared.saveDataExtension)") &&
+				appDelegate.loadImageDatabase(url)
+			{
+				// Found correct savefile and loaded successfully
+				// There's nothing else we need here
+				appDelegate.mainWindowController?.window?.makeKeyAndOrderFront(self)
+				return true
 			}
 		}
-		if Configuration.shared.setLookupDirectories(paths),
-			let mainWindowController = self.window?.windowController as? MainWindowController
-		{
-			mainWindowController.startScan()
+		if Configuration.shared.setLookupDirectories(paths) {
+			appDelegate.startScan(withConfirmation: true)
 		}
 		return true
 	}

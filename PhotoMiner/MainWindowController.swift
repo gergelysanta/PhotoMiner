@@ -19,6 +19,25 @@ class MainWindowController: NSWindowController {
 		}
 	}
 	
+	var hasContent:Bool {
+		get {
+			return (mainViewController?.collectionView.numberOfSections ?? 0) > 0
+		}
+	}
+	
+	var isDragAndDropVisible:Bool {
+		get {
+			return !(self.mainViewController?.dropView.isHidden ?? true)
+		}
+		set {
+			if newValue {
+				self.mainViewController?.dropView.show()
+			} else {
+				self.mainViewController?.dropView.hide()
+			}
+		}
+	}
+	
     override func windowDidLoad() {
         super.windowDidLoad()
 		
@@ -105,38 +124,9 @@ class MainWindowController: NSWindowController {
 		}
 	}
 	
-	private func internalStartScan() {
-		if !scanner.start(pathsToScan: Configuration.shared.lookupFolders,
-		                  bottomSizeLimit: Configuration.shared.ignoreImagesBelowSize)
-		{
-			// TODO: Display Warning
-		}
-		titlebarController?.progressOn(true)
-	}
-	
 	//
 	// MARK: Public methods
 	//
-	
-	func startScan() {
-		if Configuration.shared.newScanMustBeConfirmed,
-			(mainViewController?.collectionView.numberOfSections ?? 0) > 0
-		{
-			let scanCompletionHandler: (Bool) -> Void = { response in
-				if response {
-					self.internalStartScan()
-				}
-				else {
-					self.mainViewController?.dropView.hide()
-				}
-			}
-			mainViewController?.confirmAction(NSLocalizedString("Are you sure you want to start a new scan?", comment: "Confirmation for starting new scan"),
-											  action: scanCompletionHandler)
-		}
-		else {
-			internalStartScan()
-		}
-	}
 	
 	func refreshPhotos() {
 		// Reftesh collectionView
@@ -169,8 +159,8 @@ extension MainWindowController: TitlebarDelegate {
 				}
 				_ = Configuration.shared.setLookupDirectories(directoryList)
 				
-				// Start internal scan method (this bypasses confirmation)
-				self.internalStartScan()
+				// Start scan without confirmation
+				(NSApp.delegate as? AppDelegate)?.startScan(withConfirmation: false)
 			}
 		}
 		

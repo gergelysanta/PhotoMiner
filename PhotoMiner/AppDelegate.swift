@@ -14,7 +14,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	// MARK: - Instance properties
 	
 	var imageCollection = ImageCollection(withDirectories: [])
-	
+	var parsedImageCollection:ImageCollection?
+
 	var mainWindowController:MainWindowController? {
 		get {
 			for window in NSApp.windows {
@@ -60,8 +61,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		if filename.hasSuffix(".\(Configuration.shared.saveDataExtension)") {
 			return loadImageDatabase(URL(fileURLWithPath: filename))
 		}
-		else if Configuration.shared.setLookupDirectories([filename]) {
-			mainWindowController?.startScan()
+		else if Configuration.shared.setLookupDirectories([filename]),
+			let appDelegate = NSApp.delegate as? AppDelegate
+		{
+			appDelegate.startScan(withConfirmation: true)
 			return true
 		}
 		return false
@@ -77,41 +80,129 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			}
 		}
 		else if Configuration.shared.setLookupDirectories(filenames) {
-			mainWindowController?.startScan()
+			startScan(withConfirmation: true)
+		}
+	}
+	
+	// MARK: - Scan
+	
+	private func internalStartScan() {
+		// Check if we have cached scan (loaded from pms file)
+		if let cachedCollection = parsedImageCollection {
+			if cachedCollection.rootDirs == Configuration.shared.lookupFolders {
+				self.imageCollection = cachedCollection
+				mainWindowController?.refreshPhotos()
+				mainWindowController?.titlebarController?.progressOn(false)
+				parsedImageCollection = nil
+				Configuration.shared.addScannedDirectories(Configuration.shared.lookupFolders)
+				return
+			}
+		}
+		
+		parsedImageCollection = nil
+		
+		let scanStarted = mainWindowController?.scanner.start(pathsToScan: Configuration.shared.lookupFolders,
+															  bottomSizeLimit: Configuration.shared.ignoreImagesBelowSize) ?? false
+		if scanStarted {
+			Configuration.shared.addScannedDirectories(Configuration.shared.lookupFolders)
+		}
+		else {
+			// TODO: Display Warning
+		}
+		mainWindowController?.titlebarController?.progressOn(true)
+	}
+	
+	func startScan(withConfirmation: Bool) {
+		if let windowController = mainWindowController,
+			withConfirmation && Configuration.shared.newScanMustBeConfirmed && windowController.hasContent
+		{
+			let scanCompletionHandler: (Bool) -> Void = { response in
+				if response {
+					self.internalStartScan()
+				}
+				else {
+					windowController.isDragAndDropVisible = false
+				}
+			}
+			windowController.mainViewController?.confirmAction(NSLocalizedString("Are you sure you want to start a new scan?", comment: "Confirmation for starting new scan"),
+															   action: scanCompletionHandler)
+		}
+		else {
+			internalStartScan()
 		}
 	}
 	
 	// MARK: - Instance methods
 
-	func displayErrorSheet(withMessage message: String, andInformativeText infoText: String?, forWindow window: NSWindow, completionHandler: (() -> Void)? = nil) {
+	func displaySheet(withMessage message: String, andInformativeText infoText: String?, ofType type: NSAlert.Style, forWindow window: NSWindow, completionHandler: (() -> Void)? = nil) {
 		let alert = NSAlert()
 		alert.messageText = message
 		alert.informativeText = infoText ?? ""
-		alert.alertStyle = .critical
+		alert.alertStyle = type
 		alert.addButton(withTitle: "OK")
 		alert.beginSheetModal(for: window) { (result) in
 			completionHandler?()
 		}
 	}
 	
-	func displayErrorSheet(withMessage message: String, forWindow window: NSWindow, completionHandler: (() -> Void)? = nil) {
-		displayErrorSheet(withMessage: message, andInformativeText: nil, forWindow: window, completionHandler: completionHandler)
+	func displaySheet(withMessage message: String, ofType type: NSAlert.Style, forWindow window: NSWindow, completionHandler: (() -> Void)? = nil) {
+		displaySheet(withMessage: message, andInformativeText: nil, ofType: type, forWindow: window, completionHandler: completionHandler)
 	}
 	
 	@discardableResult func loadImageDatabase(_ fileUrl: URL, onError errorHandler: (() -> Void)? = nil) -> Bool {
 		do {
-			self.imageCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
+			var notYetAllowedDirs = [String]()
+
+			// Parse scan database from file
+			parsedImageCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
+			if let parsedCollection = parsedImageCollection {
+				// Collect directories of this scan which weren't allowed by user yet
+				for path in parsedCollection.rootDirs {
+					if !Configuration.shared.wasDirectoryScanned(path) {
+						notYetAllowedDirs.append(path)
+					}
+				}
+				if notYetAllowedDirs.count > 0 {
+					// Parsed scan contains at least one not yet allowed directory
+					for path in notYetAllowedDirs {
+						// Display information...
+						if let window = mainWindowController?.window {
+							self.displaySheet(withMessage: NSLocalizedString("\nAction needed for accessing directories", comment: "Action needed for accessing directories"),
+											  andInformativeText: String.localizedStringWithFormat(NSLocalizedString("System do not allows to read directories which weren't opened through OpenDialog or Drag&Drop. Because of this we opened Finder for you with pre-selected directories. You need to Drag&Drop these directories to the application's window in order to give access. These directories are the following:\n\n%@", comment: "Action needed for accessing directories: details"), notYetAllowedDirs.joined(separator: "\n")),
+											  ofType: .critical,
+											  forWindow: window) {
+												self.mainWindowController?.isDragAndDropVisible = false
+											  }
+						}
+						else {
+							mainWindowController?.isDragAndDropVisible = false
+						}
+						
+						// ...and open Finder with preselected directory
+						NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
+					}
+					// That's all for parsed scan for now
+					return true
+				}
+				
+				// All directories in this scan were allowed previously by user
+				// no additional steps needed, just read scan and display it :)
+				imageCollection = parsedCollection
+				parsedImageCollection = nil
+			}
+			
 			Configuration.shared.openedFileUrl = fileUrl
 			self.mainWindowController?.refreshPhotos()
 			return true
 		} catch {
 			errorHandler?()
 			if let window = mainWindowController?.window {
-				self.displayErrorSheet(withMessage: String.localizedStringWithFormat(NSLocalizedString("Couldn't parse scan from %@", comment: "Couldn't parse scan from file"), fileUrl.path),
-									   andInformativeText: NSLocalizedString("File is corrupted or it's not a scan result", comment: "File is corrupted or it's not a scan result"),
-									   forWindow: window) {
-											self.mainWindowController?.refreshPhotos()
-										}
+				self.displaySheet(withMessage: String.localizedStringWithFormat(NSLocalizedString("Couldn't parse scan from %@", comment: "Couldn't parse scan from file"), fileUrl.path),
+								  andInformativeText: NSLocalizedString("File is corrupted or it's not a scan result", comment: "File is corrupted or it's not a scan result"),
+								  ofType: .critical,
+								  forWindow: window) {
+										self.mainWindowController?.refreshPhotos()
+									}
 			}
 		}
 		return false
@@ -125,15 +216,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			} catch {
 				errorHandler()
 				if let window = mainWindowController?.window {
-					displayErrorSheet(withMessage: String.localizedStringWithFormat(NSLocalizedString("Couldn't save scan to %@", comment: "Couldn't save scan to file"), fileUrl.path),
-					                    forWindow: window)
+					displaySheet(withMessage: String.localizedStringWithFormat(NSLocalizedString("Couldn't save scan to %@", comment: "Couldn't save scan to file"), fileUrl.path),
+								 ofType: .critical,
+								 forWindow: window)
 				}
 			}
 		}
 		else {
 			errorHandler()
 			if let window = mainWindowController?.window {
-				displayErrorSheet(withMessage: NSLocalizedString("Couldn't prepare data for saving", comment: "Couldn't prepare data for saving"), forWindow: window)
+				displaySheet(withMessage: NSLocalizedString("Couldn't prepare data for saving", comment: "Couldn't prepare data for saving"),
+							 ofType: .critical,
+							 forWindow: window)
 			}
 		}
 		return false
