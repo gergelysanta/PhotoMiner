@@ -74,6 +74,9 @@
 /* Class = "NSMenuItem"; title = "Flip Vertical"; ObjectID = "CLY-FR-1gc"; */
 "CLY-FR-1gc.title" = "Tükrözés függőlegesen";
 
+/* Class = "NSMenuItem"; title = "Jump to selection"; ObjectID = "dS0-jx-0zM"; */
+"dS0-jx-0zM.title" = "Ugrás a kiválasztott elemekre";
+
 /* Class = "NSTextFieldCell"; title = "Path:"; ObjectID = "9Yx-fS-92k"; */
 "9Yx-fS-92k.title" = "Útvonal:";
 

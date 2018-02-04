@@ -17,7 +17,8 @@ class MainViewController: NSViewController {
 	@IBOutlet private weak var dropView: DropView!
 	@IBOutlet private weak var dropDescription: NSTextField!
 	
-	@IBOutlet var contextMenu: NSMenu!
+	@IBOutlet var thumbnailContextMenu: NSMenu!
+	@IBOutlet var viewContextMenu: NSMenu!
 	private var quickLookActive = false
 	private var reloadHelperArray = [ImageData]()
 	
@@ -37,6 +38,12 @@ class MainViewController: NSViewController {
 			} else {
 				dropView.hide()
 			}
+		}
+	}
+	
+	@objc dynamic var isJumpToSelectionAvailable: Bool {
+		get {
+			return (collectionView == nil) ? false : (collectionView.selectionIndexes.count > 0)
 		}
 	}
 	
@@ -131,6 +138,8 @@ class MainViewController: NSViewController {
 				self.executeSipsWithArgs(["-f", "vertical", image.imagePath])
 				image.setThumbnail()
 			}
+		case 101:			// "Jump to selection"
+			collectionView.selectItems(at: collectionView.selectionIndexPaths, scrollPosition: NSCollectionView.ScrollPosition.centeredVertically)
 		default:
 			NSLog("menuItem: UNKNOWN")
 		}
@@ -141,7 +150,14 @@ class MainViewController: NSViewController {
 		}
 	}
 	
-	
+	override func rightMouseDown(with event: NSEvent) {
+		super.rightMouseDown(with: event)
+		if collectionView.indexPathForItem(at: event.locationInWindow) == nil {
+			// Location is not above a thumbnail item, display view's context menu
+			viewContextMenu.popUp(positioning: nil, at: event.locationInWindow, in: self.view)
+		}
+	}
+
 	//
 	// MARK: Private methods
 	//
@@ -557,7 +573,7 @@ extension MainViewController: ThumbnailViewDelegate {
 			}
 		}
 		// Display context menu
-		contextMenu.popUp(positioning: nil, at: event.locationInWindow, in: self.view)
+		thumbnailContextMenu.popUp(positioning: nil, at: event.locationInWindow, in: self.view)
 	}
 	
 }
@@ -613,7 +629,7 @@ extension MainViewController: PhotoCollectionViewDelegate {
 				dropView.show()
 			}
 		}
-		collectionView.selectItems(at: indexPaths, scrollPosition: NSCollectionView.ScrollPosition.centeredVertically)
+		collectionView.selectItems(at: indexPaths, scrollPosition: [])
 		self.didSelectItems(indexPaths)
 	}
 	

@@ -408,9 +408,10 @@ DQ
                     <connections>
                         <outlet property="collectionView" destination="lNC-j3-36O" id="QxN-zE-yEz"/>
                         <outlet property="collectionViewFlowLayout" destination="ROs-3M-pX3" id="XtW-gL-iph"/>
-                        <outlet property="contextMenu" destination="ntQ-ao-zxQ" id="f31-yf-IqO"/>
                         <outlet property="dropDescription" destination="pcC-K9-lNr" id="WKq-gC-yre"/>
                         <outlet property="dropView" destination="6ID-Zn-x24" id="Et7-0t-5GL"/>
+                        <outlet property="thumbnailContextMenu" destination="ntQ-ao-zxQ" id="14e-R6-Mm4"/>
+                        <outlet property="viewContextMenu" destination="5Tn-es-1hd" id="pBA-Jd-8Vb"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -468,6 +469,18 @@ DQ
                         </menuItem>
                     </items>
                 </menu>
+                <menu id="5Tn-es-1hd">
+                    <items>
+                        <menuItem title="Jump to selection" tag="101" id="dS0-jx-0zM">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="contextMenuItemSelected:" target="XfG-lQ-9wD" id="Nca-mW-a3K"/>
+                                <binding destination="XfG-lQ-9wD" name="enabled" keyPath="self.isJumpToSelectionAvailable" id="O2A-y5-UdH"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
+                <userDefaultsController id="xDa-PX-wqv"/>
             </objects>
             <point key="canvasLocation" x="236.5" y="849.5"/>
         </scene>
@@ -684,9 +697,9 @@ DQ
         </scene>
     </scenes>
     <resources>
-        <image name="Cancel" width="32" height="32"/>
+        <image name="Cancel" width="16" height="16"/>
         <image name="DropIcon" width="78" height="81"/>
-        <image name="Magnifier" width="32" height="32"/>
-        <image name="SidebarOff" width="32" height="32"/>
+        <image name="Magnifier" width="16" height="16"/>
+        <image name="SidebarOff" width="16" height="16"/>
     </resources>
 </document>
