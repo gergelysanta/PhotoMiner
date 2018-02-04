@@ -7,6 +7,9 @@
 /* Confirmation for starting new scan */
 "Are you sure you want to start a new scan?" = "Biztos hogy új keresést szeretnél indítani?";
 
+/* You requested to scan a directory which is not part of the loaded scan. */
+"You requested to scan a directory which is not part of the loaded scan." = "Olyan könyvtár átnézését kérted, ami nem része a már beolvasott keresésnek.";
+
 /* Confirmation for moving one picture to trash */
 "Are you sure you want to trash the selected picture?" = "Biztos hogy a kukába szeretnéd helyezni a kiválasztott képet?";
 
@@ -30,3 +33,18 @@
 
 /* Couldn't prepare data for saving */
 "Couldn't prepare data for saving" = "Nem tudtam előkészíteni az adatokat mentéshez";
+
+/* Action needed for accessing more directories: drop view description */
+"To give access to files in opened scan you need to start a scan for the following directories or drop them here:\n%@" =
+"A beolvasott keresés fájljainak eléréséhez egy újabb keresést kell kezdeményezned a következő könyvtárakon, vagy csak húzd ide őket:\n%@";
+
+/* Action needed for accessing one directory: drop view description */
+"To give access to files in opened scan you need to start a scan for the following directory or drop it here:\n%@" =
+"A beolvasott keresés fájljainak eléréséhez egy újabb keresést kell kezdeményezned a következő könyvtáron, vagy csak húzd ide:\n%@";
+
+/* Action needed for accessing directories */
+"Action needed for accessing directories" = "A szükséges könyvtárak eléréséhez újabb műveletek szükségesek";
+
+/* Action needed for accessing directories: dialog info */
+"System do not allows to read directories which weren't opened through OpenDialog or Drag&Drop. Because of this we open Finder for you with pre-selected directories each time you load a saved scan with directories which weren't accepted by user yet. You need to Drag&Drop these directories to the application's window in order to give access." =
+"A rendszer nem engedélyezi az alkalmazásnak olyan könyvtárak elérését, amelyeket nem a felhasznátó kért (Fájlmegnyitó ablakon keresztül vagy Drag&Drop segítségével). Ez miatt minden egyes alkalommal amikor olyan mentett keresést nyitsz meg amely könyvtárai még nem elérhetőek, megnyitunk neked egy-egy Finder ablakot a szükséges könyvtárak bejelölésével. Ezeket a könyvtárakat húzd az alkalmazás ablakára hogy elérhessük a bennük található fájlokat.";

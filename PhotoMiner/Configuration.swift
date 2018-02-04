@@ -68,6 +68,12 @@ class Configuration: NSObject {
 		}
 	}
 	
+	var displayWarningForParsedScans = true {
+		didSet {
+			self.saveConfiguration()
+		}
+	}
+	
 	private override init() {
 		super.init()
 		// Load configuration
@@ -86,6 +92,9 @@ class Configuration: NSObject {
 		}
 		if let boolValue = userDefaults.value(forKey: "highlightPicturesWithoutExif") as? Bool {
 			highlightPicturesWithoutExif = boolValue
+		}
+		if let boolValue = userDefaults.value(forKey: "displayWarningForParsedScans") as? Bool {
+			displayWarningForParsedScans = boolValue
 		}
 	}
 	
@@ -126,6 +135,7 @@ class Configuration: NSObject {
 		UserDefaults.standard.set(removeMustBeConfirmed, forKey: "removeMustBeConfirmed")
 		UserDefaults.standard.set(removeAlsoEmptyDirectories, forKey: "removeAlsoEmptyDirectories")
 		UserDefaults.standard.set(highlightPicturesWithoutExif, forKey: "highlightPicturesWithoutExif")
+		UserDefaults.standard.set(displayWarningForParsedScans, forKey: "displayWarningForParsedScans")
 		UserDefaults.standard.synchronize()
 	}
 	

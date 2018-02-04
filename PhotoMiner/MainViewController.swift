@@ -14,13 +14,47 @@ class MainViewController: NSViewController {
 	@IBOutlet weak var collectionView: PhotoCollectionView!
 	@IBOutlet weak var collectionViewFlowLayout: NSCollectionViewFlowLayout!
 	
-	@IBOutlet weak var dropView: DropView!
+	@IBOutlet private weak var dropView: DropView!
+	@IBOutlet private weak var dropDescription: NSTextField!
 	
 	@IBOutlet var contextMenu: NSMenu!
 	private var quickLookActive = false
 	private var reloadHelperArray = [ImageData]()
 	
+	private var storyboardDescriptionString = ""
+	
 	static var instance:MainViewController?
+	
+	private var _dropViewVisible = true
+	var isDropViewVisible:Bool {
+		get {
+			return !dropView.isHidden
+		}
+		set {
+			_dropViewVisible = newValue
+			if newValue || (dropDescription.stringValue != storyboardDescriptionString){
+				dropView.show()
+			} else {
+				dropView.hide()
+			}
+		}
+	}
+	
+	var dropViewText:String? {
+		get {
+			return dropDescription.stringValue
+		}
+		set {
+			if let stringValue = newValue {
+				dropDescription.stringValue = stringValue
+			}
+			else {
+				dropDescription.stringValue = storyboardDescriptionString
+			}
+			// Re-set visibility so dropview can he shown/hidden again
+			isDropViewVisible = _dropViewVisible
+		}
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -30,6 +64,7 @@ class MainViewController: NSViewController {
 			collectionViewFlowLayout.sectionHeadersPinToVisibleBounds = true
 		}
 		collectionView.keyDelegate = self
+		storyboardDescriptionString = dropDescription.stringValue
 	}
 	
 	func imageAtIndexPath(indexPath:IndexPath) -> ImageData? {
@@ -49,24 +84,6 @@ class MainViewController: NSViewController {
 		}
 		
 		return imageArray
-	}
-	
-	func confirmAction(_ question: String, action: @escaping ((Bool) -> Swift.Void)) {
-		let popup = NSAlert()
-		popup.messageText = question
-		popup.informativeText = ""
-		popup.alertStyle = .warning
-		popup.addButton(withTitle: NSLocalizedString("No", comment: "No"))
-		popup.addButton(withTitle: NSLocalizedString("Yes", comment: "Yes"))
-		if let window = self.view.window {
-			popup.beginSheetModal(for: window) { (response) in
-				action((response == NSApplication.ModalResponse.alertSecondButtonReturn) ? true : false)
-			}
-		}
-		else {
-			let response = popup.runModal()
-			action((response == NSApplication.ModalResponse.alertSecondButtonReturn) ? true : false)
-		}
 	}
 	
 	@IBAction func contextMenuItemSelected(_ sender: NSMenuItem) {
@@ -194,7 +211,7 @@ class MainViewController: NSViewController {
 			let question = (imagePathList.count > 1)
 				? String.localizedStringWithFormat(NSLocalizedString("Are you sure you want to trash the selected %d pictures?", comment: "Confirmation for moving more pictures to trash"), imagePathList.count)
 				: NSLocalizedString("Are you sure you want to trash the selected picture?", comment: "Confirmation for moving one picture to trash")
-			self.confirmAction(question, action: trashCompletionHandler)
+			appDelegate.confirmAction(question, forWindow: self.view.window, action: trashCompletionHandler)
 		}
 		else {
 			trashCompletionHandler(true)

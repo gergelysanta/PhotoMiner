@@ -14,8 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	// MARK: - Instance properties
 	
 	var imageCollection = ImageCollection(withDirectories: [])
-	var parsedImageCollection:ImageCollection?
-
+	
 	var mainWindowController:MainWindowController? {
 		get {
 			for window in NSApp.windows {
@@ -27,6 +26,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
+	private var parsedImageCollection:ImageCollection?
+	private var notYetAllowedParsedDirs = [String]() {
+		didSet {
+			if notYetAllowedParsedDirs.count > 1 {
+				mainWindowController?.mainViewController?.dropViewText = String.localizedStringWithFormat(NSLocalizedString("To give access to files in opened scan you need to start a scan for the following directories or drop them here:\n%@", comment: "Action needed for accessing more directories: drop view description"), notYetAllowedParsedDirs.joined(separator: "\n"))
+			}
+			else if notYetAllowedParsedDirs.count > 0 {
+				mainWindowController?.mainViewController?.dropViewText = String.localizedStringWithFormat(NSLocalizedString("To give access to files in opened scan you need to start a scan for the following directory or drop it here:\n%@", comment: "Action needed for accessing one directory: drop view description"), notYetAllowedParsedDirs.joined(separator: "\n"))
+			}
+			else {
+				mainWindowController?.mainViewController?.dropViewText = nil
+			}
+		}
+	}
+
 	@objc dynamic var isListingAvailable:Bool {
 		get {
 			let imagesAvailable = self.imageCollection.count > 0
@@ -87,18 +101,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	// MARK: - Scan
 	
 	private func internalStartScan() {
-		// Check if we have cached scan (loaded from pms file)
-		if let cachedCollection = parsedImageCollection {
-			if cachedCollection.rootDirs == Configuration.shared.lookupFolders {
-				self.imageCollection = cachedCollection
-				mainWindowController?.refreshPhotos()
-				mainWindowController?.titlebarController?.progressOn(false)
-				parsedImageCollection = nil
-				Configuration.shared.addScannedDirectories(Configuration.shared.lookupFolders)
-				return
-			}
-		}
-		
 		parsedImageCollection = nil
 		
 		let scanStarted = mainWindowController?.scanner.start(pathsToScan: Configuration.shared.lookupFolders,
@@ -112,8 +114,57 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		mainWindowController?.titlebarController?.progressOn(true)
 	}
 	
+	private func internalCheckParsedScan() {
+		// Check if we have cached scan (loaded from pms file)
+		if let cachedCollection = parsedImageCollection {
+			var alienDirectoryDetected = false
+			// We have a pms file loaded, we need allowing access to those files first
+			if !notYetAllowedParsedDirs.isEmpty {
+				// A scan file was parsed but not all directories were accepted yet
+				for path in Configuration.shared.lookupFolders {
+					if let pathindex = notYetAllowedParsedDirs.index(of: path) {
+						// Requested directory is part of the loaded scan
+						// User granted access to it, we can remove from the array of needed directories
+						notYetAllowedParsedDirs.remove(at: pathindex)
+					}
+					else {
+						// Requested directory is not part of the loaded scan
+						alienDirectoryDetected = true
+					}
+				}
+			}
+			if alienDirectoryDetected {
+				let scanCompletionHandler: (Bool) -> Void = { response in
+					if response {
+						self.notYetAllowedParsedDirs = []
+						self.internalStartScan()
+					}
+				}
+				self.confirmAction(NSLocalizedString("Are you sure you want to start a new scan?", comment: "Confirmation for starting new scan"),
+								   details: NSLocalizedString("You requested to scan a directory which is not part of the loaded scan.", comment: "You requested to scan a directory which is not part of the loaded scan."),
+								   forWindow: mainWindowController?.window,
+								   action: scanCompletionHandler)
+				return
+			}
+			else {
+				if notYetAllowedParsedDirs.isEmpty {
+					// A scan file was parsed and all the directories are allowed by system, we can display the data
+					self.imageCollection = cachedCollection
+					mainWindowController?.refreshPhotos()
+					mainWindowController?.titlebarController?.progressOn(false)
+					parsedImageCollection = nil
+					Configuration.shared.setLookupDirectories(cachedCollection.rootDirs)
+					Configuration.shared.addScannedDirectories(Configuration.shared.lookupFolders)
+				}
+				return
+			}
+		}
+		internalStartScan()
+	}
+	
 	func startScan(withConfirmation: Bool) {
 		if let windowController = mainWindowController,
+			parsedImageCollection == nil,
 			withConfirmation && Configuration.shared.newScanMustBeConfirmed && windowController.hasContent
 		{
 			let scanCompletionHandler: (Bool) -> Void = { response in
@@ -124,11 +175,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 					windowController.isDragAndDropVisible = false
 				}
 			}
-			windowController.mainViewController?.confirmAction(NSLocalizedString("Are you sure you want to start a new scan?", comment: "Confirmation for starting new scan"),
-															   action: scanCompletionHandler)
+			self.confirmAction(NSLocalizedString("Are you sure you want to start a new scan?", comment: "Confirmation for starting new scan"),
+							   forWindow: windowController.window,
+							   action: scanCompletionHandler)
 		}
 		else {
-			internalStartScan()
+			internalCheckParsedScan()
 		}
 	}
 	
@@ -149,47 +201,71 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		displaySheet(withMessage: message, andInformativeText: nil, ofType: type, forWindow: window, completionHandler: completionHandler)
 	}
 	
+	func confirmAction(_ question: String, details: String, forWindow window: NSWindow?, action: ((Bool) -> Void)? = nil) {
+		let popup = NSAlert()
+		popup.messageText = question
+		popup.informativeText = details
+		popup.alertStyle = .warning
+		popup.addButton(withTitle: NSLocalizedString("No", comment: "No"))
+		popup.addButton(withTitle: NSLocalizedString("Yes", comment: "Yes"))
+		if let window = window {
+			popup.beginSheetModal(for: window) { (response) in
+				action?((response == NSApplication.ModalResponse.alertSecondButtonReturn) ? true : false)
+			}
+		}
+		else {
+			let response = popup.runModal()
+			action?((response == NSApplication.ModalResponse.alertSecondButtonReturn) ? true : false)
+		}
+	}
+	
+	func confirmAction(_ question: String, forWindow window: NSWindow?, action: @escaping ((Bool) -> Swift.Void)) {
+		confirmAction(question, details: "", forWindow: window, action: action)
+	}
+
 	@discardableResult func loadImageDatabase(_ fileUrl: URL, onError errorHandler: (() -> Void)? = nil) -> Bool {
 		do {
-			var notYetAllowedDirs = [String]()
-
 			// Parse scan database from file
-			parsedImageCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
-			if let parsedCollection = parsedImageCollection {
-				// Collect directories of this scan which weren't allowed by user yet
-				for path in parsedCollection.rootDirs {
-					if !Configuration.shared.wasDirectoryScanned(path) {
-						notYetAllowedDirs.append(path)
-					}
+			let parsedCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
+			
+			// Collect directories of this scan which weren't allowed by user yet
+			notYetAllowedParsedDirs = []
+			for path in parsedCollection.rootDirs {
+				if !Configuration.shared.wasDirectoryScanned(path) {
+					notYetAllowedParsedDirs.append(path)
 				}
-				if notYetAllowedDirs.count > 0 {
-					// Parsed scan contains at least one not yet allowed directory
-					for path in notYetAllowedDirs {
-						// Display information...
-						if let window = mainWindowController?.window {
-							self.displaySheet(withMessage: NSLocalizedString("\nAction needed for accessing directories", comment: "Action needed for accessing directories"),
-											  andInformativeText: String.localizedStringWithFormat(NSLocalizedString("System do not allows to read directories which weren't opened through OpenDialog or Drag&Drop. Because of this we opened Finder for you with pre-selected directories. You need to Drag&Drop these directories to the application's window in order to give access. These directories are the following:\n\n%@", comment: "Action needed for accessing directories: details"), notYetAllowedDirs.joined(separator: "\n")),
-											  ofType: .critical,
-											  forWindow: window) {
-												self.mainWindowController?.isDragAndDropVisible = false
-											  }
-						}
-						else {
-							mainWindowController?.isDragAndDropVisible = false
-						}
-						
-						// ...and open Finder with preselected directory
-						NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
-					}
-					// That's all for parsed scan for now
-					return true
+			}
+			if notYetAllowedParsedDirs.count > 0 {
+				// Parsed scan contains at least one not yet allowed directory
+				// Display information...
+				if let window = mainWindowController?.window,
+					Configuration.shared.displayWarningForParsedScans
+				{
+					self.displaySheet(withMessage: NSLocalizedString("Action needed for accessing directories", comment: "Action needed for accessing directories"),
+									  andInformativeText: NSLocalizedString("System do not allows to read directories which weren't opened through OpenDialog or Drag&Drop. Because of this we open Finder for you with pre-selected directories each time you load a saved scan with directories which weren't accepted by user yet. You need to Drag&Drop these directories to the application's window in order to give access.", comment: "Action needed for accessing directories: dialog info"),
+									  ofType: .critical,
+									  forWindow: window) {
+											self.mainWindowController?.isDragAndDropVisible = false
+									  }
+					Configuration.shared.displayWarningForParsedScans = false
+				}
+				else {
+					mainWindowController?.isDragAndDropVisible = false
 				}
 				
-				// All directories in this scan were allowed previously by user
-				// no additional steps needed, just read scan and display it :)
-				imageCollection = parsedCollection
-				parsedImageCollection = nil
+				// ...and open Finder with preselected directory
+				for path in notYetAllowedParsedDirs {
+					NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
+				}
+				// Remember this parse
+				parsedImageCollection = parsedCollection
+				// That's all for parsed scan for now
+				return true
 			}
+			
+			// All directories in this scan were allowed previously by user
+			// no additional steps needed, just read scan and display it :)
+			imageCollection = parsedCollection
 			
 			Configuration.shared.openedFileUrl = fileUrl
 			self.mainWindowController?.refreshPhotos()

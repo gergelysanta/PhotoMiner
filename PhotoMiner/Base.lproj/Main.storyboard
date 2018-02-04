@@ -353,7 +353,7 @@ DQ
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="ZD6-9a-t9N">
-                                    <rect key="frame" x="581" y="1" width="16" height="345"/>
+                                    <rect key="frame" x="554" y="1" width="16" height="379"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -372,9 +372,9 @@ DQ
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pcC-K9-lNr">
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="pcC-K9-lNr">
                                         <rect key="frame" x="18" y="109" width="535" height="21"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="to scan them for pictures" id="uOb-MX-pVM">
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="to scan them for pictures" id="uOb-MX-pVM">
                                             <font key="font" size="18" name="ArialMT"/>
                                             <color key="textColor" red="0.79599106311798096" green="0.79612869024276733" blue="0.79598242044448853" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -382,7 +382,8 @@ DQ
                                     </textField>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="nk0-yk-qUX" firstAttribute="centerY" secondItem="6ID-Zn-x24" secondAttribute="centerY" constant="-50" id="Cbo-kW-HVs"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="pcC-K9-lNr" secondAttribute="bottom" constant="20" id="A8F-Ct-hoZ"/>
+                                    <constraint firstItem="nk0-yk-qUX" firstAttribute="centerY" secondItem="6ID-Zn-x24" secondAttribute="centerY" priority="750" constant="-50" id="Cbo-kW-HVs"/>
                                     <constraint firstItem="nk0-yk-qUX" firstAttribute="centerX" secondItem="6ID-Zn-x24" secondAttribute="centerX" id="OzU-pO-E6n"/>
                                     <constraint firstItem="pcC-K9-lNr" firstAttribute="top" secondItem="o9y-Q3-w1Q" secondAttribute="bottom" constant="8" id="QwX-yQ-BJs"/>
                                     <constraint firstItem="o9y-Q3-w1Q" firstAttribute="leading" secondItem="6ID-Zn-x24" secondAttribute="leading" constant="20" id="TGX-eM-k8H"/>
@@ -408,6 +409,7 @@ DQ
                         <outlet property="collectionView" destination="lNC-j3-36O" id="QxN-zE-yEz"/>
                         <outlet property="collectionViewFlowLayout" destination="ROs-3M-pX3" id="XtW-gL-iph"/>
                         <outlet property="contextMenu" destination="ntQ-ao-zxQ" id="f31-yf-IqO"/>
+                        <outlet property="dropDescription" destination="pcC-K9-lNr" id="WKq-gC-yre"/>
                         <outlet property="dropView" destination="6ID-Zn-x24" id="Et7-0t-5GL"/>
                     </connections>
                 </viewController>
@@ -467,7 +469,7 @@ DQ
                     </items>
                 </menu>
             </objects>
-            <point key="canvasLocation" x="238" y="850"/>
+            <point key="canvasLocation" x="236.5" y="849.5"/>
         </scene>
         <!--Main Split View Controller-->
         <scene sceneID="oLM-M0-Fzm">
@@ -682,9 +684,9 @@ DQ
         </scene>
     </scenes>
     <resources>
-        <image name="Cancel" width="16" height="16"/>
+        <image name="Cancel" width="32" height="32"/>
         <image name="DropIcon" width="78" height="81"/>
-        <image name="Magnifier" width="16" height="16"/>
-        <image name="SidebarOff" width="16" height="16"/>
+        <image name="Magnifier" width="32" height="32"/>
+        <image name="SidebarOff" width="32" height="32"/>
     </resources>
 </document>

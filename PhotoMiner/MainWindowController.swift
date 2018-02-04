@@ -27,14 +27,10 @@ class MainWindowController: NSWindowController {
 	
 	var isDragAndDropVisible:Bool {
 		get {
-			return !(self.mainViewController?.dropView.isHidden ?? true)
+			return mainViewController?.isDropViewVisible ?? false
 		}
 		set {
-			if newValue {
-				self.mainViewController?.dropView.show()
-			} else {
-				self.mainViewController?.dropView.hide()
-			}
+			mainViewController?.isDropViewVisible = newValue
 		}
 	}
 	
