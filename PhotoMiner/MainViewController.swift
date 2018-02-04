@@ -543,8 +543,14 @@ extension MainViewController: ThumbnailViewDelegate {
 	func thumbnailRightClicked(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData) {
 		let viewLocation = collectionView.convert(event.locationInWindow, from: self.view)
 		if let indexPath = collectionView.indexPathForItem(at: viewLocation) {
+			var selectedItemRightClicked = false
+			for selectedIndexPath in collectionView.selectionIndexPaths {
+				if selectedIndexPath == indexPath {
+					selectedItemRightClicked = true
+				}
+			}
 			// Select item
-			if collectionView.selectionIndexPaths.count <= 1 {
+			if !selectedItemRightClicked {
 				collectionView.deselectAll(self)
 				collectionView.selectItems(at: [indexPath], scrollPosition: [])
 				self.didSelectItems([indexPath])
