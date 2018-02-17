@@ -52,12 +52,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
-	@objc dynamic var isSaveAvailable:Bool {
-		get {
-			return isListingAvailable && (Configuration.shared.openedFileUrl != nil)
-		}
-	}
-	
 	// MARK: - NSApplicationDelegate methods
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -341,6 +335,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	@IBAction func saveMenuItemPressed(_ sender: NSMenuItem) {
 		if let fileUrl = Configuration.shared.openedFileUrl {
 			saveImageDatabase(fileUrl, onError: {})
+		}
+		else {
+			saveAsMenuItemPressed(sender)
 		}
 	}
 	

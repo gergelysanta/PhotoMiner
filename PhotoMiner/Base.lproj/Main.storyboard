@@ -79,7 +79,7 @@
                                         <menuItem title="Save" keyEquivalent="s" id="c8b-uK-paL">
                                             <connections>
                                                 <action selector="saveMenuItemPressed:" target="Voe-Tx-rLC" id="ppR-s7-sfx"/>
-                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.isSaveAvailable" id="tbj-3Z-C9a"/>
+                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.isListingAvailable" id="y5C-mZ-H3n"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Save As..." keyEquivalent="S" id="XIt-ZT-LXs">
