@@ -86,7 +86,7 @@ class MainWindowController: NSWindowController {
     }
 	
 	//
-	// MARK: Private methods
+	// MARK: - Private methods
 	//
 	
 	private func repositionWindowButton(_ windowButton: NSWindow.ButtonType, inView superView: NSView) {
@@ -121,7 +121,7 @@ class MainWindowController: NSWindowController {
 	}
 	
 	//
-	// MARK: Public methods
+	// MARK: - Public methods
 	//
 	
 	func refreshPhotos() {
@@ -135,7 +135,7 @@ class MainWindowController: NSWindowController {
 	
 }
 
-// MARK: TitlebarDelegate methods
+// MARK: - TitlebarDelegate methods
 extension MainWindowController: TitlebarDelegate {
 	
 	func titlebar(_ controller: TitlebarController, scanButtonPressed sender: NSButton) {
@@ -178,7 +178,7 @@ extension MainWindowController: TitlebarDelegate {
 	
 }
 
-// MARK: ScannerDelegate methods
+// MARK: - ScannerDelegate methods
 extension MainWindowController: ScannerDelegate {
 	
 	func scanSubResult(scanner: Scanner) {

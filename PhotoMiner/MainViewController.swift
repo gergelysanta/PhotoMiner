@@ -160,7 +160,7 @@ class MainViewController: NSViewController {
 	}
 
 	//
-	// MARK: Private methods
+	// MARK: - Private methods
 	//
 	
 	@discardableResult private func executeSipsWithArgs(_ args:[String]) -> Bool {
@@ -236,7 +236,7 @@ class MainViewController: NSViewController {
 	}
 	
 	//
-	// MARK: QLPreviewPanelController methods
+	// MARK: - QLPreviewPanelController methods
 	//
 	
 	override func acceptsPreviewPanelControl(_ panel: QLPreviewPanel!) -> Bool {
@@ -255,7 +255,7 @@ class MainViewController: NSViewController {
 	
 }
 
-// MARK: NSCollectionViewDataSource
+// MARK: - NSCollectionViewDataSource
 extension MainViewController: NSCollectionViewDataSource {
 	
 	func numberOfSections(in collectionView: NSCollectionView) -> Int {
@@ -344,7 +344,7 @@ extension MainViewController: NSCollectionViewDataSource {
 	
 }
 
-// MARK: NSCollectionViewDelegate
+// MARK: - NSCollectionViewDelegate
 extension MainViewController: NSCollectionViewDelegate {
 	
 	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
@@ -365,7 +365,7 @@ extension MainViewController: NSCollectionViewDelegate {
 	
 }
 
-// MARK: NSDraggingSource
+// MARK: - NSDraggingSource
 extension MainViewController: NSDraggingSource {
 	
 	func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
@@ -388,7 +388,7 @@ extension MainViewController: NSDraggingSource {
 	
 }
 
-// MARK: QLPreviewPanelDataSource
+// MARK: - QLPreviewPanelDataSource
 extension MainViewController: QLPreviewPanelDataSource {
 	
 	func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
@@ -405,7 +405,7 @@ extension MainViewController: QLPreviewPanelDataSource {
 	
 }
 
-// MARK: QLPreviewPanelDelegate
+// MARK: - QLPreviewPanelDelegate
 extension MainViewController: QLPreviewPanelDelegate {
 	
 	func previewPanel(_ panel: QLPreviewPanel!, handle event: NSEvent!) -> Bool {
@@ -422,7 +422,7 @@ extension MainViewController: QLPreviewPanelDelegate {
 	
 }
 
-// MARK: ThumbnailViewDelegate
+// MARK: - ThumbnailViewDelegate
 extension MainViewController: ThumbnailViewDelegate {
 	
 	private func renderItemToImage(_ thumbnail: ThumbnailView) -> NSImage? {
@@ -579,7 +579,7 @@ extension MainViewController: ThumbnailViewDelegate {
 	
 }
 
-// MARK: PhotoCollectionViewDelegate
+// MARK: - PhotoCollectionViewDelegate
 extension MainViewController: PhotoCollectionViewDelegate {
 	
 	func keyPress(_ collectionView: PhotoCollectionView, with event: NSEvent) -> Bool {

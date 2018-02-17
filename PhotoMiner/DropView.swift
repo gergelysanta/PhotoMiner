@@ -62,7 +62,7 @@ class DropView: NSView {
 		return dbUrls.count > 0 ? dbUrls : dirUrls
 	}
 	
-	// MARK: NSDraggingDestination methods
+	// MARK: - NSDraggingDestination methods
 	
 	override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
 		super.draggingEntered(sender)

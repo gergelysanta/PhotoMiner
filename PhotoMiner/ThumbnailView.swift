@@ -91,7 +91,7 @@ class ThumbnailView: NSCollectionViewItem {
 		view.layer?.borderWidth = hasBorder ? 2.0 : 0.0
 	}
 	
-	// MARK: Mouse events
+	// MARK: - Mouse events
 	//
 	
 	override func mouseDown(with event: NSEvent) {
