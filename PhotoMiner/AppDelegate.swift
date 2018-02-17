@@ -186,6 +186,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		alert.informativeText = infoText ?? ""
 		alert.alertStyle = type
 		alert.addButton(withTitle: "OK")
+		alert.buttons[0].keyEquivalent = "\r"
 		alert.beginSheetModal(for: window) { (result) in
 			completionHandler?()
 		}
@@ -202,6 +203,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		popup.alertStyle = .warning
 		popup.addButton(withTitle: NSLocalizedString("No", comment: "No"))
 		popup.addButton(withTitle: NSLocalizedString("Yes", comment: "Yes"))
+		popup.buttons[0].keyEquivalent = "\r"
 		if let window = window {
 			popup.beginSheetModal(for: window) { (response) in
 				action?((response == NSApplication.ModalResponse.alertSecondButtonReturn) ? true : false)
