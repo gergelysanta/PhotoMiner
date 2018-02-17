@@ -43,7 +43,7 @@ class MainViewController: NSViewController {
 	
 	@objc dynamic var isJumpToSelectionAvailable: Bool {
 		get {
-			return (collectionView == nil) ? false : (collectionView.selectionIndexes.count > 0)
+			return (collectionView == nil) ? false : (collectionView.selectionIndexPaths.count > 0)
 		}
 	}
 	
@@ -152,7 +152,8 @@ class MainViewController: NSViewController {
 	
 	override func rightMouseDown(with event: NSEvent) {
 		super.rightMouseDown(with: event)
-		if collectionView.indexPathForItem(at: event.locationInWindow) == nil {
+		let locationInView = collectionView.convert(event.locationInWindow, from: collectionView.window?.contentView)
+		if collectionView.indexPathForItem(at: locationInView) == nil {
 			// Location is not above a thumbnail item, display view's context menu
 			viewContextMenu.popUp(positioning: nil, at: event.locationInWindow, in: self.view)
 		}
