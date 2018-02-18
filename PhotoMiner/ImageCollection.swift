@@ -145,7 +145,7 @@ class ImageCollection: NSObject, Codable {
 		return imageRemoved
 	}
 	
-	func removeImage(withPath path:String) -> Bool {
+	@discardableResult func removeImage(withPath path:String) -> Bool {
 		var imageRemoved = false
 		for monthKey in arrangedKeys {
 			if let imagesOfMonth = dictionary[monthKey] {

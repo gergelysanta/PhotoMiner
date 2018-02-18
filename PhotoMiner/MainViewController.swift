@@ -201,12 +201,16 @@ class MainViewController: NSViewController {
 			if response {
 				var imageURLs = [URL]()
 				for imagePath in imagePathList {
-					imageURLs.append(URL(fileURLWithPath: imagePath))
+					if FileManager.default.fileExists(atPath: imagePath) {
+						imageURLs.append(URL(fileURLWithPath: imagePath))
+					} else {
+						appDelegate.imageCollection.removeImage(withPath: imagePath)
+					}
 				}
 				
 				NSWorkspace.shared.recycle(imageURLs) { (trashedFiles, error) in
 					for url in imageURLs where trashedFiles[url] != nil {
-						_ = appDelegate.imageCollection.removeImage(withPath: url.path)
+						appDelegate.imageCollection.removeImage(withPath: url.path)
 						
 						if Configuration.shared.removeAlsoEmptyDirectories {
 							removeDirURLIfEmpty(url.deletingLastPathComponent())
@@ -380,8 +384,8 @@ extension MainViewController: NSDraggingSource {
 	func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
 		if operation == .delete {
 			// Dragging session ended with delete operation (user dragged the icon to the trash)
-			if let filePathList = session.draggingPasteboard.propertyList(forType: NSPasteboard.PasteboardType(kUTTypeFileURL as String)) as? [String] {
-				self.trashImages(filePathList)
+			if let filePathList = session.draggingPasteboard.propertyList(forType: NSPasteboard.PasteboardType.string) as? String {
+				self.trashImages(filePathList.components(separatedBy: "\n"))
 			}
 		}
 	}
@@ -510,6 +514,10 @@ extension MainViewController: ThumbnailViewDelegate {
 		fullFrame.size.width = fullFrame.size.width - fullFrame.origin.x
 		fullFrame.size.height = fullFrame.size.height - fullFrame.origin.y
 		
+		if fullFrame.size.width <= 0 || fullFrame.size.height <= 0 {
+			return nil
+		}
+		
 		// Drawing image containing all selected items
 		let image = NSImage(size: fullFrame.size)
 		var thumbnailPos = NSZeroPoint
@@ -549,9 +557,13 @@ extension MainViewController: ThumbnailViewDelegate {
 			let positionInThumbnail = thumbnail.view.convert(event.locationInWindow, from: nil)
 			let position = NSMakePoint(dragPosition.x - positionInThumbnail.x - dragImage.position.x, dragPosition.y - positionInThumbnail.y - dragImage.position.y)
 			
-			let pasteBoard = NSPasteboard(name: NSPasteboard.Name.dragPboard)
-			pasteBoard.declareTypes([NSPasteboard.PasteboardType(kUTTypeFileURL as String)], owner: nil)
-			pasteBoard.setPropertyList(filePathList, forType: NSPasteboard.PasteboardType(kUTTypeFileURL as String))
+			var pasteboardName = NSPasteboard.Name.dragPboard
+			if #available(OSX 10.13, *) {
+				pasteboardName = NSPasteboard.Name.drag
+			}
+			let pasteBoard = NSPasteboard(name: pasteboardName)
+			pasteBoard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+			pasteBoard.setPropertyList(filePathList.joined(separator: "\n"), forType: NSPasteboard.PasteboardType.string)
 			
 			self.view.window?.drag(dragImage.image, at: position, offset: NSZeroSize, event: event, pasteboard: pasteBoard, source: self, slideBack: true)
 		}
