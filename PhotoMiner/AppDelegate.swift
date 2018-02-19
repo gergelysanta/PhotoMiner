@@ -65,6 +65,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		return true
 	}
 	
+	func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+		if let fileUrl = Configuration.shared.openedFileUrl,
+			Configuration.shared.openedFileChanged
+		{
+			self.confirmAction(NSLocalizedString("Your loaded scan changed. Do you want to save it before terminating application?", comment: "Confirmation for saving before termination"),
+							   forWindow: mainWindowController?.window,
+							   action: { (response) in
+								if response {
+									self.saveImageDatabase(fileUrl, onError: {})
+								}
+								NSApp.terminate(self)
+							})
+			return .terminateLater
+		}
+		return .terminateNow
+	}
+	
 	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
 		if filename.hasSuffix(".\(Configuration.shared.saveDataExtension)") {
 			return loadImageDatabase(URL(fileURLWithPath: filename))
@@ -100,6 +117,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		let scanStarted = mainWindowController?.scanner.start(pathsToScan: Configuration.shared.lookupFolders,
 															  bottomSizeLimit: Configuration.shared.ignoreImagesBelowSize) ?? false
 		if scanStarted {
+			Configuration.shared.openedFileUrl = nil
 			Configuration.shared.addScannedDirectories(Configuration.shared.lookupFolders)
 		}
 		else {
@@ -220,6 +238,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 
 	@discardableResult func loadImageDatabase(_ fileUrl: URL, onError errorHandler: (() -> Void)? = nil) -> Bool {
+		Configuration.shared.openedFileUrl = fileUrl
 		do {
 			// Parse scan database from file
 			let parsedCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
@@ -263,7 +282,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			// no additional steps needed, just read scan and display it :)
 			imageCollection = parsedCollection
 			
-			Configuration.shared.openedFileUrl = fileUrl
 			self.mainWindowController?.refreshPhotos()
 			return true
 		} catch {
