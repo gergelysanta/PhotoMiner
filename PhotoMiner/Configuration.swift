@@ -12,20 +12,9 @@ class Configuration: NSObject {
 	
 	static let shared = Configuration()
 	
-	private(set) var lookupFolders = [String]()
 	let ignoreImagesBelowSize = 51200		// 50kB (50 * 1024 = 51200)
-	
-	private var scannedDirectories:Set<String> = []
-	
 	let sidepanelMinSize = 150
 	let sidePanelMaxSize = 500
-	
-	var openedFileUrl:URL? {
-		didSet {
-			openedFileChanged = false
-		}
-	}
-	var openedFileChanged = false
 	let saveDataExtension = "pms"
 
 	@objc dynamic var creationDateAsLabel = true {
@@ -101,37 +90,6 @@ class Configuration: NSObject {
 		if let boolValue = userDefaults.value(forKey: "displayWarningForParsedScans") as? Bool {
 			displayWarningForParsedScans = boolValue
 		}
-	}
-	
-	@discardableResult func setLookupDirectories(_ pathList: [String]) -> Bool {
-		var newLookupFolders = [String]()
-		var isDirectory:ObjCBool = false
-		var haveValidPath  = false
-		for path in pathList {
-			if FileManager.default.fileExists(atPath: path, isDirectory:&isDirectory) {
-				if isDirectory.boolValue {
-					// Path exists and is a directory -> add to lookupFolders list
-					#if DEBUG
-					NSLog("Add lookup folder: \(path)")
-					#endif
-					haveValidPath = true
-					newLookupFolders.append(path)
-				}
-			}
-		}
-		if haveValidPath {
-			lookupFolders = newLookupFolders
-			openedFileUrl = nil
-		}
-		return haveValidPath
-	}
-	
-	func addScannedDirectories(_ directories: [String]) {
-		scannedDirectories = scannedDirectories.union(directories)
-	}
-	
-	func wasDirectoryScanned(_ directory: String) -> Bool {
-		return scannedDirectories.contains(directory)
 	}
 	
 	func saveConfiguration() {

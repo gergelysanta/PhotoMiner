@@ -66,8 +66,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-		if let fileUrl = Configuration.shared.openedFileUrl,
-			Configuration.shared.openedFileChanged
+		if let fileUrl = AppData.shared.openedFileUrl,
+			AppData.shared.openedFileChanged
 		{
 			self.confirmAction(NSLocalizedString("Your loaded scan changed. Do you want to save it before terminating application?", comment: "Confirmation for saving before termination"),
 							   forWindow: mainWindowController?.window,
@@ -86,7 +86,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		if filename.hasSuffix(".\(Configuration.shared.saveDataExtension)") {
 			return loadImageDatabase(URL(fileURLWithPath: filename))
 		}
-		else if Configuration.shared.setLookupDirectories([filename]),
+		else if AppData.shared.setLookupDirectories([filename]),
 			let appDelegate = NSApp.delegate as? AppDelegate
 		{
 			appDelegate.startScan(withConfirmation: true)
@@ -104,7 +104,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				}
 			}
 		}
-		else if Configuration.shared.setLookupDirectories(filenames) {
+		else if AppData.shared.setLookupDirectories(filenames) {
 			startScan(withConfirmation: true)
 		}
 	}
@@ -114,11 +114,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	private func internalStartScan() {
 		parsedImageCollection = nil
 		
-		let scanStarted = mainWindowController?.scanner.start(pathsToScan: Configuration.shared.lookupFolders,
+		let scanStarted = mainWindowController?.scanner.start(pathsToScan: AppData.shared.lookupFolders,
 															  bottomSizeLimit: Configuration.shared.ignoreImagesBelowSize) ?? false
 		if scanStarted {
-			Configuration.shared.openedFileUrl = nil
-			Configuration.shared.addScannedDirectories(Configuration.shared.lookupFolders)
+			AppData.shared.openedFileUrl = nil
+			AppData.shared.addGrantedDirectories(AppData.shared.lookupFolders)
 		}
 		else {
 			// TODO: Display Warning
@@ -133,7 +133,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			// We have a pms file loaded, we need allowing access to those files first
 			if !notYetAllowedParsedDirs.isEmpty {
 				// A scan file was parsed but not all directories were accepted yet
-				for path in Configuration.shared.lookupFolders {
+				for path in AppData.shared.lookupFolders {
 					if let pathindex = notYetAllowedParsedDirs.index(of: path) {
 						// Requested directory is part of the loaded scan
 						// User granted access to it, we can remove from the array of needed directories
@@ -165,8 +165,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 					mainWindowController?.refreshPhotos()
 					mainWindowController?.titlebarController?.progressOn(false)
 					parsedImageCollection = nil
-					Configuration.shared.setLookupDirectories(cachedCollection.rootDirs)
-					Configuration.shared.addScannedDirectories(Configuration.shared.lookupFolders)
+					AppData.shared.setLookupDirectories(cachedCollection.rootDirs)
+					AppData.shared.addGrantedDirectories(AppData.shared.lookupFolders)
 				}
 				return
 			}
@@ -238,7 +238,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 
 	@discardableResult func loadImageDatabase(_ fileUrl: URL, onError errorHandler: (() -> Void)? = nil) -> Bool {
-		Configuration.shared.openedFileUrl = fileUrl
+		AppData.shared.openedFileUrl = fileUrl
 		do {
 			// Parse scan database from file
 			let parsedCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
@@ -246,7 +246,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			// Collect directories of this scan which weren't allowed by user yet
 			notYetAllowedParsedDirs = []
 			for path in parsedCollection.rootDirs {
-				if !Configuration.shared.wasDirectoryScanned(path) {
+				if !AppData.shared.wasDirectoryGranted(path) {
 					notYetAllowedParsedDirs.append(path)
 				}
 			}
@@ -353,7 +353,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	@IBAction func saveMenuItemPressed(_ sender: NSMenuItem) {
-		if let fileUrl = Configuration.shared.openedFileUrl {
+		if let fileUrl = AppData.shared.openedFileUrl {
 			saveImageDatabase(fileUrl, onError: {})
 		}
 		else {
@@ -372,7 +372,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			if response == .OK {
 				if let fileUrl = savePanel.url {
 					if self.saveImageDatabase(fileUrl, onError: { savePanel.close() }) {
-						Configuration.shared.openedFileUrl = fileUrl
+						AppData.shared.openedFileUrl = fileUrl
 					}
 				}
 			}

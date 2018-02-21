@@ -186,7 +186,7 @@ class MainViewController: NSViewController {
 		
 		func removeDirURLIfEmpty(_ dirUrl: URL) {
 			do {
-				Configuration.shared.openedFileChanged = true
+				AppData.shared.openedFileChanged = true
 				let files = try FileManager.default.contentsOfDirectory(at: dirUrl, includingPropertiesForKeys: nil, options: [.skipsPackageDescendants, .skipsSubdirectoryDescendants])
 				if	(files.count == 0) ||
 					((files.count == 1) && (files.first!.lastPathComponent == ".DS_Store"))

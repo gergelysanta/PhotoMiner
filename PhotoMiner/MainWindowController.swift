@@ -153,7 +153,7 @@ extension MainWindowController: TitlebarDelegate {
 				for url in dialog.urls {
 					directoryList.append(url.path)
 				}
-				_ = Configuration.shared.setLookupDirectories(directoryList)
+				AppData.shared.setLookupDirectories(directoryList)
 				
 				// Start scan without confirmation
 				(NSApp.delegate as? AppDelegate)?.startScan(withConfirmation: false)

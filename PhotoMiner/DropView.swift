@@ -101,7 +101,7 @@ class DropView: NSView {
 				return true
 			}
 		}
-		if Configuration.shared.setLookupDirectories(paths) {
+		if AppData.shared.setLookupDirectories(paths) {
 			appDelegate.startScan(withConfirmation: true)
 		}
 		return true
