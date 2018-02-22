@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/badge/platforms-macOS-blue.svg)](https://developer.apple.com/platforms/)
 [![Build Status](https://travis-ci.org/gergelysanta/photominer.svg?branch=master)](https://travis-ci.org/gergelysanta/photominer)
 
-AppStore: https://itunes.apple.com/sk/app/photominer/id1227312629
+AppStore: https://itunes.apple.com/app/photominer/id1227312629
 
 Web: https://trikatz.wordpress.com/photominer
 
