@@ -1,0 +1,3 @@
+language: Swift
+xcode_project: PhotoMiner.xcodeproj
+xcode_scheme: PhotoMiner
