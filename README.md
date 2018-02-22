@@ -1,5 +1,7 @@
 # PhotoMiner
 
+[![Build Status](https://travis-ci.org/gergelysanta/photominer.svg?branch=master)](https://travis-ci.org/gergelysanta/photominer)
+
 AppStore: https://itunes.apple.com/sk/app/photominer/id1227312629
 
 Web: https://trikatz.wordpress.com/photominer
