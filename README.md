@@ -1,5 +1,10 @@
 # PhotoMiner
 
+[![Xcode 9](https://img.shields.io/badge/Xcode-9-blue.svg)](https://developer.apple.com/xcode/)
+[![Swift 4](https://img.shields.io/badge/Swift-4-blue.svg)](https://swift.org/)
+[![Platform](https://img.shields.io/badge/platforms-macOS-blue.svg)](https://developer.apple.com/platforms/)
+[![Build Status](https://travis-ci.org/gergelysanta/photominer.svg?branch=master)](https://travis-ci.org/gergelysanta/photominer)
+
 AppStore: https://itunes.apple.com/sk/app/photominer/id1227312629
 
 Web: https://trikatz.wordpress.com/photominer
