@@ -1,3 +1,4 @@
-language: Swift
-xcode_project: PhotoMiner.xcodeproj
-xcode_scheme: PhotoMiner
+language: objective-c
+osx_image: xcode9
+script:
+- xcrun xcodebuild -project PhotoMiner.xcodeproj -scheme PhotoMiner
