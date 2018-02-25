@@ -128,9 +128,7 @@ class MainWindowController: NSWindowController {
 		// Reftesh collectionView
 		mainViewController?.collectionView.reloadData()
 		// Refresh window title
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			titlebarController?.setTotalCount(appDelegate.imageCollection.count)
-		}
+		titlebarController?.setTotalCount(AppData.shared.imageCollection.count)
 	}
 	
 }
@@ -182,25 +180,22 @@ extension MainWindowController: TitlebarDelegate {
 extension MainWindowController: ScannerDelegate {
 	
 	func scanSubResult(scanner: Scanner) {
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			#if DEBUG
-			NSLog("Scan subresult: %d items", scanner.scannedCollection.count)
-			#endif
-			appDelegate.imageCollection = scanner.scannedCollection
-			
-			refreshPhotos()
-		}
+		#if DEBUG
+		NSLog("Scan subresult: %d items", scanner.scannedCollection.count)
+		#endif
+		AppData.shared.imageCollection = scanner.scannedCollection
+		
+		refreshPhotos()
 	}
 	
 	func scanFinished(scanner: Scanner) {
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			#if DEBUG
-			NSLog("Scan result: %d items", scanner.scannedCollection.count)
-			#endif
-			appDelegate.imageCollection = scanner.scannedCollection
-			
-			refreshPhotos()
-		}
+		#if DEBUG
+		NSLog("Scan result: %d items", scanner.scannedCollection.count)
+		#endif
+		AppData.shared.imageCollection = scanner.scannedCollection
+		
+		refreshPhotos()
+		
 		titlebarController?.progressOn(false)
 	}
 	

@@ -76,10 +76,8 @@ class DropView: NSView {
 	
 	override func draggingExited(_ sender: NSDraggingInfo?) {
 		super.draggingExited(sender)
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			if appDelegate.imageCollection.count > 0 {
-				hide()
-			}
+		if AppData.shared.imageCollection.count > 0 {
+			hide()
 		}
 	}
 	

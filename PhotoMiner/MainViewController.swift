@@ -75,10 +75,7 @@ class MainViewController: NSViewController {
 	}
 	
 	func imageAtIndexPath(indexPath:IndexPath) -> ImageData? {
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			return appDelegate.imageCollection.image(withIndexPath: indexPath)
-		}
-		return nil
+		return AppData.shared.imageCollection.image(withIndexPath: indexPath)
 	}
 	
 	func selectedImages() -> [ImageData] {
@@ -182,7 +179,6 @@ class MainViewController: NSViewController {
 	
 	private func trashImages(_ imagePathList:[String]) {
 		guard imagePathList.count > 0 else { return }
-		guard let appDelegate = NSApp.delegate as? AppDelegate else { return }
 		
 		func removeDirURLIfEmpty(_ dirUrl: URL) {
 			do {
@@ -203,15 +199,18 @@ class MainViewController: NSViewController {
 				var imageURLs = [URL]()
 				for imagePath in imagePathList {
 					if FileManager.default.fileExists(atPath: imagePath) {
+						// Image exists, cache for removal
 						imageURLs.append(URL(fileURLWithPath: imagePath))
 					} else {
-						appDelegate.imageCollection.removeImage(withPath: imagePath)
+						// Image already removed from disk, remove it from listing
+						AppData.shared.imageCollection.removeImage(withPath: imagePath)
 					}
 				}
 				
+				// Trash all files cached for removal
 				NSWorkspace.shared.recycle(imageURLs) { (trashedFiles, error) in
 					for url in imageURLs where trashedFiles[url] != nil {
-						appDelegate.imageCollection.removeImage(withPath: url.path)
+						AppData.shared.imageCollection.removeImage(withPath: url.path)
 						
 						if Configuration.shared.removeAlsoEmptyDirectories {
 							removeDirURLIfEmpty(url.deletingLastPathComponent())
@@ -230,10 +229,12 @@ class MainViewController: NSViewController {
 		}
 		
 		if Configuration.shared.removeMustBeConfirmed {
-			let question = (imagePathList.count > 1)
-				? String.localizedStringWithFormat(NSLocalizedString("Are you sure you want to trash the selected %d pictures?", comment: "Confirmation for moving more pictures to trash"), imagePathList.count)
-				: NSLocalizedString("Are you sure you want to trash the selected picture?", comment: "Confirmation for moving one picture to trash")
-			appDelegate.confirmAction(question, forWindow: self.view.window, action: trashCompletionHandler)
+			if let appDelegate = NSApp.delegate as? AppDelegate {
+				let question = (imagePathList.count > 1)
+					? String.localizedStringWithFormat(NSLocalizedString("Are you sure you want to trash the selected %d pictures?", comment: "Confirmation for moving more pictures to trash"), imagePathList.count)
+					: NSLocalizedString("Are you sure you want to trash the selected picture?", comment: "Confirmation for moving one picture to trash")
+				appDelegate.confirmAction(question, forWindow: self.view.window, action: trashCompletionHandler)
+			}
 		}
 		else {
 			trashCompletionHandler(true)
@@ -264,19 +265,14 @@ class MainViewController: NSViewController {
 extension MainViewController: NSCollectionViewDataSource {
 	
 	func numberOfSections(in collectionView: NSCollectionView) -> Int {
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			return appDelegate.imageCollection.arrangedKeys.count
-		}
-		return 0
+		return AppData.shared.imageCollection.arrangedKeys.count
 	}
 	
 	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			if section < appDelegate.imageCollection.arrangedKeys.count {
-				let monthKey = appDelegate.imageCollection.arrangedKeys[section]
-				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
-					return imagesOfMonth.count
-				}
+		if section < AppData.shared.imageCollection.arrangedKeys.count {
+			let monthKey = AppData.shared.imageCollection.arrangedKeys[section]
+			if let imagesOfMonth = AppData.shared.imageCollection.dictionary[monthKey] {
+				return imagesOfMonth.count
 			}
 		}
 		return 0
@@ -308,25 +304,23 @@ extension MainViewController: NSCollectionViewDataSource {
 		let view = collectionView.makeSupplementaryView(ofKind: NSCollectionView.SupplementaryElementKind.sectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderView"), for: indexPath)
 		guard let headerView = view as? HeaderView else { return view }
 		
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			if indexPath.section < appDelegate.imageCollection.arrangedKeys.count {
-				let monthKey = appDelegate.imageCollection.arrangedKeys[indexPath.section]
-				
-				let index = monthKey.index(monthKey.startIndex, offsetBy: 4)
-				let yearStr = monthKey[..<index]
-				let monthStr = monthKey[index...]
-				
-				headerView.setTitle(fromYear: Int(yearStr)!, andMonth: Int(monthStr)!)
-				
-				if let imagesOfMonth = appDelegate.imageCollection.dictionary[monthKey] {
-					let countLabel = (imagesOfMonth.count > 1)
-						? NSLocalizedString("pictures", comment: "Picture count: >1 pictures")
-						: NSLocalizedString("picture", comment: "Picture count: 1 picture")
-					headerView.sectionInfo.stringValue = String(format: "%d %@", imagesOfMonth.count, countLabel)
-				}
-				else {
-					headerView.sectionInfo.stringValue = ""
-				}
+		if indexPath.section < AppData.shared.imageCollection.arrangedKeys.count {
+			let monthKey = AppData.shared.imageCollection.arrangedKeys[indexPath.section]
+			
+			let index = monthKey.index(monthKey.startIndex, offsetBy: 4)
+			let yearStr = monthKey[..<index]
+			let monthStr = monthKey[index...]
+			
+			headerView.setTitle(fromYear: Int(yearStr)!, andMonth: Int(monthStr)!)
+			
+			if let imagesOfMonth = AppData.shared.imageCollection.dictionary[monthKey] {
+				let countLabel = (imagesOfMonth.count > 1)
+					? NSLocalizedString("pictures", comment: "Picture count: >1 pictures")
+					: NSLocalizedString("picture", comment: "Picture count: 1 picture")
+				headerView.sectionInfo.stringValue = String(format: "%d %@", imagesOfMonth.count, countLabel)
+			}
+			else {
+				headerView.sectionInfo.stringValue = ""
 			}
 		}
 		
@@ -630,18 +624,17 @@ extension MainViewController: PhotoCollectionViewDelegate {
 	
 	func postReloadData(_ collectionView: PhotoCollectionView) {
 		var indexPaths = Set<IndexPath>()
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			for imageData in reloadHelperArray {
-				if let indexPath = appDelegate.imageCollection.indexPath(of: imageData) {
-					indexPaths.insert(indexPath)
-				}
+		
+		for imageData in reloadHelperArray {
+			if let indexPath = AppData.shared.imageCollection.indexPath(of: imageData) {
+				indexPaths.insert(indexPath)
 			}
-			if appDelegate.imageCollection.count > 0 {
-				dropView.hide()
-			}
-			else {
-				dropView.show()
-			}
+		}
+		if AppData.shared.imageCollection.count > 0 {
+			dropView.hide()
+		}
+		else {
+			dropView.show()
 		}
 		collectionView.selectItems(at: indexPaths, scrollPosition: [])
 		self.didSelectItems(indexPaths)

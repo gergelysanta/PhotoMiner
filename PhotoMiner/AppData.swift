@@ -12,13 +12,28 @@ class AppData: NSObject {
 	
 	static let shared = AppData()
 	
+	static let listOfFoldersRequiringAccessChanged  = Notification.Name("listOfFoldersRequiringAccessChanged")
+
 	private(set) var lookupFolders = [String]()
+	
+	// Displayed image collection
+	var imageCollection = ImageCollection(withDirectories: [])
+	
+	// Parsed but not yet displayed image collection
+	// Loaded collection which have not yet granted access to all of it's directories
+	// is stored here until access is not granted
+	var parsedImageCollection:ImageCollection?
 	
 	// Set containing directory names which were already scanned
 	// therefore access was already granted (user already requested access)
 	private var accessGrantedFolders:Set<String> = []
 	
-	private var accessDeniedFolders:Set<String> = []
+	// Set containing directory names which are needed for displaying parsed image collection
+	private(set) var accessNeededForFolders:Set<String> = [] {
+		didSet {
+			NotificationCenter.default.post(name: AppData.listOfFoldersRequiringAccessChanged, object: self)
+		}
+	}
 
 	// Path to the opened scan if scan was loaded from a .pms file
 	// nil if scan started by user (drag&drop)
@@ -64,6 +79,18 @@ class AppData: NSObject {
 	
 	func wasDirectoryGranted(_ directory: String) -> Bool {
 		return accessGrantedFolders.contains(directory)
+	}
+	
+	func cacheFolderForRequestingAccess(_ folder: String) {
+		accessNeededForFolders = accessNeededForFolders.union([folder])
+	}
+	
+	func grantAccessForCachedFolder(_ folder: String) -> Bool {
+		return accessNeededForFolders.remove(folder) != nil
+	}
+	
+	func cleanCachedFolders() {
+		accessNeededForFolders = []
 	}
 	
 }
