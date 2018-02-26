@@ -39,10 +39,17 @@ class AppData: NSObject {
 	// nil if scan started by user (drag&drop)
 	var openedFileUrl:URL? {
 		didSet {
-			openedFileChanged = false
+			loadedImageSetChanged = false
 		}
 	}
-	var openedFileChanged = false
+	var loadedImageSetChanged = false {
+		didSet {
+			if openedFileUrl == nil {
+				// Do not allow to set if there's no opened file
+				loadedImageSetChanged = false
+			}
+		}
+	}
 	
 	// --------------------------------------------
 	
@@ -51,6 +58,10 @@ class AppData: NSObject {
 	}
 	
 	@discardableResult func setLookupDirectories(_ pathList: [String]) -> Bool {
+		if lookupFolders.sorted() == pathList.sorted() {
+			// The folder list is not going to change, return
+			return true
+		}
 		var newLookupFolders = [String]()
 		var isDirectory:ObjCBool = false
 		var haveValidPath  = false
@@ -68,7 +79,6 @@ class AppData: NSObject {
 		}
 		if haveValidPath {
 			lookupFolders = newLookupFolders
-			openedFileUrl = nil
 		}
 		return haveValidPath
 	}

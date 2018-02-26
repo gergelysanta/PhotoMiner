@@ -133,6 +133,28 @@ class MainWindowController: NSWindowController {
 	
 }
 
+extension MainWindowController: NSWindowDelegate {
+	
+	func windowShouldClose(_ sender: NSWindow) -> Bool {
+		if let appDelegate = NSApp.delegate as? AppDelegate,
+			let fileUrl = AppData.shared.openedFileUrl,
+			AppData.shared.loadedImageSetChanged
+		{
+			appDelegate.confirmAction(NSLocalizedString("Your loaded scan changed. Do you want to save it before terminating application?", comment: "Confirmation for saving before termination"),
+									  forWindow: appDelegate.mainWindowController?.window,
+									  action: { (response) in
+										if response {
+											appDelegate.saveImageDatabase(fileUrl, onError: {})
+											NSApp.terminate(self)
+										}
+			})
+			return false
+		}
+		return true
+	}
+	
+}
+
 // MARK: - TitlebarDelegate methods
 extension MainWindowController: TitlebarDelegate {
 	

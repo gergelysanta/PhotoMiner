@@ -182,7 +182,6 @@ class MainViewController: NSViewController {
 		
 		func removeDirURLIfEmpty(_ dirUrl: URL) {
 			do {
-				AppData.shared.openedFileChanged = true
 				let files = try FileManager.default.contentsOfDirectory(at: dirUrl, includingPropertiesForKeys: nil, options: [.skipsPackageDescendants, .skipsSubdirectoryDescendants])
 				if	(files.count == 0) ||
 					((files.count == 1) && (files.first!.lastPathComponent == ".DS_Store"))
@@ -201,9 +200,13 @@ class MainViewController: NSViewController {
 					if FileManager.default.fileExists(atPath: imagePath) {
 						// Image exists, cache for removal
 						imageURLs.append(URL(fileURLWithPath: imagePath))
+						// Mark imageset as changed
+						AppData.shared.loadedImageSetChanged = true
 					} else {
 						// Image already removed from disk, remove it from listing
 						AppData.shared.imageCollection.removeImage(withPath: imagePath)
+						// Mark imageset as changed
+						AppData.shared.loadedImageSetChanged = true
 					}
 				}
 				

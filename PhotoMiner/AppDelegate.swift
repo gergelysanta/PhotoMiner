@@ -49,23 +49,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		return true
 	}
 	
-	func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-		if let fileUrl = AppData.shared.openedFileUrl,
-			AppData.shared.openedFileChanged
-		{
-			self.confirmAction(NSLocalizedString("Your loaded scan changed. Do you want to save it before terminating application?", comment: "Confirmation for saving before termination"),
-							   forWindow: mainWindowController?.window,
-							   action: { (response) in
-								if response {
-									self.saveImageDatabase(fileUrl, onError: {})
-								}
-								NSApp.terminate(self)
-							})
-			return .terminateLater
-		}
-		return .terminateNow
-	}
-	
 	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
 		if filename.hasSuffix(".\(Configuration.shared.saveDataExtension)") {
 			return loadImageDatabase(URL(fileURLWithPath: filename))
@@ -233,13 +216,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 
 	@discardableResult func loadImageDatabase(_ fileUrl: URL, onError errorHandler: (() -> Void)? = nil) -> Bool {
-		AppData.shared.openedFileUrl = fileUrl
 		do {
 			// Parse scan database from file
 			let parsedCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
 			
 			// Collect directories of this scan which weren't allowed by user yet
 			AppData.shared.cleanCachedFolders()
+			
+			// Remember opene file URL
+			AppData.shared.openedFileUrl = fileUrl
+			
 			for path in parsedCollection.rootDirs {
 				if !AppData.shared.wasDirectoryGranted(path) {
 					AppData.shared.cacheFolderForRequestingAccess(path)
@@ -293,10 +279,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		return false
 	}
 	
-	@discardableResult private func saveImageDatabase(_ fileUrl: URL, onError errorHandler: () -> Void) -> Bool {
+	@discardableResult func saveImageDatabase(_ fileUrl: URL, onError errorHandler: () -> Void) -> Bool {
 		if let jsonData = try? JSONEncoder().encode(AppData.shared.imageCollection) {
 			do {
 				try jsonData.write(to: fileUrl)
+				AppData.shared.loadedImageSetChanged = false
 				return true
 			} catch {
 				errorHandler()
