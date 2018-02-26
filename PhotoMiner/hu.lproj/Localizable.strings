@@ -48,3 +48,7 @@
 /* Action needed for accessing directories: dialog info */
 "System do not allows to read directories which weren't opened through OpenDialog or Drag&Drop. Because of this we open Finder for you with pre-selected directories each time you load a saved scan with directories which weren't accepted by user yet. You need to Drag&Drop these directories to the application's window in order to give access." =
 "A rendszer nem engedélyezi az alkalmazásnak olyan könyvtárak elérését, amelyeket nem a felhasznátó kért (Fájlmegnyitó ablakon keresztül vagy Drag&Drop segítségével). Ez miatt minden egyes alkalommal amikor olyan mentett keresést nyitsz meg amely könyvtárai még nem elérhetőek, megnyitunk neked egy-egy Finder ablakot a szükséges könyvtárak bejelölésével. Ezeket a könyvtárakat húzd az alkalmazás ablakára hogy elérhessük a bennük található fájlokat.";
+
+/* Confirmation for saving before termination */
+"Your loaded scan changed. Do you want to save it before terminating application?" =
+"A beolvasott keresési adatok megváltoztak. Akarod menteni őket a kilépés előtt?";

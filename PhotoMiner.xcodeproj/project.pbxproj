@@ -27,6 +27,7 @@
 		74BD2FC11E194895000109F9 /* ThumbnailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74BD2FBF1E194895000109F9 /* ThumbnailView.xib */; };
 		74DDE1F21E09293200C6FB36 /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DDE1F11E09293200C6FB36 /* Scanner.swift */; };
 		74F4B6F61EA13B7E00FE73C7 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F4B6F51EA13B7E00FE73C7 /* SettingsController.swift */; };
+		74FC094B203DEEF500B27538 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FC094A203DEEF500B27538 /* AppData.swift */; };
 		74FD680E20187A560046DC1A /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD680D20187A560046DC1A /* MainSplitViewController.swift */; };
 		74FD68102018A6700046DC1A /* MainSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD680F2018A6700046DC1A /* MainSplitView.swift */; };
 		74FD6814201A03610046DC1A /* FlippedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD6813201A03610046DC1A /* FlippedView.swift */; };
@@ -59,6 +60,7 @@
 		74BD2FC01E194895000109F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ThumbnailView.xib; sourceTree = "<group>"; };
 		74DDE1F11E09293200C6FB36 /* Scanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scanner.swift; sourceTree = "<group>"; };
 		74F4B6F51EA13B7E00FE73C7 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		74FC094A203DEEF500B27538 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		74FD680D20187A560046DC1A /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		74FD680F2018A6700046DC1A /* MainSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitView.swift; sourceTree = "<group>"; };
 		74FD6813201A03610046DC1A /* FlippedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlippedView.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				74443D521DF944B000625848 /* Configuration.swift */,
+				74FC094A203DEEF500B27538 /* AppData.swift */,
 				74DDE1F11E09293200C6FB36 /* Scanner.swift */,
 				74AF40A21E65DA78009A1D47 /* ImageCollection.swift */,
 				74BD2FB91E16B671000109F9 /* ImageData.swift */,
@@ -240,6 +243,7 @@
 				74F4B6F61EA13B7E00FE73C7 /* SettingsController.swift in Sources */,
 				74BD2FBA1E16B671000109F9 /* ImageData.swift in Sources */,
 				74AC4CAB1E7851900002A654 /* DropView.swift in Sources */,
+				74FC094B203DEEF500B27538 /* AppData.swift in Sources */,
 				74BD2FB81E16B37B000109F9 /* ThumbnailView.swift in Sources */,
 				74443D531DF944B000625848 /* Configuration.swift in Sources */,
 				74FD6818201BA9180046DC1A /* ForwardingScrollView.swift in Sources */,

@@ -76,10 +76,8 @@ class DropView: NSView {
 	
 	override func draggingExited(_ sender: NSDraggingInfo?) {
 		super.draggingExited(sender)
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			if appDelegate.imageCollection.count > 0 {
-				hide()
-			}
+		if AppData.shared.imageCollection.count > 0 {
+			hide()
 		}
 	}
 	
@@ -101,7 +99,7 @@ class DropView: NSView {
 				return true
 			}
 		}
-		if Configuration.shared.setLookupDirectories(paths) {
+		if AppData.shared.setLookupDirectories(paths) {
 			appDelegate.startScan(withConfirmation: true)
 		}
 		return true

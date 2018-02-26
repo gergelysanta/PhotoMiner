@@ -13,8 +13,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	// MARK: - Instance properties
 	
-	var imageCollection = ImageCollection(withDirectories: [])
-	
 	var mainWindowController:MainWindowController? {
 		get {
 			for window in NSApp.windows {
@@ -26,24 +24,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
-	private var parsedImageCollection:ImageCollection?
-	private var notYetAllowedParsedDirs = [String]() {
-		didSet {
-			if notYetAllowedParsedDirs.count > 1 {
-				mainWindowController?.mainViewController?.dropViewText = String.localizedStringWithFormat(NSLocalizedString("To give access to files in opened scan you need to start a scan for the following directories or drop them here:\n%@", comment: "Action needed for accessing more directories: drop view description"), notYetAllowedParsedDirs.joined(separator: "\n"))
-			}
-			else if notYetAllowedParsedDirs.count > 0 {
-				mainWindowController?.mainViewController?.dropViewText = String.localizedStringWithFormat(NSLocalizedString("To give access to files in opened scan you need to start a scan for the following directory or drop it here:\n%@", comment: "Action needed for accessing one directory: drop view description"), notYetAllowedParsedDirs.joined(separator: "\n"))
-			}
-			else {
-				mainWindowController?.mainViewController?.dropViewText = nil
-			}
-		}
-	}
-
 	@objc dynamic var isListingAvailable:Bool {
 		get {
-			let imagesAvailable = self.imageCollection.count > 0
+			let imagesAvailable = AppData.shared.imageCollection.count > 0
 			if let scanning = mainWindowController?.scanner.isRunning {
 				// Listing is available only when not scanning
 				return scanning ? false : imagesAvailable
@@ -55,6 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	// MARK: - NSApplicationDelegate methods
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
+		NotificationCenter.default.addObserver(self, selector: #selector(self.directoryListNeedingAccessChanged(notification:)),  name: AppData.listOfFoldersRequiringAccessChanged,  object: nil)
 	}
 	
 	func applicationWillTerminate(_ aNotification: Notification) {
@@ -69,7 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		if filename.hasSuffix(".\(Configuration.shared.saveDataExtension)") {
 			return loadImageDatabase(URL(fileURLWithPath: filename))
 		}
-		else if Configuration.shared.setLookupDirectories([filename]),
+		else if AppData.shared.setLookupDirectories([filename]),
 			let appDelegate = NSApp.delegate as? AppDelegate
 		{
 			appDelegate.startScan(withConfirmation: true)
@@ -87,20 +71,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				}
 			}
 		}
-		else if Configuration.shared.setLookupDirectories(filenames) {
+		else if AppData.shared.setLookupDirectories(filenames) {
 			startScan(withConfirmation: true)
+		}
+	}
+	
+	@objc func directoryListNeedingAccessChanged(notification: Notification){
+		if AppData.shared.accessNeededForFolders.count > 1 {
+			mainWindowController?.mainViewController?.dropViewText = String.localizedStringWithFormat(NSLocalizedString("To give access to files in opened scan you need to start a scan for the following directories or drop them here:\n%@", comment: "Action needed for accessing more directories: drop view description"), AppData.shared.accessNeededForFolders.joined(separator: "\n"))
+		}
+		else if AppData.shared.accessNeededForFolders.count > 0 {
+			mainWindowController?.mainViewController?.dropViewText = String.localizedStringWithFormat(NSLocalizedString("To give access to files in opened scan you need to start a scan for the following directory or drop it here:\n%@", comment: "Action needed for accessing one directory: drop view description"), AppData.shared.accessNeededForFolders.joined(separator: "\n"))
+		}
+		else {
+			mainWindowController?.mainViewController?.dropViewText = nil
 		}
 	}
 	
 	// MARK: - Scan
 	
 	private func internalStartScan() {
-		parsedImageCollection = nil
+		// We're starting a new scan, clean parsed data (won't be displayed)
+		AppData.shared.parsedImageCollection = nil
 		
-		let scanStarted = mainWindowController?.scanner.start(pathsToScan: Configuration.shared.lookupFolders,
+		let scanStarted = mainWindowController?.scanner.start(pathsToScan: AppData.shared.lookupFolders,
 															  bottomSizeLimit: Configuration.shared.ignoreImagesBelowSize) ?? false
 		if scanStarted {
-			Configuration.shared.addScannedDirectories(Configuration.shared.lookupFolders)
+			AppData.shared.openedFileUrl = nil
+			AppData.shared.addGrantedDirectories(AppData.shared.lookupFolders)
 		}
 		else {
 			// TODO: Display Warning
@@ -110,27 +108,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	private func internalCheckParsedScan() {
 		// Check if we have cached scan (loaded from pms file)
-		if let cachedCollection = parsedImageCollection {
-			var alienDirectoryDetected = false
-			// We have a pms file loaded, we need allowing access to those files first
-			if !notYetAllowedParsedDirs.isEmpty {
-				// A scan file was parsed but not all directories were accepted yet
-				for path in Configuration.shared.lookupFolders {
-					if let pathindex = notYetAllowedParsedDirs.index(of: path) {
-						// Requested directory is part of the loaded scan
-						// User granted access to it, we can remove from the array of needed directories
-						notYetAllowedParsedDirs.remove(at: pathindex)
-					}
-					else {
-						// Requested directory is not part of the loaded scan
-						alienDirectoryDetected = true
-					}
+		if let cachedCollection = AppData.shared.parsedImageCollection {
+			var directoryNotFromLoadedScanDropped = false
+			
+			// We're starting a new scan (by opening dir or drag&drop)
+			// but we have a pms file loaded, we need allowing access to those files first
+			
+			// Check if these directories are part of our loaded scan
+			// If yes, remove them form "need access" set (access granted by starting scan session)
+			// If not, ask user if he really wants to start a new scan (will cancel loaded scan)
+			for path in AppData.shared.lookupFolders {
+				if !AppData.shared.grantAccessForCachedFolder(path) {
+					// Requested directory is NOT part of the loaded scan
+					directoryNotFromLoadedScanDropped = true
 				}
 			}
-			if alienDirectoryDetected {
+			if directoryNotFromLoadedScanDropped {
 				let scanCompletionHandler: (Bool) -> Void = { response in
 					if response {
-						self.notYetAllowedParsedDirs = []
+						AppData.shared.cleanCachedFolders()
 						self.internalStartScan()
 					}
 				}
@@ -141,14 +137,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				return
 			}
 			else {
-				if notYetAllowedParsedDirs.isEmpty {
+				if AppData.shared.accessNeededForFolders.isEmpty {
 					// A scan file was parsed and all the directories are allowed by system, we can display the data
-					self.imageCollection = cachedCollection
+					AppData.shared.imageCollection = cachedCollection
 					mainWindowController?.refreshPhotos()
 					mainWindowController?.titlebarController?.progressOn(false)
-					parsedImageCollection = nil
-					Configuration.shared.setLookupDirectories(cachedCollection.rootDirs)
-					Configuration.shared.addScannedDirectories(Configuration.shared.lookupFolders)
+					AppData.shared.parsedImageCollection = nil
+					AppData.shared.setLookupDirectories(cachedCollection.rootDirs)
+					AppData.shared.addGrantedDirectories(AppData.shared.lookupFolders)
 				}
 				return
 			}
@@ -158,7 +154,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	func startScan(withConfirmation: Bool) {
 		if let windowController = mainWindowController,
-			parsedImageCollection == nil,
+			AppData.shared.parsedImageCollection == nil,
 			withConfirmation && Configuration.shared.newScanMustBeConfirmed && windowController.hasContent
 		{
 			let scanCompletionHandler: (Bool) -> Void = { response in
@@ -225,13 +221,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			let parsedCollection = try JSONDecoder().decode(ImageCollection.self, from: Data(contentsOf: fileUrl))
 			
 			// Collect directories of this scan which weren't allowed by user yet
-			notYetAllowedParsedDirs = []
+			AppData.shared.cleanCachedFolders()
+			
+			// Remember opene file URL
+			AppData.shared.openedFileUrl = fileUrl
+			
 			for path in parsedCollection.rootDirs {
-				if !Configuration.shared.wasDirectoryScanned(path) {
-					notYetAllowedParsedDirs.append(path)
+				if !AppData.shared.wasDirectoryGranted(path) {
+					AppData.shared.cacheFolderForRequestingAccess(path)
 				}
 			}
-			if notYetAllowedParsedDirs.count > 0 {
+			if AppData.shared.accessNeededForFolders.count > 0 {
 				// Parsed scan contains at least one not yet allowed directory
 				// Display information...
 				if let window = mainWindowController?.window,
@@ -250,20 +250,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				}
 				
 				// ...and open Finder with preselected directory
-				for path in notYetAllowedParsedDirs {
+				for path in AppData.shared.accessNeededForFolders {
 					NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
 				}
 				// Remember this parse
-				parsedImageCollection = parsedCollection
+				AppData.shared.parsedImageCollection = parsedCollection
 				// That's all for parsed scan for now
 				return true
 			}
 			
 			// All directories in this scan were allowed previously by user
 			// no additional steps needed, just read scan and display it :)
-			imageCollection = parsedCollection
+			AppData.shared.imageCollection = parsedCollection
 			
-			Configuration.shared.openedFileUrl = fileUrl
 			self.mainWindowController?.refreshPhotos()
 			return true
 		} catch {
@@ -280,10 +279,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		return false
 	}
 	
-	@discardableResult private func saveImageDatabase(_ fileUrl: URL, onError errorHandler: () -> Void) -> Bool {
-		if let jsonData = try? JSONEncoder().encode(self.imageCollection) {
+	@discardableResult func saveImageDatabase(_ fileUrl: URL, onError errorHandler: () -> Void) -> Bool {
+		if let jsonData = try? JSONEncoder().encode(AppData.shared.imageCollection) {
 			do {
 				try jsonData.write(to: fileUrl)
+				AppData.shared.loadedImageSetChanged = false
 				return true
 			} catch {
 				errorHandler()
@@ -335,7 +335,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	@IBAction func saveMenuItemPressed(_ sender: NSMenuItem) {
-		if let fileUrl = Configuration.shared.openedFileUrl {
+		if let fileUrl = AppData.shared.openedFileUrl {
 			saveImageDatabase(fileUrl, onError: {})
 		}
 		else {
@@ -354,7 +354,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			if response == .OK {
 				if let fileUrl = savePanel.url {
 					if self.saveImageDatabase(fileUrl, onError: { savePanel.close() }) {
-						Configuration.shared.openedFileUrl = fileUrl
+						AppData.shared.openedFileUrl = fileUrl
 					}
 				}
 			}
