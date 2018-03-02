@@ -13,7 +13,7 @@ Web: https://trikatz.wordpress.com/photominer
 
 PhotoMiner scans your directories for photographs. Just select a directory or drop it to the application window or dock icon and it will scan it for pictures. It displays them in chronological order based on date taken from picture’s EXIF data or from file creation time when EXIF is not available.
 
-You can open photos in default application (mostly Preview), view them with QuickView the same was as in Finder, remove, perform basic modifications or open in Finder.
+You can open photos in default assigned application (assigned to image file types, mostly Preview), view them with QuickView, remove, perform basic modifications or open in Finder.
 
 Photograps are grouped by dates. For each month of each year there’s one group holding only those photographs which were taken at that date. This helps searching for memories and also organizing an unorganized folder of photographs. Just select photos you want to copy to a specific folder and drag&drop them to a new directory.
 
