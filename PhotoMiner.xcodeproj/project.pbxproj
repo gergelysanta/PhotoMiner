@@ -161,10 +161,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 74174E641DF835C100D10710 /* Build configuration list for PBXNativeTarget "PhotoMiner" */;
 			buildPhases = (
+				74FC094C2049B4B400B27538 /* Increment Build Number */,
 				74174E511DF835C100D10710 /* Sources */,
 				74174E521DF835C100D10710 /* Frameworks */,
 				74174E531DF835C100D10710 /* Resources */,
-				74FC094C2049B4B400B27538 /* Increment Build */,
 			);
 			buildRules = (
 			);
@@ -235,14 +235,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		74FC094C2049B4B400B27538 /* Increment Build */ = {
+		74FC094C2049B4B400B27538 /* Increment Build Number */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Increment Build";
+			name = "Increment Build Number";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
