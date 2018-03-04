@@ -62,9 +62,27 @@ class Configuration: NSObject {
 		}
 	}
 	
+	@objc dynamic var collapseByClickingHeader = false {
+		didSet {
+			#if DEBUG
+				NSLog("collapseByClickingHeader: \(collapseByClickingHeader)")
+			#endif
+			self.saveConfiguration()
+		}
+	}
+	
 	var displayWarningForParsedScans = true {
 		didSet {
 			self.saveConfiguration()
+		}
+	}
+	
+	@objc dynamic var isSectionCollapseAvailable:Bool {
+		get {
+			if #available(OSX 10.12, *) {
+				return true
+			}
+			return false
 		}
 	}
 	
@@ -87,6 +105,9 @@ class Configuration: NSObject {
 		if let boolValue = userDefaults.value(forKey: "highlightPicturesWithoutExif") as? Bool {
 			highlightPicturesWithoutExif = boolValue
 		}
+		if let boolValue = userDefaults.value(forKey: "collapseByClickingHeader") as? Bool {
+			collapseByClickingHeader = boolValue
+		}
 		if let boolValue = userDefaults.value(forKey: "displayWarningForParsedScans") as? Bool {
 			displayWarningForParsedScans = boolValue
 		}
@@ -98,6 +119,7 @@ class Configuration: NSObject {
 		UserDefaults.standard.set(removeMustBeConfirmed, forKey: "removeMustBeConfirmed")
 		UserDefaults.standard.set(removeAlsoEmptyDirectories, forKey: "removeAlsoEmptyDirectories")
 		UserDefaults.standard.set(highlightPicturesWithoutExif, forKey: "highlightPicturesWithoutExif")
+		UserDefaults.standard.set(collapseByClickingHeader, forKey: "collapseByClickingHeader")
 		UserDefaults.standard.set(displayWarningForParsedScans, forKey: "displayWarningForParsedScans")
 		UserDefaults.standard.synchronize()
 	}

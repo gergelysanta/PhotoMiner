@@ -113,5 +113,11 @@
 /* Class = "NSButton"; ibShadowedToolTip = "Pictures mostly hold their creation date in their EXIF data. This data may not be present mostly when image was not taken by camera. In this case date of creation is detected from filesystem which may be not correct. Such pictures are highlighted with a light border when this is checked."; ObjectID = "aKa-u5-dwx"; */
 "aKa-u5-dwx.ibShadowedToolTip" = "A képek at esetek többségében tartalmazzák a létrehozás dátumát az EXIF adatblokkban. Ez az adat lehetséges hogy nincs jelen ha a kép nem kamerával készült. Ilyen esetben az alkalmazás a létrehozás dátumát a fájlrendszerből határozza meg de ez nem feltétlenül helyes dátum. Ha ez az opció be van állítva, ezek a képek egy vékony keret megjelenítésével kerülnek megkülönböztetésre.";
 
+/* Class = "NSButtonCell"; title = "Collapse/Expand sections by clicking on header"; ObjectID = "Ayp-Hp-5VS"; */
+"Ayp-Hp-5VS.title" = "Csoportok kibontása/összecsukása fejlécre kattintással";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Sections can be collapsed/expanded by clicking on the arrow icon on the header's left side. If this option is checked, the whole header will behave like this button."; ObjectID = "CyR-6W-bcz"; */
+"CyR-6W-bcz.ibShadowedToolTip" = "A csoportokat a fejléc bal oldalán lévő nyíllal lehet kibontani illetve összecsukni. Ennek az opciónak a beállításával a teljes fejléc úgy fog reagálni mintha a gombra kattintottál volna.";
+
 /* Class = "NSButtonCell"; title = "Close"; ObjectID = "QUC-uj-7xR"; */
 "QUC-uj-7xR.title" = "Bezár";

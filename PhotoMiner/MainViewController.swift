@@ -304,8 +304,12 @@ extension MainViewController: NSCollectionViewDataSource {
 			return view
 		}
 		
-		let view = collectionView.makeSupplementaryView(ofKind: NSCollectionView.SupplementaryElementKind.sectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderView"), for: indexPath)
+		let view = collectionView.makeSupplementaryView(ofKind: NSCollectionView.SupplementaryElementKind.sectionHeader,
+														withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderView"),
+														for: indexPath)
 		guard let headerView = view as? HeaderView else { return view }
+		
+		headerView.headerDelegate = self
 		
 		if indexPath.section < AppData.shared.imageCollection.arrangedKeys.count {
 			let monthKey = AppData.shared.imageCollection.arrangedKeys[indexPath.section]
@@ -314,7 +318,7 @@ extension MainViewController: NSCollectionViewDataSource {
 			let yearStr = monthKey[..<index]
 			let monthStr = monthKey[index...]
 			
-			headerView.setTitle(fromYear: Int(yearStr)!, andMonth: Int(monthStr)!)
+			headerView.setTitle(year: Int(yearStr)!, andMonth: Int(monthStr)!)
 			
 			if let imagesOfMonth = AppData.shared.imageCollection.dictionary[monthKey] {
 				let countLabel = (imagesOfMonth.count > 1)
@@ -420,6 +424,17 @@ extension MainViewController: QLPreviewPanelDelegate {
 			return true
 		}
 		return false
+	}
+	
+}
+
+// MARK: - HeaderViewDelegate
+extension MainViewController: HeaderViewDelegate {
+	
+	func headerToggleCollapse(_ headerView: HeaderView) {
+		if #available(OSX 10.12, *) {
+			collectionView.toggleSectionCollapse(headerView)
+		}
 	}
 	
 }
