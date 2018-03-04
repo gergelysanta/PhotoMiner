@@ -15,7 +15,7 @@ protocol HeaderViewDelegate {
 class HeaderView: NSView {
 	
 	@IBOutlet private weak var sectionTitle: NSTextField!
-	@IBOutlet weak var sectionInfo: NSTextField!
+	@IBOutlet private weak var sectionInfo: NSTextField!
 	
 	// Don't make reference of toggleCollapseButton 'weak'
 	// This button will be removed on systems where collapsing is not supported (10.11-)
@@ -62,6 +62,18 @@ class HeaderView: NSView {
 		}
 		else {
 			self.sectionTitle.stringValue = String(format: "%lu %02lu", year, month)
+		}
+	}
+	
+	func setPictureCount(_ count: Int) {
+		if count < 0 {
+			sectionInfo.stringValue = ""
+		}
+		else {
+			let countLabel = (count > 1)
+					? NSLocalizedString("pictures", comment: "Picture count: >1 pictures")
+					: NSLocalizedString("picture", comment: "Picture count: 1 picture")
+			sectionInfo.stringValue = String(format: "%d %@", count, countLabel)
 		}
 	}
 	
