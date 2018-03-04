@@ -1,5 +1,5 @@
 //
-//  ThumbnailView.swift
+//  ThumbnailViewItem.swift
 //  PhotoMiner
 //
 //  Created by Gergely Sánta on 30/12/2016.
@@ -8,15 +8,15 @@
 
 import Cocoa
 
-protocol ThumbnailViewDelegate {
-	func thumbnailClicked(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData)
-	func thumbnailRightClicked(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData)
-	func thumbnailDragged(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData)
+protocol ThumbnailViewItemDelegate {
+	func thumbnailClicked(_ thumbnail: ThumbnailViewItem, with event: NSEvent, image data: ImageData)
+	func thumbnailRightClicked(_ thumbnail: ThumbnailViewItem, with event: NSEvent, image data: ImageData)
+	func thumbnailDragged(_ thumbnail: ThumbnailViewItem, with event: NSEvent, image data: ImageData)
 }
 
-class ThumbnailView: NSCollectionViewItem {
+class ThumbnailViewItem: NSCollectionViewItem {
 	
-	var delegate:ThumbnailViewDelegate? = nil
+	var delegate:ThumbnailViewItemDelegate? = nil
 	
 	private static let unselectedFrameColor = NSColor(red:0.95, green:0.95, blue:0.95, alpha:1.00)
 	private static let selectedFrameColor = NSColor(red:0.27, green:0.65, blue:0.88, alpha:1.00)
@@ -63,7 +63,7 @@ class ThumbnailView: NSCollectionViewItem {
         super.viewDidLoad()
 		
 		view.wantsLayer = true
-		view.layer?.backgroundColor = ThumbnailView.unselectedFrameColor.cgColor
+		view.layer?.backgroundColor = ThumbnailViewItem.unselectedFrameColor.cgColor
 		view.layer?.cornerRadius = 4.0
 		
 		// We re-set the representedObject for the case it was set before this function call
@@ -75,17 +75,17 @@ class ThumbnailView: NSCollectionViewItem {
 	
 	func updateBackground() {
 		if isSelected {
-			view.layer?.backgroundColor = ThumbnailView.selectedFrameColor.cgColor
-			view.layer?.borderColor = ThumbnailView.selectedBorderColor.cgColor
+			view.layer?.backgroundColor = ThumbnailViewItem.selectedFrameColor.cgColor
+			view.layer?.borderColor = ThumbnailViewItem.selectedBorderColor.cgColor
 			if let textField = textField {
-				textField.textColor = ThumbnailView.selectedTextColor
+				textField.textColor = ThumbnailViewItem.selectedTextColor
 			}
 		}
 		else {
-			view.layer?.backgroundColor = ThumbnailView.unselectedFrameColor.cgColor
-			view.layer?.borderColor = ThumbnailView.unselectedBorderColor.cgColor
+			view.layer?.backgroundColor = ThumbnailViewItem.unselectedFrameColor.cgColor
+			view.layer?.borderColor = ThumbnailViewItem.unselectedBorderColor.cgColor
 			if let textField = textField {
-				textField.textColor = ThumbnailView.unselectedTextColor
+				textField.textColor = ThumbnailViewItem.unselectedTextColor
 			}
 		}
 		view.layer?.borderWidth = hasBorder ? 2.0 : 0.0
@@ -110,7 +110,7 @@ class ThumbnailView: NSCollectionViewItem {
 		if !dragging {
 			let position = event.locationInWindow
 			let distance = sqrt(pow(position.x-clickPosition.x, 2)+pow(position.y-clickPosition.y, 2))
-			if distance > ThumbnailView.dragStartsAtDistance {
+			if distance > ThumbnailViewItem.dragStartsAtDistance {
 				dragging = true
 				if	let imageData = representedObject as? ImageData,
 					let delegate = self.delegate

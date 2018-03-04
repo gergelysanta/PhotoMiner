@@ -290,7 +290,7 @@ extension MainViewController: NSCollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-		let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ThumbnailView"), for: indexPath) as! ThumbnailView
+		let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ThumbnailViewItem"), for: indexPath) as! ThumbnailViewItem
 		if let imageData = self.imageAtIndexPath(indexPath: indexPath) {
 			imageData.frame = item.view.frame
 			imageData.parseImageProperties()
@@ -444,10 +444,10 @@ extension MainViewController: HeaderViewDelegate {
 	
 }
 
-// MARK: - ThumbnailViewDelegate
-extension MainViewController: ThumbnailViewDelegate {
+// MARK: - ThumbnailViewItemDelegate
+extension MainViewController: ThumbnailViewItemDelegate {
 	
-	private func renderItemToImage(_ thumbnail: ThumbnailView) -> NSImage? {
+	private func renderItemToImage(_ thumbnail: ThumbnailViewItem) -> NSImage? {
 		
 		if let bmpImageRep = thumbnail.view.bitmapImageRepForCachingDisplay(in: thumbnail.view.bounds) {
 			thumbnail.view.cacheDisplay(in: thumbnail.view.bounds, to: bmpImageRep)
@@ -460,7 +460,7 @@ extension MainViewController: ThumbnailViewDelegate {
 		return nil
 	}
 	
-	private func renderSelectionToImage(_ thumbnail: ThumbnailView) -> (position: NSPoint, image: NSImage)? {
+	private func renderSelectionToImage(_ thumbnail: ThumbnailViewItem) -> (position: NSPoint, image: NSImage)? {
 		if (collectionView.selectionIndexPaths.count == 1),
 		   let thumbnailIndexPath = collectionView.indexPath(for: thumbnail),
 		   (thumbnailIndexPath == collectionView.selectionIndexPaths.first!)
@@ -474,7 +474,7 @@ extension MainViewController: ThumbnailViewDelegate {
 		
 		// There're more items selected, render images for all of them
 		// First count the frame size needed for all selected items and create/collect all drop images
-		var itemsArray = [(item: ThumbnailView, image: NSImage)]()
+		var itemsArray = [(item: ThumbnailViewItem, image: NSImage)]()
 		var fullFrame = NSMakeRect(CGFloat.greatestFiniteMagnitude, CGFloat.greatestFiniteMagnitude, 0, 0)
 		
 		// Get maximum height of all screens
@@ -484,7 +484,7 @@ extension MainViewController: ThumbnailViewDelegate {
 		}
 		
 		for indexPath in collectionView.selectionIndexPaths {
-			if let item = collectionView.item(at: indexPath) as? ThumbnailView {
+			if let item = collectionView.item(at: indexPath) as? ThumbnailViewItem {
 				// Item is onscreen, we can render it to a view
 				if let itemImage = self.renderItemToImage(item) {
 					// We use x and y for counting minX and minY
@@ -506,7 +506,7 @@ extension MainViewController: ThumbnailViewDelegate {
 						continue
 					}
 					
-					let item = ThumbnailView(nibName: NSNib.Name(rawValue: "ThumbnailView"), bundle: nil)
+					let item = ThumbnailViewItem(nibName: NSNib.Name(rawValue: "ThumbnailViewItem"), bundle: nil)
 					
 					// Initialize ViewItem for rendering
 					item.representedObject = imageData
@@ -555,7 +555,7 @@ extension MainViewController: ThumbnailViewDelegate {
 		return (thumbnailPos, image)
 	}
 	
-	func thumbnailClicked(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData) {
+	func thumbnailClicked(_ thumbnail: ThumbnailViewItem, with event: NSEvent, image data: ImageData) {
 		if event.clickCount == 2 {
 			// Doubleclick: Open in default app
 			for image in self.selectedImages() {
@@ -564,7 +564,7 @@ extension MainViewController: ThumbnailViewDelegate {
 		}
 	}
 	
-	func thumbnailDragged(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData) {
+	func thumbnailDragged(_ thumbnail: ThumbnailViewItem, with event: NSEvent, image data: ImageData) {
 		var filePathList = [String]()
 		for image in self.selectedImages() {
 			filePathList.append(image.imagePath)
@@ -587,7 +587,7 @@ extension MainViewController: ThumbnailViewDelegate {
 		}
 	}
 	
-	func thumbnailRightClicked(_ thumbnail: ThumbnailView, with event: NSEvent, image data: ImageData) {
+	func thumbnailRightClicked(_ thumbnail: ThumbnailViewItem, with event: NSEvent, image data: ImageData) {
 		let viewLocation = collectionView.convert(event.locationInWindow, from: self.view)
 		if let indexPath = collectionView.indexPathForItem(at: viewLocation) {
 			var selectedItemRightClicked = false

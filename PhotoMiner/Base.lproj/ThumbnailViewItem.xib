@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="ThumbnailView" customModule="PhotoMiner" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="ThumbnailViewItem" customModule="PhotoMiner" customModuleProvider="target">
             <connections>
                 <outlet property="imageView" destination="Abq-iA-o3o" id="V1o-ro-8kq"/>
                 <outlet property="textField" destination="BbG-Kg-9lM" id="L9g-Ay-ybz"/>
@@ -23,7 +23,7 @@
                     <rect key="frame" x="4" y="29" width="140" height="101"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="FDa-zK-44J"/>
                 </imageView>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BbG-Kg-9lM">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BbG-Kg-9lM">
                     <rect key="frame" x="0.0" y="6" width="148" height="17"/>
                     <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="Gdv-H1-tX2">
                         <font key="font" metaFont="system"/>
@@ -43,6 +43,6 @@
             </constraints>
             <point key="canvasLocation" x="121" y="183"/>
         </customView>
-        <collectionViewItem id="jf5-K0-sI4" customClass="ThumbnailView" customModule="PhotoMiner" customModuleProvider="target"/>
+        <collectionViewItem id="jf5-K0-sI4" customClass="ThumbnailViewItem" customModule="PhotoMiner" customModuleProvider="target"/>
     </objects>
 </document>
