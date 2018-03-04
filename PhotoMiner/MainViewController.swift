@@ -219,7 +219,15 @@ class MainViewController: NSViewController {
 							removeDirURLIfEmpty(url.deletingLastPathComponent())
 						}
 					}
-					self.collectionView.reloadData()
+					
+					if let appDelegate = NSApp.delegate as? AppDelegate {
+						// Refresh data thsough main window controller (this will refresh also titlebar)
+						appDelegate.mainWindowController?.refreshPhotos()
+					}
+					else {
+						// Refresh table (this won't refresh titlebar info, but at least table will reflect true information)
+						self.collectionView.reloadData()
+					}
 					
 					// TODO: Make this animated:
 //					self.collectionView.performBatchUpdates({
