@@ -28,10 +28,10 @@ class HeaderView: NSView {
 	private(set) var isCollapsed = false {
 		didSet {
 			if isCollapsed {
-				toggleCollapseButton.image = NSImage(named: NSImage.Name("NSTouchBarGoForwardTemplate"))
+				toggleCollapseButton.image = NSImage(named: NSImage.Name("SectionCollapsed"))
 			}
 			else {
-				toggleCollapseButton.image = NSImage(named: NSImage.Name("NSTouchBarGoDownTemplate"))
+				toggleCollapseButton.image = NSImage(named: NSImage.Name("SectionExpanded"))
 			}
 		}
 	}

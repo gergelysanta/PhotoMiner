@@ -19,7 +19,7 @@
                         <constraint firstAttribute="height" constant="22" id="7gv-2h-2xU"/>
                         <constraint firstAttribute="width" constant="22" id="W15-3O-dub"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarGoDownTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="cd6-2S-Z0K">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SectionExpanded" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="cd6-2S-Z0K">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -64,6 +64,6 @@
         <userDefaultsController representsSharedInstance="YES" id="0tc-sa-0xq"/>
     </objects>
     <resources>
-        <image name="NSTouchBarGoDownTemplate" width="16" height="30"/>
+        <image name="SectionExpanded" width="12" height="12"/>
     </resources>
 </document>
