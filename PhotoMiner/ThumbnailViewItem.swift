@@ -9,9 +9,8 @@
 import Cocoa
 
 protocol ThumbnailViewItemDelegate {
-	func thumbnailClicked(_ thumbnail: ThumbnailViewItem, with event: NSEvent, image data: ImageData)
-	func thumbnailRightClicked(_ thumbnail: ThumbnailViewItem, with event: NSEvent, image data: ImageData)
-	func thumbnailDragged(_ thumbnail: ThumbnailViewItem, with event: NSEvent, image data: ImageData)
+	func thumbnailClicked(_ thumbnail: ThumbnailViewItem, with event: NSEvent)
+	func thumbnailRightClicked(_ thumbnail: ThumbnailViewItem, with event: NSEvent)
 }
 
 class ThumbnailViewItem: NSCollectionViewItem {
@@ -25,9 +24,6 @@ class ThumbnailViewItem: NSCollectionViewItem {
 	private static let unselectedTextColor = NSColor.darkGray
 	private static let selectedTextColor = NSColor.white
 	private static let dragStartsAtDistance:CGFloat = 5.0
-	
-	private var clickPosition = NSZeroPoint
-	private var dragging = false
 	
 	override var isSelected:Bool {
 		didSet {
@@ -96,38 +92,12 @@ class ThumbnailViewItem: NSCollectionViewItem {
 	
 	override func mouseDown(with event: NSEvent) {
 		super.mouseDown(with: event)
-		clickPosition = event.locationInWindow
-		dragging = false
-		if	let imageData = representedObject as? ImageData,
-			let delegate = self.delegate
-		{
-			delegate.thumbnailClicked(self, with: event, image: imageData)
-		}
-	}
-	
-	override func mouseDragged(with event: NSEvent) {
-		super.mouseDragged(with: event)
-		if !dragging {
-			let position = event.locationInWindow
-			let distance = sqrt(pow(position.x-clickPosition.x, 2)+pow(position.y-clickPosition.y, 2))
-			if distance > ThumbnailViewItem.dragStartsAtDistance {
-				dragging = true
-				if	let imageData = representedObject as? ImageData,
-					let delegate = self.delegate
-				{
-					delegate.thumbnailDragged(self, with: event, image: imageData)
-				}
-			}
-		}
+		self.delegate?.thumbnailClicked(self, with: event)
 	}
 	
 	override func rightMouseDown(with event: NSEvent) {
 		super.rightMouseDown(with: event)
-		if	let imageData = representedObject as? ImageData,
-			let delegate = self.delegate
-		{
-			delegate.thumbnailRightClicked(self, with: event, image: imageData)
-		}
+		self.delegate?.thumbnailRightClicked(self, with: event)
 	}
 	
 }

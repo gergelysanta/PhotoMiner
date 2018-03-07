@@ -14,6 +14,16 @@ class AppData: NSObject {
 	
 	static let listOfFoldersRequiringAccessChanged  = Notification.Name("listOfFoldersRequiringAccessChanged")
 
+	static var pasteboardURLType:NSPasteboard.PasteboardType {
+		get {
+			if #available(OSX 10.13, *) {
+				return NSPasteboard.PasteboardType.URL
+			} else {
+				return NSPasteboard.PasteboardType(kUTTypeURL as String)
+			}
+		}
+	}
+	
 	private(set) var lookupFolders = [String]()
 	
 	// Displayed image collection

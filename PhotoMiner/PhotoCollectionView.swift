@@ -12,6 +12,7 @@ protocol PhotoCollectionViewDelegate {
 	func keyPress(_ collectionView: PhotoCollectionView, with event: NSEvent) -> Bool
 	func preReloadData(_ collectionView: PhotoCollectionView)
 	func postReloadData(_ collectionView: PhotoCollectionView)
+	func drag(_ collectionView: PhotoCollectionView, session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation)
 }
 
 class PhotoCollectionView: NSCollectionView {
@@ -32,6 +33,19 @@ class PhotoCollectionView: NSCollectionView {
 		keyDelegate?.preReloadData(self)
 		super.reloadData()
 		keyDelegate?.postReloadData(self)
+	}
+	
+	override func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
+		switch(context) {
+		case .outsideApplication:
+			return [ .copy, .link, .generic, .delete, .move ]
+		case .withinApplication:
+			return .move
+		}
+	}
+	
+	override func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
+		keyDelegate?.drag(self, session: session, endedAt: screenPoint, operation: operation)
 	}
 	
 }

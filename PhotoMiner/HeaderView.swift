@@ -23,6 +23,11 @@ class HeaderView: NSView {
 	// weak reference will be released after removing from superview and this will result invalid reference later (and crash)
 	@IBOutlet var toggleCollapseButton: NSButton!
 	
+	// Helper property to track mouse up/down inside header view
+	private var mouseButtonDown = false
+	private var mouseButtonDownPosition = NSZeroPoint
+	private let minimumAllowedMouseDragDistance:Double = 5.0
+	
 	var headerDelegate:HeaderViewDelegate?
 	
 	private(set) var isCollapsed = false {
@@ -90,9 +95,30 @@ class HeaderView: NSView {
 		self.toggleCollapse()
 	}
 	
+	override func mouseDown(with event: NSEvent) {
+		// Don't call super.mouseDown(with: event) here
+		// it will clear selection in collectionView
+		mouseButtonDown = true
+		mouseButtonDownPosition = self.convert(event.locationInWindow, from: nil)
+	}
+	
 	override func mouseUp(with event: NSEvent) {
-		if Configuration.shared.collapseByClickingHeader {
+		super.mouseUp(with: event)
+		if mouseButtonDown && Configuration.shared.collapseByClickingHeader {
 			self.toggleCollapse()
+		}
+		mouseButtonDown = false
+	}
+	
+	override func mouseDragged(with event: NSEvent) {
+		super.mouseDragged(with: event)
+		
+		let mouseDragPosition = self.convert(event.locationInWindow, from: nil)
+		if mouseButtonDown &&
+		   ((fabs(Double(mouseDragPosition.x - mouseButtonDownPosition.x)) > minimumAllowedMouseDragDistance) ||
+			(fabs(Double(mouseDragPosition.y - mouseButtonDownPosition.y)) > minimumAllowedMouseDragDistance))
+		{
+			mouseButtonDown = false
 		}
 	}
 	
