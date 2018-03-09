@@ -401,6 +401,7 @@ extension MainViewController: NSCollectionViewDelegate {
 			}
 		}
 		
+		pasteboard.clearContents()
 		pasteboard.writeObjects(pboardItems)
 		return true
 	}
