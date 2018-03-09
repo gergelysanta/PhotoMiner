@@ -394,9 +394,6 @@ extension MainViewController: NSCollectionViewDelegate {
 		var pboardItems = [NSPasteboardWriting]()
 		for indexPath in indexPaths {
 			if let image = self.imageAtIndexPath(indexPath: indexPath) {
-//				let pboardItem = NSPasteboardItem()
-//				pboardItem.setData(URL(fileURLWithPath: image.imagePath).dataRepresentation, forType: AppData.pasteboardURLType)
-//				pboardItems.append(pboardItem)
 				pboardItems.append(NSURL(fileURLWithPath: image.imagePath))
 			}
 		}
