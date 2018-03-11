@@ -31,6 +31,12 @@ class ThumbnailViewItem: NSCollectionViewItem {
 		}
 	}
 	
+	override var highlightState: NSCollectionViewItem.HighlightState {
+		didSet {
+			updateBackground()
+		}
+	}
+	
 	private(set) var hasBorder = false {
 		didSet {
 			updateBackground()
@@ -70,7 +76,7 @@ class ThumbnailViewItem: NSCollectionViewItem {
     }
 	
 	func updateBackground() {
-		if isSelected {
+		if isSelected || (highlightState == .forSelection){
 			view.layer?.backgroundColor = ThumbnailViewItem.selectedFrameColor.cgColor
 			view.layer?.borderColor = ThumbnailViewItem.selectedBorderColor.cgColor
 			if let textField = textField {
