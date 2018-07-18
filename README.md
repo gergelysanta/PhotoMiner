@@ -17,7 +17,6 @@ You can open photos in default assigned application (assigned to image file type
 
 Photograps are grouped by dates. For each month of each year there’s one group holding only those photographs which were taken at that date. This helps searching for memories and also organizing an unorganized folder of photographs. Just select photos you want to copy to a specific folder and drag&drop them to a new directory.
 
-![Screenshot#1](https://github.com/gergelysanta/photominer/blob/master/AppStore/Screenshots/01.png "PhotoMiner screenshot #1")
 ![Screenshot#2](https://github.com/gergelysanta/photominer/blob/master/AppStore/Screenshots/02.png "PhotoMiner screenshot #2")
 ![Screenshot#3](https://github.com/gergelysanta/photominer/blob/master/AppStore/Screenshots/03.png "PhotoMiner screenshot #3")
 ![Screenshot#4](https://github.com/gergelysanta/photominer/blob/master/AppStore/Screenshots/04.png "PhotoMiner screenshot #4")
