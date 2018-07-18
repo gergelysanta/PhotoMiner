@@ -21,7 +21,11 @@ class DropView: NSView {
 	}
 	
 	override func draw(_ dirtyRect: NSRect) {
-		NSColor(calibratedWhite: 1.0, alpha: 0.9).setFill()
+		if #available(OSX 10.13, *) {
+			NSColor(named: NSColor.Name("DropAreaShadeColor"))?.setFill()
+		} else {
+			NSColor(calibratedWhite: 1.0, alpha: 0.9).setFill()
+		}
 		dirtyRect.fill()
 		super.draw(dirtyRect)
 	}

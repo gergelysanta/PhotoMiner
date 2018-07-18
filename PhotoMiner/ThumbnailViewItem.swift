@@ -17,12 +17,6 @@ class ThumbnailViewItem: NSCollectionViewItem {
 	
 	var delegate:ThumbnailViewItemDelegate? = nil
 	
-	private static let unselectedFrameColor = NSColor(red:0.95, green:0.95, blue:0.95, alpha:1.00)
-	private static let selectedFrameColor = NSColor(red:0.27, green:0.65, blue:0.88, alpha:1.00)
-	private static let unselectedBorderColor = NSColor(red:1.00, green:0.85, blue:0.88, alpha:1.00)
-	private static let selectedBorderColor = NSColor(red:0.25, green:0.58, blue:0.78, alpha:1.00)
-	private static let unselectedTextColor = NSColor.darkGray
-	private static let selectedTextColor = NSColor.white
 	private static let dragStartsAtDistance:CGFloat = 5.0
 	
 	override var isSelected:Bool {
@@ -65,7 +59,7 @@ class ThumbnailViewItem: NSCollectionViewItem {
         super.viewDidLoad()
 		
 		view.wantsLayer = true
-		view.layer?.backgroundColor = ThumbnailViewItem.unselectedFrameColor.cgColor
+		view.layer?.backgroundColor = Colors.shared.thumbnail.frameColor.cgColor
 		view.layer?.cornerRadius = 4.0
 		
 		// We re-set the representedObject for the case it was set before this function call
@@ -77,17 +71,27 @@ class ThumbnailViewItem: NSCollectionViewItem {
 	
 	func updateBackground() {
 		if isSelected || (highlightState == .forSelection){
-			view.layer?.backgroundColor = ThumbnailViewItem.selectedFrameColor.cgColor
-			view.layer?.borderColor = ThumbnailViewItem.selectedBorderColor.cgColor
+			if #available(OSX 10.13, *) {
+				view.layer?.backgroundColor = NSColor(named: NSColor.Name("FrameColorSelected"))?.cgColor
+			}
+			if view.layer?.backgroundColor == nil {
+				view.layer?.backgroundColor = Colors.shared.thumbnail.frameColorSelected.cgColor
+			}
+			view.layer?.borderColor = Colors.shared.thumbnail.borderColorSelected.cgColor
 			if let textField = textField {
-				textField.textColor = ThumbnailViewItem.selectedTextColor
+				textField.textColor = Colors.shared.thumbnail.textColorSelected
 			}
 		}
 		else {
-			view.layer?.backgroundColor = ThumbnailViewItem.unselectedFrameColor.cgColor
-			view.layer?.borderColor = ThumbnailViewItem.unselectedBorderColor.cgColor
+			if #available(OSX 10.13, *) {
+				view.layer?.backgroundColor = NSColor(named: NSColor.Name("FrameColor"))?.cgColor
+			}
+			if view.layer?.backgroundColor == nil {
+				view.layer?.backgroundColor = Colors.shared.thumbnail.frameColor.cgColor
+			}
+			view.layer?.borderColor = Colors.shared.thumbnail.borderColor.cgColor
 			if let textField = textField {
-				textField.textColor = ThumbnailViewItem.unselectedTextColor
+				textField.textColor = Colors.shared.thumbnail.textColor
 			}
 		}
 		view.layer?.borderWidth = hasBorder ? 2.0 : 0.0

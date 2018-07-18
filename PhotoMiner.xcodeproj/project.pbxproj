@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7407A13D20E9FA4600645B54 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7407A13C20E9FA4600645B54 /* Colors.swift */; };
 		740820AD1E6B4554004BA3CE /* PhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740820AC1E6B4554004BA3CE /* PhotoCollectionView.swift */; };
 		740820B71E6DE8AD004BA3CE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 740820B91E6DE8AD004BA3CE /* Localizable.strings */; };
 		74174E591DF835C100D10710 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74174E581DF835C100D10710 /* AppDelegate.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7407A13C20E9FA4600645B54 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		740820AC1E6B4554004BA3CE /* PhotoCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionView.swift; sourceTree = "<group>"; };
 		740820B81E6DE8AD004BA3CE /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		74174E551DF835C100D10710 /* PhotoMiner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMiner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +136,7 @@
 			children = (
 				74443D521DF944B000625848 /* Configuration.swift */,
 				74FC094A203DEEF500B27538 /* AppData.swift */,
+				7407A13C20E9FA4600645B54 /* Colors.swift */,
 				74DDE1F11E09293200C6FB36 /* Scanner.swift */,
 				74AF40A21E65DA78009A1D47 /* ImageCollection.swift */,
 				74BD2FB91E16B671000109F9 /* ImageData.swift */,
@@ -182,7 +185,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = TriKatz;
 				TargetAttributes = {
 					74174E541DF835C100D10710 = {
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74174E5B1DF835C100D10710 /* MainViewController.swift in Sources */,
+				7407A13D20E9FA4600645B54 /* Colors.swift in Sources */,
 				74FD680E20187A560046DC1A /* MainSplitViewController.swift in Sources */,
 				74F4B6F61EA13B7E00FE73C7 /* SettingsController.swift in Sources */,
 				74BD2FBA1E16B671000109F9 /* ImageData.swift in Sources */,
@@ -331,6 +335,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -338,6 +343,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -389,6 +395,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -396,6 +403,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

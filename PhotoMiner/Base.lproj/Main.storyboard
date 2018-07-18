@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14269.12" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14269.12"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -123,7 +124,7 @@
                                 </connections>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fo8-IL-FaX">
-                                <rect key="frame" x="668" y="3" width="36" height="25"/>
+                                <rect key="frame" x="668" y="4" width="36" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="DFh-TL-oh5"/>
                                 </constraints>
@@ -139,7 +140,7 @@
                                 <rect key="frame" x="712" y="8" width="16" height="16"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1nx-2V-Q21">
-                                <rect key="frame" x="734" y="3" width="36" height="25"/>
+                                <rect key="frame" x="734" y="4" width="36" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="8kZ-Bg-oUy"/>
                                 </constraints>
@@ -152,7 +153,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AcS-by-NKZ">
-                                <rect key="frame" x="778" y="3" width="36" height="25"/>
+                                <rect key="frame" x="778" y="4" width="36" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="o6C-PQ-9Wm"/>
                                 </constraints>
@@ -195,7 +196,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="PhotoMiner" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="PhotoMiner" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="571" height="381"/>
@@ -296,8 +297,8 @@ DQ
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="ARC-gx-P75" name="enabled" keyPath="self.configuration.isSectionCollapseAvailable" id="WIL-Xz-F44"/>
                                     <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.collapseByClickingHeader" id="qff-iV-OM5"/>
+                                    <binding destination="ARC-gx-P75" name="enabled" keyPath="self.configuration.isSectionCollapseAvailable" id="WIL-Xz-F44"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -342,7 +343,7 @@ DQ
                         <subviews>
                             <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqh-py-6nF">
                                 <rect key="frame" x="0.0" y="0.0" width="571" height="381"/>
-                                <clipView key="contentView" drawsBackground="NO" id="Txi-qI-Efj">
+                                <clipView key="contentView" id="Txi-qI-Efj">
                                     <rect key="frame" x="1" y="1" width="569" height="379"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -363,11 +364,11 @@ DQ
                                     </subviews>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="i31-Rb-dhg">
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="i31-Rb-dhg">
                                     <rect key="frame" x="-100" y="-100" width="478" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="ZD6-9a-t9N">
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="ZD6-9a-t9N">
                                     <rect key="frame" x="554" y="1" width="16" height="379"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -383,7 +384,7 @@ DQ
                                         <rect key="frame" x="18" y="138" width="535" height="42"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Drop directories here" id="d9y-Vo-4Jl">
                                             <font key="font" size="36" name="ArialMT"/>
-                                            <color key="textColor" red="0.79991227388381958" green="0.80005055665969849" blue="0.7999035120010376" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="textColor" name="DropAreaTextColor"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
@@ -391,7 +392,7 @@ DQ
                                         <rect key="frame" x="18" y="109" width="535" height="21"/>
                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="to scan them for pictures" id="uOb-MX-pVM">
                                             <font key="font" size="18" name="ArialMT"/>
-                                            <color key="textColor" red="0.79599106311798096" green="0.79612869024276733" blue="0.79598242044448853" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="textColor" name="DropAreaTextColor"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
@@ -571,7 +572,7 @@ DQ
                                         </box>
                                         <scrollView autoresizesSubviews="NO" ambiguous="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="14" horizontalPageScroll="10" verticalLineScroll="14" verticalPageScroll="10" hasVerticalScroller="NO" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="70s-lH-xas" customClass="ForwardingScrollView" customModule="PhotoMiner" customModuleProvider="target">
                                             <rect key="frame" x="8" y="8" width="234" height="120"/>
-                                            <clipView key="contentView" ambiguous="YES" id="Juz-ox-bKV">
+                                            <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="Juz-ox-bKV">
                                                 <rect key="frame" x="0.0" y="0.0" width="234" height="120"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
@@ -603,8 +604,8 @@ DQ
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="XEZ-5E-7bi">
                                                                                     <font key="font" metaFont="miniSystem"/>
-                                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                         </subviews>
@@ -635,8 +636,8 @@ DQ
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="wkb-xN-3wc">
                                                                                     <font key="font" metaFont="miniSystem"/>
-                                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                         </subviews>
@@ -653,15 +654,16 @@ DQ
                                                         </connections>
                                                     </tableView>
                                                 </subviews>
+                                                <nil key="backgroundColor"/>
                                             </clipView>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="9Oo-yd-124"/>
                                             </constraints>
-                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="4rH-OS-ce4">
+                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="4rH-OS-ce4">
                                                 <rect key="frame" x="0.0" y="104" width="48" height="16"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="cPg-5m-gfD">
+                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="cPg-5m-gfD">
                                                 <rect key="frame" x="-100" y="-100" width="15" height="102"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
@@ -692,11 +694,11 @@ DQ
                                 <constraint firstItem="hh2-WQ-A4d" firstAttribute="top" secondItem="YE1-Yv-8TB" secondAttribute="top" id="lJb-WZ-xoa"/>
                             </constraints>
                         </clipView>
-                        <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="hnl-oy-Cgr">
+                        <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="hnl-oy-Cgr">
                             <rect key="frame" x="0.0" y="365" width="250" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="T17-iu-Lm1">
+                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="T17-iu-Lm1">
                             <rect key="frame" x="234" y="0.0" width="16" height="381"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
@@ -712,9 +714,12 @@ DQ
         </scene>
     </scenes>
     <resources>
-        <image name="Cancel" width="16" height="16"/>
+        <image name="Cancel" width="32" height="32"/>
         <image name="DropIcon" width="78" height="81"/>
-        <image name="Magnifier" width="16" height="16"/>
-        <image name="SidebarOff" width="16" height="16"/>
+        <image name="Magnifier" width="32" height="32"/>
+        <image name="SidebarOff" width="32" height="32"/>
+        <namedColor name="DropAreaTextColor">
+            <color red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

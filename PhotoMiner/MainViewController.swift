@@ -429,7 +429,7 @@ extension MainViewController: QLPreviewPanelDataSource {
 	func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
 		let images = self.selectedImages()
 		if index < images.count {
-			return URL(fileURLWithPath: images[index].imagePath) as QLPreviewItem!
+			return URL(fileURLWithPath: images[index].imagePath) as QLPreviewItem
 		}
 		return nil
 	}
