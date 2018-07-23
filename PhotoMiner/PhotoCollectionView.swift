@@ -40,11 +40,12 @@ class PhotoCollectionView: NSCollectionView {
 		case .outsideApplication:
 			return [ .copy, .link, .generic, .delete, .move ]
 		case .withinApplication:
-			return .move
+			return NSDragOperation(rawValue: 0)
 		}
 	}
 	
 	override func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
+		super.draggingSession(session, endedAt: screenPoint, operation: operation)
 		keyDelegate?.drag(self, session: session, endedAt: screenPoint, operation: operation)
 	}
 	

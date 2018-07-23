@@ -380,41 +380,19 @@ extension MainViewController: NSCollectionViewDelegate {
 		return true
 	}
 	
-	// This method is called after it has been determined that a drag should begin, but before the drag has been started.
-	// To refuse the drag, return NO. To start the drag, declare the pasteboard types that you support with -[NSPasteboard declareTypes:owner:],
-	// place your data for the items at the given index paths on the pasteboard, and return YES from the method.
-	// The drag image and other drag related information will be set up and provided by the view once this call returns YES.
-	// You need to implement this method, or -collectionView:pasteboardWriterForItemAtIndexPath: (its more modern counterpart),
-	// for your collection view to be a drag source.  If you want to put file promises on the pasteboard,
-	// using the modern NSFilePromiseProvider API added in macOS 10.12, implement -collectionView:pasteboardWriterForItemAtIndexPath:
-	// instead of this method, and have it return an NSFilePromiseProvider.
-	func collectionView(_ collectionView: NSCollectionView, writeItemsAt indexPaths: Set<IndexPath>, to pasteboard: NSPasteboard) -> Bool {
-		pasteboard.declareTypes([AppData.pasteboardURLType], owner: self)
-
-		var pboardItems = [NSPasteboardWriting]()
-		for indexPath in indexPaths {
-			if let image = self.imageAtIndexPath(indexPath: indexPath) {
-				pboardItems.append(NSURL(fileURLWithPath: image.imagePath))
-			}
+	// Dragging Source Support - Required for multi-image drag and drop. Return a custom object that implements
+	// NSPasteboardWriting (or simply use NSPasteboardItem), or nil to prevent dragging for the item.
+	// For each valid item returned, NSCollectionView will create an NSDraggingItem with the draggingFrame
+	// equal to the frame of the item view at the given index path and components from
+	// -[NSCollectionViewItem draggingItem].
+	// If this method is implemented, then
+	// -collectionView:writeItemsAtIndexPaths:toPasteboard: and
+	// -collectionView:draggingImageForItemsAtIndexPaths:withEvent:offset: will not be called.
+	func collectionView(_ collectionView: NSCollectionView, pasteboardWriterForItemAt indexPath: IndexPath) -> NSPasteboardWriting? {
+		if let image = self.imageAtIndexPath(indexPath: indexPath) {
+			return NSURL(fileURLWithPath: image.imagePath)
 		}
-		
-		pasteboard.clearContents()
-		pasteboard.writeObjects(pboardItems)
-		return true
-	}
-	
-	// Allows the delegate to construct a custom dragging image for the items being dragged.
-	// 'indexPaths' contains the (section,item) identification of the items being dragged. 'event' is a reference to the  mouse down event that began the drag.
-	// 'dragImageOffset' is an in/out parameter. This method will be called with dragImageOffset set to NSZeroPoint,
-	// but it can be modified to re-position the returned image. A dragImageOffset of NSZeroPoint will cause the image to be centered under the mouse.
-	// You can safely call -[NSCollectionView draggingImageForItemsAtIndexPaths:withEvent:offset:] from within this method.
-	// You do not need to implement this method for your collection view to be a drag source.
-	func collectionView(_ collectionView: NSCollectionView, draggingImageForItemsAt indexPaths: Set<IndexPath>, with event: NSEvent, offset dragImageOffset: NSPointPointer) -> NSImage {
-		let positionInMainView = self.view.convert(event.locationInWindow, from: nil)
-		let positionInContent = collectionView.convert(positionInMainView, from: self.view)
-		return self.renderSelectionToImage(indexPaths,
-										   mousePosition: positionInContent,
-										   dragImageOffset: dragImageOffset)
+		return nil
 	}
 	
 }
@@ -466,99 +444,6 @@ extension MainViewController: HeaderViewDelegate {
 
 // MARK: - ThumbnailViewItemDelegate
 extension MainViewController: ThumbnailViewItemDelegate {
-	
-	private func renderItemToImage(_ thumbnail: ThumbnailViewItem) -> NSImage? {
-		
-		if let bmpImageRep = thumbnail.view.bitmapImageRepForCachingDisplay(in: thumbnail.view.bounds) {
-			thumbnail.view.cacheDisplay(in: thumbnail.view.bounds, to: bmpImageRep)
-			
-			let image = NSImage(size: thumbnail.view.bounds.size)
-			image.addRepresentation(bmpImageRep)
-			
-			return image
-		}
-		return nil
-	}
-	
-	private func renderSelectionToImage(_ indexPaths: Set<IndexPath>, mousePosition: NSPoint, dragImageOffset: NSPointPointer) -> NSImage {
-		// Count the frame size needed for all selected items and create/collect all drop images
-		var itemsArray = [(item: ThumbnailViewItem, image: NSImage)]()
-		var fullFrame = NSMakeRect(CGFloat.greatestFiniteMagnitude, CGFloat.greatestFiniteMagnitude, 0, 0)
-		
-		// Get maximum height of all screens
-		var screenHeight:CGFloat = 0.0
-		for screen in NSScreen.screens {
-			screenHeight = max(screenHeight, screen.frame.size.height)
-		}
-		
-		for indexPath in indexPaths {
-			if let item = collectionView.item(at: indexPath) as? ThumbnailViewItem {
-				// Item is onscreen, we can render it to a view
-				if let itemImage = self.renderItemToImage(item) {
-					// We use x and y for counting minX and minY
-					fullFrame.origin.x = min(fullFrame.origin.x, item.view.frame.origin.x)
-					fullFrame.origin.y = min(fullFrame.origin.y, item.view.frame.origin.y)
-					// We use width and height for counting maxX and maxY
-					fullFrame.size.width = max(fullFrame.size.width, item.view.frame.origin.x + item.view.frame.size.width)
-					fullFrame.size.height = max(fullFrame.size.height, item.view.frame.origin.y + item.view.frame.size.height)
-					
-					itemsArray.append( (item: item, image: itemImage) )
-				}
-			}
-			else {
-				// Item is offscreen, we have to create a ViewItem for it first, then render
-				
-//				if let imageData = self.imageAtIndexPath(indexPath: indexPath) {
-//					// Skip this item if it's too far away from dragged item
-//					if (imageData.frame == NSZeroRect) || (abs(imageData.frame.origin.y - thumbnail.view.frame.origin.y) >= screenHeight) {
-//						continue
-//					}
-//
-//					let item = ThumbnailViewItem(nibName: NSNib.Name(rawValue: "ThumbnailViewItem"), bundle: nil)
-//
-//					// Initialize ViewItem for rendering
-//					item.representedObject = imageData
-//					item.view.frame = imageData.frame
-//					item.isSelected = true
-//
-//					// Render it's view
-//					if let itemImage = self.renderItemToImage(item) {
-//						// We use x and y for counting minX and minY
-//						fullFrame.origin.x = min(fullFrame.origin.x, item.view.frame.origin.x)
-//						fullFrame.origin.y = min(fullFrame.origin.y, item.view.frame.origin.y)
-//						// We use width and height for counting maxX and maxY
-//						fullFrame.size.width = max(fullFrame.size.width, item.view.frame.origin.x + item.view.frame.size.width)
-//						fullFrame.size.height = max(fullFrame.size.height, item.view.frame.origin.y + item.view.frame.size.height)
-//
-//						itemsArray.append( (item: item, image: itemImage) )
-//					}
-//				}
-			}
-		}
-		
-		// Counting real full frame
-		fullFrame.size.width = fullFrame.size.width - fullFrame.origin.x
-		fullFrame.size.height = fullFrame.size.height - fullFrame.origin.y
-		
-		// Drawing image containing all selected items
-		let image = NSImage(size: fullFrame.size)
-		if fullFrame.size.width > 0 && fullFrame.size.height > 0 {
-			image.lockFocus()
-			for i in 0..<itemsArray.count {
-				let itemFrame = itemsArray[i].item.view.frame
-				let itemPos = NSPoint(x: itemFrame.origin.x - fullFrame.origin.x, y: fullFrame.origin.y + fullFrame.size.height - (itemFrame.origin.y + itemFrame.size.height))
-				
-				itemsArray[i].image.draw(at: itemPos, from: NSZeroRect, operation: .sourceOver, fraction: 1.0)
-			}
-			image.unlockFocus()
-		}
-		
-		// Set dragging position in generated drag view
-		let positionInFrame = NSMakePoint(mousePosition.x - fullFrame.origin.x, mousePosition.y - fullFrame.origin.y)
-		dragImageOffset.pointee = NSMakePoint(fullFrame.size.width/2 - positionInFrame.x, positionInFrame.y - fullFrame.size.height/2)
-
-		return image
-	}
 	
 	func thumbnailClicked(_ thumbnail: ThumbnailViewItem, with event: NSEvent) {
 		if event.clickCount == 2 {

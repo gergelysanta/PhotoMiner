@@ -17,8 +17,6 @@ class ThumbnailViewItem: NSCollectionViewItem {
 	
 	var delegate:ThumbnailViewItemDelegate? = nil
 	
-	private static let dragStartsAtDistance:CGFloat = 5.0
-	
 	override var isSelected:Bool {
 		didSet {
 			updateBackground()
