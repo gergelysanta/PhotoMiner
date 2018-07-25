@@ -69,28 +69,14 @@ class ThumbnailViewItem: NSCollectionViewItem {
 	
 	func updateBackground() {
 		if isSelected || (highlightState == .forSelection){
-			if #available(OSX 10.13, *) {
-				view.layer?.backgroundColor = NSColor(named: NSColor.Name("FrameColorSelected"))?.cgColor
-			}
-			if view.layer?.backgroundColor == nil {
-				view.layer?.backgroundColor = Colors.shared.thumbnail.frameColorSelected.cgColor
-			}
+			view.layer?.backgroundColor = Colors.shared.thumbnail.frameColorSelected.cgColor
 			view.layer?.borderColor = Colors.shared.thumbnail.borderColorSelected.cgColor
-			if let textField = textField {
-				textField.textColor = Colors.shared.thumbnail.textColorSelected
-			}
+			textField?.textColor = Colors.shared.thumbnail.textColorSelected
 		}
 		else {
-			if #available(OSX 10.13, *) {
-				view.layer?.backgroundColor = NSColor(named: NSColor.Name("FrameColor"))?.cgColor
-			}
-			if view.layer?.backgroundColor == nil {
-				view.layer?.backgroundColor = Colors.shared.thumbnail.frameColor.cgColor
-			}
+			view.layer?.backgroundColor = Colors.shared.thumbnail.frameColor.cgColor
 			view.layer?.borderColor = Colors.shared.thumbnail.borderColor.cgColor
-			if let textField = textField {
-				textField.textColor = Colors.shared.thumbnail.textColor
-			}
+			textField?.textColor = Colors.shared.thumbnail.textColor
 		}
 		view.layer?.borderWidth = hasBorder ? 2.0 : 0.0
 	}

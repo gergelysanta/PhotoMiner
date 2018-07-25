@@ -19,6 +19,8 @@ class PhotoCollectionView: NSCollectionView {
 	
 	var keyDelegate:PhotoCollectionViewDelegate? = nil
 	
+	private var lastAppearanceName = NSAppearance.Name(rawValue: "unknown")
+	
 	override func keyDown(with event: NSEvent) {
 		var eventHandled = false
 		if let delegate = self.keyDelegate {
@@ -26,6 +28,27 @@ class PhotoCollectionView: NSCollectionView {
 		}
 		if !eventHandled {
 			super.keyDown(with: event)
+		}
+	}
+	
+	override func draw(_ dirtyRect: NSRect) {
+		super.draw(dirtyRect)
+		
+		if #available(OSX 10.14, *) {
+			// Check if appearance changed (light->dark, or dark->light)
+			let appearanceName = NSApp.effectiveAppearance.name
+			if lastAppearanceName != appearanceName {
+				// Refresh background for all thumbnails
+				#if DEBUG
+					NSLog("Appearance changed to '\(appearanceName.rawValue)', update thumbnails")
+				#endif
+				for item in self.visibleItems() {
+					if let thumbnailItem = item as? ThumbnailViewItem {
+						thumbnailItem.updateBackground()
+					}
+				}
+				lastAppearanceName = appearanceName
+			}
 		}
 	}
 	
