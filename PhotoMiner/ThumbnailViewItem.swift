@@ -57,7 +57,7 @@ class ThumbnailViewItem: NSCollectionViewItem {
         super.viewDidLoad()
 		
 		view.wantsLayer = true
-		view.layer?.backgroundColor = Colors.shared.thumbnail.frameColor.cgColor
+		view.layer?.backgroundColor = Colors.Thumbnail.frameColor.cgColor
 		view.layer?.cornerRadius = 4.0
 		
 		// We re-set the representedObject for the case it was set before this function call
@@ -69,14 +69,14 @@ class ThumbnailViewItem: NSCollectionViewItem {
 	
 	func updateBackground() {
 		if isSelected || (highlightState == .forSelection){
-			view.layer?.backgroundColor = Colors.shared.thumbnail.frameColorSelected.cgColor
-			view.layer?.borderColor = Colors.shared.thumbnail.borderColorSelected.cgColor
-			textField?.textColor = Colors.shared.thumbnail.textColorSelected
+			view.layer?.backgroundColor = Colors.Thumbnail.frameColorSelected.cgColor
+			view.layer?.borderColor = Colors.Thumbnail.borderColorSelected.cgColor
+			textField?.textColor = Colors.Thumbnail.textColorSelected
 		}
 		else {
-			view.layer?.backgroundColor = Colors.shared.thumbnail.frameColor.cgColor
-			view.layer?.borderColor = Colors.shared.thumbnail.borderColor.cgColor
-			textField?.textColor = Colors.shared.thumbnail.textColor
+			view.layer?.backgroundColor = Colors.Thumbnail.frameColor.cgColor
+			view.layer?.borderColor = Colors.Thumbnail.borderColor.cgColor
+			textField?.textColor = Colors.Thumbnail.textColor
 		}
 		view.layer?.borderWidth = hasBorder ? 2.0 : 0.0
 	}

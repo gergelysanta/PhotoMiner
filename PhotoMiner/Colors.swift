@@ -8,53 +8,78 @@
 
 import Cocoa
 
-class Colors: NSObject {
-
-	static let shared = Colors()
+struct Colors {
 	
 	struct Thumbnail{
-		private(set) var frameColor:NSColor
-		private(set) var frameColorSelected:NSColor
-		private(set) var borderColor:NSColor
-		private(set) var borderColorSelected:NSColor
-		private(set) var textColor:NSColor
-		private(set) var textColorSelected:NSColor
+		static var frameColor:NSColor {
+			get {
+				if #available(OSX 10.13, *) {
+					if let color = NSColor(named: NSColor.Name("FrameColor")) {
+						return color
+					}
+				}
+				return NSColor(red:0.27, green:0.65, blue:0.88, alpha:1.00)
+			}
+		}
 		
-		init() {
-			frameColor = NSColor(red:0.27, green:0.65, blue:0.88, alpha:1.00)
-			frameColorSelected = NSColor(red:0.95, green:0.95, blue:0.95, alpha:1.00)
-			borderColor = NSColor(red:0.25, green:0.58, blue:0.78, alpha:1.00)
-			borderColorSelected = NSColor(red:1.00, green:0.85, blue:0.88, alpha:1.00)
-			textColor = NSColor.white
-			textColorSelected = NSColor.darkGray
-			
-			if #available(OSX 10.13, *) {
-				if let color = NSColor(named: NSColor.Name("FrameColor")) {
-					frameColor = color
+		static var frameColorSelected:NSColor {
+			get {
+				if #available(OSX 10.13, *) {
+					if let color = NSColor(named: NSColor.Name("FrameColorSelected")) {
+						return color
+					}
 				}
-				if let color = NSColor(named: NSColor.Name("FrameColorSelected")) {
-					frameColorSelected = color
+				return NSColor(red:0.95, green:0.95, blue:0.95, alpha:1.00)
+			}
+		}
+		
+		static var borderColor:NSColor {
+			get {
+				if #available(OSX 10.13, *) {
+					if let color = NSColor(named: NSColor.Name("BorderColor")) {
+						return color
+					}
 				}
-				if let color = NSColor(named: NSColor.Name("BorderColor")) {
-					borderColor = color
+				return NSColor(red:0.25, green:0.58, blue:0.78, alpha:1.00)
+			}
+		}
+		
+		static var borderColorSelected:NSColor {
+			get {
+				if #available(OSX 10.13, *) {
+					if let color = NSColor(named: NSColor.Name("BorderColorSelected")) {
+						return color
+					}
 				}
-				if let color = NSColor(named: NSColor.Name("BorderColorSelected")) {
-					borderColorSelected = color
+				return NSColor(red:1.00, green:0.85, blue:0.88, alpha:1.00)
+			}
+		}
+		
+		static var textColor:NSColor {
+			get {
+				if #available(OSX 10.13, *) {
+					if let color = NSColor(named: NSColor.Name("TextColor")) {
+						return color
+					}
 				}
-				if let color = NSColor(named: NSColor.Name("TextColor")) {
-					textColor = color
+				return NSColor.white
+			}
+		}
+		
+		static var textColorSelected:NSColor {
+			get {
+				if #available(OSX 10.13, *) {
+					if let color = NSColor(named: NSColor.Name("TextColorSelected")) {
+						return color
+					}
 				}
-				if let color = NSColor(named: NSColor.Name("TextColorSelected")) {
-					textColorSelected = color
-				}
+				return NSColor.darkGray
 			}
 		}
 	}
 	
-	let thumbnail = Thumbnail()
-	
-	private override init() {
-		super.init()
+	// Disable constructor (make private)
+	private init() {
 	}
 	
 }
