@@ -26,8 +26,8 @@ class TitlebarController: NSViewController {
 	@IBOutlet private weak var sidebarButton: NSButton!
 	@IBOutlet private weak var progressIndicator: NSProgressIndicator!
 	
-	private let sidebarOnImage  = NSImage(named: NSImage.Name("SidebarOn"))
-	private let sidebarOffImage = NSImage(named: NSImage.Name("SidebarOff"))
+	private let sidebarOnImage  = NSImage(named: "SidebarOn")
+	private let sidebarOffImage = NSImage(named: "SidebarOff")
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -87,7 +87,7 @@ class TitlebarController: NSViewController {
 	}
 	
 	func showSettings() {
-		self.performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "settingsSegue"), sender: self)
+		self.performSegue(withIdentifier: "settingsSegue", sender: self)
 	}
 	
 }

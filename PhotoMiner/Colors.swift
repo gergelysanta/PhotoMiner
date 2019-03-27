@@ -14,7 +14,7 @@ struct Colors {
 		static var frameColor:NSColor {
 			get {
 				if #available(OSX 10.13, *) {
-					if let color = NSColor(named: NSColor.Name("FrameColor")) {
+					if let color = NSColor(named: "FrameColor") {
 						return color
 					}
 				}
@@ -25,7 +25,7 @@ struct Colors {
 		static var frameColorSelected:NSColor {
 			get {
 				if #available(OSX 10.13, *) {
-					if let color = NSColor(named: NSColor.Name("FrameColorSelected")) {
+					if let color = NSColor(named: "FrameColorSelected") {
 						return color
 					}
 				}
@@ -36,7 +36,7 @@ struct Colors {
 		static var borderColor:NSColor {
 			get {
 				if #available(OSX 10.13, *) {
-					if let color = NSColor(named: NSColor.Name("BorderColor")) {
+					if let color = NSColor(named: "BorderColor") {
 						return color
 					}
 				}
@@ -47,7 +47,7 @@ struct Colors {
 		static var borderColorSelected:NSColor {
 			get {
 				if #available(OSX 10.13, *) {
-					if let color = NSColor(named: NSColor.Name("BorderColorSelected")) {
+					if let color = NSColor(named: "BorderColorSelected") {
 						return color
 					}
 				}
@@ -58,7 +58,7 @@ struct Colors {
 		static var textColor:NSColor {
 			get {
 				if #available(OSX 10.13, *) {
-					if let color = NSColor(named: NSColor.Name("TextColor")) {
+					if let color = NSColor(named: "TextColor") {
 						return color
 					}
 				}
@@ -69,7 +69,7 @@ struct Colors {
 		static var textColorSelected:NSColor {
 			get {
 				if #available(OSX 10.13, *) {
-					if let color = NSColor(named: NSColor.Name("TextColorSelected")) {
+					if let color = NSColor(named: "TextColorSelected") {
 						return color
 					}
 				}

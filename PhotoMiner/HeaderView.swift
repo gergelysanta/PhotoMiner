@@ -33,10 +33,10 @@ class HeaderView: NSView {
 	private(set) var isCollapsed = false {
 		didSet {
 			if isCollapsed {
-				toggleCollapseButton.image = NSImage(named: NSImage.Name("SectionCollapsed"))
+				toggleCollapseButton.image = NSImage(named: "SectionCollapsed")
 			}
 			else {
-				toggleCollapseButton.image = NSImage(named: NSImage.Name("SectionExpanded"))
+				toggleCollapseButton.image = NSImage(named: "SectionExpanded")
 			}
 		}
 	}
@@ -47,8 +47,8 @@ class HeaderView: NSView {
 		// Fill view with a top-down gradient
 		let gradient:NSGradient?
 		if #available(OSX 10.13, *) {
-			gradient = NSGradient(starting: NSColor(named: NSColor.Name("SectionHeaderFromColor"))!,
-								  ending: NSColor(named: NSColor.Name("SectionHeaderToColor"))!)
+			gradient = NSGradient(starting: NSColor(named: "SectionHeaderFromColor")!,
+								  ending: NSColor(named: "SectionHeaderToColor")!)
 		} else {
 			gradient = NSGradient(starting: NSColor(calibratedRed: 0.7, green: 0.7, blue: 0.7, alpha: 1.0),
 								  ending: NSColor(calibratedRed: 0.7, green: 0.7, blue: 0.7, alpha: 0.8))

@@ -22,7 +22,7 @@ class DropView: NSView {
 	
 	override func draw(_ dirtyRect: NSRect) {
 		if #available(OSX 10.13, *) {
-			NSColor(named: NSColor.Name("DropAreaShadeColor"))?.setFill()
+			NSColor(named: "DropAreaShadeColor")?.setFill()
 		} else {
 			NSColor(calibratedWhite: 1.0, alpha: 0.9).setFill()
 		}
@@ -70,7 +70,7 @@ class DropView: NSView {
 	
 	override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
 		super.draggingEntered(sender)
-		let validDrop = (getAcceptedPaths(fromPasteboard: sender.draggingPasteboard()).count > 0) ? true : false
+		let validDrop = (getAcceptedPaths(fromPasteboard: sender.draggingPasteboard).count > 0) ? true : false
 		if validDrop {
 			show()
 			return .copy
@@ -90,7 +90,7 @@ class DropView: NSView {
 		
 		guard let appDelegate = NSApp.delegate as? AppDelegate else { return true }
 
-		let urls = getAcceptedPaths(fromPasteboard: sender.draggingPasteboard())
+		let urls = getAcceptedPaths(fromPasteboard: sender.draggingPasteboard)
 		var paths = [String]()
 		for url in urls {
 			paths.append(url.path)

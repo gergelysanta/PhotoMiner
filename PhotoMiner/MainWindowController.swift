@@ -43,7 +43,7 @@ class MainWindowController: NSWindowController {
 		}
 
 		scanner.delegate = self
-		self.titlebarController = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "TitlebarController")) as! TitlebarController?
+		self.titlebarController = self.storyboard?.instantiateController(withIdentifier: "TitlebarController") as! TitlebarController?
 		guard let titlebarController = self.titlebarController else { return }
 		
 		let titleViewFrame = titlebarController.view.frame

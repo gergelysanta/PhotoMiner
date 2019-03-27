@@ -14,7 +14,7 @@ class ForwardingScrollView: NSScrollView {
 		var shouldForwardScroll = false
 		
 		if usesPredominantAxisScrolling {
-			if fabs(event.scrollingDeltaX) > fabs(event.scrollingDeltaY) {
+			if abs(event.scrollingDeltaX) > abs(event.scrollingDeltaY) {
 				// Horizontal scroll
 				if !hasHorizontalScroller {
 					shouldForwardScroll = true

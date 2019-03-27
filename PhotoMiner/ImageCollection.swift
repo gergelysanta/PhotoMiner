@@ -78,7 +78,7 @@ class ImageCollection: NSObject, Codable {
 	}
 	
 	func removeDirectory(_ directory:String) {
-		if let index = rootDirs.index(of: directory) {
+		if let index = rootDirs.firstIndex(of: directory) {
 			rootDirs.remove(at: index)
 		}
 	}
@@ -127,7 +127,7 @@ class ImageCollection: NSObject, Codable {
 		var imageRemoved = false
 		for monthKey in arrangedKeys {
 			if let imagesOfMonth = dictionary[monthKey] {
-				if let imageIndex = imagesOfMonth.index(of: image) {
+				if let imageIndex = imagesOfMonth.firstIndex(of: image) {
 					dictionary[monthKey]?.remove(at: imageIndex)
 					count -= 1
 					allImagesArrayActualized = false
@@ -136,7 +136,7 @@ class ImageCollection: NSObject, Codable {
 				}
 				if dictionary[monthKey]?.count == 0 {
 					dictionary.removeValue(forKey: monthKey)
-					if let index = arrangedKeys.index(of: monthKey) {
+					if let index = arrangedKeys.firstIndex(of: monthKey) {
 						arrangedKeys.remove(at: index)
 					}
 				}
@@ -158,7 +158,7 @@ class ImageCollection: NSObject, Codable {
 				}
 				if dictionary[monthKey]?.count == 0 {
 					dictionary.removeValue(forKey: monthKey)
-					if let index = arrangedKeys.index(of: monthKey) {
+					if let index = arrangedKeys.firstIndex(of: monthKey) {
 						arrangedKeys.remove(at: index)
 					}
 				}

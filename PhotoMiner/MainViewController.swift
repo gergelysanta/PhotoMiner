@@ -302,7 +302,7 @@ extension MainViewController: NSCollectionViewDataSource {
 	
 	func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: NSCollectionView.SupplementaryElementKind, at indexPath: IndexPath) -> NSView {
 		
-		if kind != NSCollectionView.SupplementaryElementKind.sectionHeader {
+		if kind != NSCollectionView.elementKindSectionHeader {
 			let view = NSView()
 			view.wantsLayer = true
 			view.layer?.backgroundColor = NSColor(calibratedWhite: 0.5, alpha: 0.2).cgColor
@@ -312,7 +312,7 @@ extension MainViewController: NSCollectionViewDataSource {
 			return view
 		}
 		
-		let view = collectionView.makeSupplementaryView(ofKind: NSCollectionView.SupplementaryElementKind.sectionHeader,
+		let view = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader,
 														withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderView"),
 														for: indexPath)
 		guard let headerView = view as? HeaderView else { return view }
