@@ -1,6 +1,6 @@
 # PhotoMiner
 
-[![Xcode 10](https://img.shields.io/badge/Xcode-10-blue.svg)](https://developer.apple.com/xcode/)
+[![Xcode 11](https://img.shields.io/badge/Xcode-11-blue.svg)](https://developer.apple.com/xcode/)
 [![Swift 5](https://img.shields.io/badge/Swift-5-blue.svg)](https://swift.org/)
 [![Platform](https://img.shields.io/badge/platforms-macOS-blue.svg)](https://developer.apple.com/macOS)
 [![Build Status](https://travis-ci.org/gergelysanta/photominer.svg?branch=master)](https://travis-ci.org/gergelysanta/photominer)

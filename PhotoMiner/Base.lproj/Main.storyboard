@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14269.12" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14269.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -113,7 +113,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-0w-ZTD">
-                                <rect key="frame" x="68" y="7" width="662" height="17"/>
+                                <rect key="frame" x="68" y="8" width="662" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="PhotoMiner" id="Q1P-W8-6UM">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -139,7 +139,7 @@
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="7Zb-5d-s0Y">
                                 <rect key="frame" x="712" y="8" width="16" height="16"/>
                             </progressIndicator>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1nx-2V-Q21">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1nx-2V-Q21" customClass="LongPressButton" customModule="PhotoMiner" customModuleProvider="target">
                                 <rect key="frame" x="734" y="4" width="36" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="8kZ-Bg-oUy"/>
@@ -149,7 +149,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="scanButtonPressed:" target="wo0-ub-Urj" id="yAM-pd-g4m"/>
+                                    <action selector="scanButtonPressed:" target="wo0-ub-Urj" id="suY-tX-sM5"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AcS-by-NKZ">
@@ -183,6 +183,7 @@
                     <connections>
                         <outlet property="cancelButton" destination="fo8-IL-FaX" id="Q6e-qp-bab"/>
                         <outlet property="progressIndicator" destination="7Zb-5d-s0Y" id="CAQ-1Y-Rx2"/>
+                        <outlet property="scanButton" destination="1nx-2V-Q21" id="mD6-IV-gpH"/>
                         <outlet property="sidebarButton" destination="AcS-by-NKZ" id="uYd-xj-NwP"/>
                         <outlet property="titleField" destination="nJc-0w-ZTD" id="nYk-BI-LGV"/>
                     </connections>
@@ -381,7 +382,7 @@ DQ
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="DropIcon" id="HP3-jU-yq5"/>
                                     </imageView>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o9y-Q3-w1Q">
-                                        <rect key="frame" x="18" y="138" width="535" height="42"/>
+                                        <rect key="frame" x="18" y="139" width="535" height="41"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Drop directories here" id="d9y-Vo-4Jl">
                                             <font key="font" size="36" name="ArialMT"/>
                                             <color key="textColor" name="DropAreaTextColor"/>
@@ -389,7 +390,7 @@ DQ
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="pcC-K9-lNr">
-                                        <rect key="frame" x="18" y="109" width="535" height="21"/>
+                                        <rect key="frame" x="18" y="111" width="535" height="20"/>
                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="to scan them for pictures" id="uOb-MX-pVM">
                                             <font key="font" size="18" name="ArialMT"/>
                                             <color key="textColor" name="DropAreaTextColor"/>
@@ -551,7 +552,7 @@ DQ
                                         <textField horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BZr-Xg-t0D">
                                             <rect key="frame" x="39" y="156" width="205" height="11"/>
                                             <textFieldCell key="cell" controlSize="mini" selectable="YES" sendsActionOnEndEditing="YES" title="&lt;path_to_image&gt;" id="cUj-PJ-oae">
-                                                <font key="font" metaFont="miniSystem"/>
+                                                <font key="font" metaFont="label" size="9"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
@@ -576,21 +577,21 @@ DQ
                                                 <rect key="frame" x="0.0" y="0.0" width="234" height="120"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="12" rowSizeStyle="automatic" viewBased="YES" id="jar-Uf-ibV">
+                                                    <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="12" rowSizeStyle="automatic" viewBased="YES" id="jar-Uf-ibV">
                                                         <rect key="frame" x="0.0" y="0.0" width="234" height="120"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                         <tableColumns>
                                                             <tableColumn identifier="key" editable="NO" width="83" minWidth="40" maxWidth="1000" id="r8a-he-Jjw">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <font key="font" metaFont="miniSystem"/>
+                                                                    <font key="font" metaFont="label" size="9"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
                                                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="G41-jf-cGw">
-                                                                    <font key="font" metaFont="miniSystem"/>
+                                                                    <font key="font" metaFont="label" size="9"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
@@ -603,7 +604,7 @@ DQ
                                                                                 <rect key="frame" x="0.0" y="-5" width="83" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="XEZ-5E-7bi">
-                                                                                    <font key="font" metaFont="miniSystem"/>
+                                                                                    <font key="font" metaFont="label" size="9"/>
                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
@@ -617,12 +618,12 @@ DQ
                                                             </tableColumn>
                                                             <tableColumn identifier="value" editable="NO" width="95" minWidth="40" maxWidth="1000" id="RCL-m7-Nr9">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <font key="font" metaFont="miniSystem"/>
+                                                                    <font key="font" metaFont="label" size="9"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
                                                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="dMC-0g-4hW">
-                                                                    <font key="font" metaFont="miniSystem"/>
+                                                                    <font key="font" metaFont="label" size="9"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
@@ -635,7 +636,7 @@ DQ
                                                                                 <rect key="frame" x="0.0" y="-5" width="95" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="wkb-xN-3wc">
-                                                                                    <font key="font" metaFont="miniSystem"/>
+                                                                                    <font key="font" metaFont="label" size="9"/>
                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
@@ -714,10 +715,10 @@ DQ
         </scene>
     </scenes>
     <resources>
-        <image name="Cancel" width="32" height="32"/>
+        <image name="Cancel" width="16" height="16"/>
         <image name="DropIcon" width="78" height="81"/>
-        <image name="Magnifier" width="32" height="32"/>
-        <image name="SidebarOff" width="32" height="32"/>
+        <image name="Magnifier" width="16" height="16"/>
+        <image name="SidebarOff" width="16" height="16"/>
         <namedColor name="DropAreaTextColor">
             <color red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

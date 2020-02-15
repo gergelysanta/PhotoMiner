@@ -157,8 +157,8 @@ extension MainWindowController: NSWindowDelegate {
 
 // MARK: - TitlebarDelegate methods
 extension MainWindowController: TitlebarDelegate {
-	
-	func titlebar(_ controller: TitlebarController, scanButtonPressed sender: NSButton) {
+
+	func titlebar(_ controller: TitlebarController, startScanForPath scanPath: String?) {
 		let dialog = NSOpenPanel()
 		
 		dialog.title = "Select a directory to scan"
@@ -166,6 +166,10 @@ extension MainWindowController: TitlebarDelegate {
 		dialog.canChooseDirectories    = true
 		dialog.canChooseFiles          = false
 		dialog.allowsMultipleSelection = true
+
+		if let path = scanPath {
+			dialog.directoryURL        = URL(fileURLWithPath: path)
+		}
 		
 		let successBlock: (NSApplication.ModalResponse) -> Void = { response in
 			if response == .OK {

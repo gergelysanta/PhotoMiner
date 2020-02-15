@@ -34,6 +34,7 @@
 		74FD6814201A03610046DC1A /* FlippedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD6813201A03610046DC1A /* FlippedView.swift */; };
 		74FD6816201A39EA0046DC1A /* SidebarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD6815201A39EA0046DC1A /* SidebarController.swift */; };
 		74FD6818201BA9180046DC1A /* ForwardingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */; };
+		ECB2763323F7ED7200F22E29 /* LongPressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB2763223F7ED7200F22E29 /* LongPressButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		74FD6813201A03610046DC1A /* FlippedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlippedView.swift; sourceTree = "<group>"; };
 		74FD6815201A39EA0046DC1A /* SidebarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarController.swift; sourceTree = "<group>"; };
 		74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardingScrollView.swift; sourceTree = "<group>"; };
+		ECB2763223F7ED7200F22E29 /* LongPressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,46 +104,14 @@
 		74174E571DF835C100D10710 /* PhotoMiner */ = {
 			isa = PBXGroup;
 			children = (
-				74BD2FBB1E16F423000109F9 /* Controllers */,
-				74BD2FBD1E16F47C000109F9 /* Model */,
+				74174E581DF835C100D10710 /* AppDelegate.swift */,
+				ECB2762F23F7D61800F22E29 /* Model */,
+				ECB2763023F7ED1200F22E29 /* View */,
+				ECB2762E23F7D5F800F22E29 /* Controllers */,
 				74BD2FBE1E16F492000109F9 /* Resources */,
 				74174E5C1DF835C100D10710 /* Assets.xcassets */,
 			);
 			path = PhotoMiner;
-			sourceTree = "<group>";
-		};
-		74BD2FBB1E16F423000109F9 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				74174E581DF835C100D10710 /* AppDelegate.swift */,
-				74174E671DF838EE00D10710 /* TitlebarController.swift */,
-				74174E691DF83AED00D10710 /* MainWindowController.swift */,
-				74174E5A1DF835C100D10710 /* MainViewController.swift */,
-				74FD680D20187A560046DC1A /* MainSplitViewController.swift */,
-				74FD680F2018A6700046DC1A /* MainSplitView.swift */,
-				74FD6815201A39EA0046DC1A /* SidebarController.swift */,
-				74FD6813201A03610046DC1A /* FlippedView.swift */,
-				740820AC1E6B4554004BA3CE /* PhotoCollectionView.swift */,
-				7492390C1E66B1B8005F629E /* HeaderView.swift */,
-				74F4B6F51EA13B7E00FE73C7 /* SettingsController.swift */,
-				74BD2FB71E16B37B000109F9 /* ThumbnailViewItem.swift */,
-				74AC4CAA1E7851900002A654 /* DropView.swift */,
-				74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */,
-			);
-			name = Controllers;
-			sourceTree = "<group>";
-		};
-		74BD2FBD1E16F47C000109F9 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				74443D521DF944B000625848 /* Configuration.swift */,
-				74FC094A203DEEF500B27538 /* AppData.swift */,
-				7407A13C20E9FA4600645B54 /* Colors.swift */,
-				74DDE1F11E09293200C6FB36 /* Scanner.swift */,
-				74AF40A21E65DA78009A1D47 /* ImageCollection.swift */,
-				74BD2FB91E16B671000109F9 /* ImageData.swift */,
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 		74BD2FBE1E16F492000109F9 /* Resources */ = {
@@ -155,6 +125,47 @@
 				74BD2FBF1E194895000109F9 /* ThumbnailViewItem.xib */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		ECB2762E23F7D5F800F22E29 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				74174E671DF838EE00D10710 /* TitlebarController.swift */,
+				74174E691DF83AED00D10710 /* MainWindowController.swift */,
+				74174E5A1DF835C100D10710 /* MainViewController.swift */,
+				74FD680D20187A560046DC1A /* MainSplitViewController.swift */,
+				74FD6815201A39EA0046DC1A /* SidebarController.swift */,
+				74F4B6F51EA13B7E00FE73C7 /* SettingsController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		ECB2762F23F7D61800F22E29 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				74443D521DF944B000625848 /* Configuration.swift */,
+				74FC094A203DEEF500B27538 /* AppData.swift */,
+				7407A13C20E9FA4600645B54 /* Colors.swift */,
+				74DDE1F11E09293200C6FB36 /* Scanner.swift */,
+				74AF40A21E65DA78009A1D47 /* ImageCollection.swift */,
+				74BD2FB91E16B671000109F9 /* ImageData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		ECB2763023F7ED1200F22E29 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7492390C1E66B1B8005F629E /* HeaderView.swift */,
+				74AC4CAA1E7851900002A654 /* DropView.swift */,
+				74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */,
+				74FD680F2018A6700046DC1A /* MainSplitView.swift */,
+				74FD6813201A03610046DC1A /* FlippedView.swift */,
+				740820AC1E6B4554004BA3CE /* PhotoCollectionView.swift */,
+				74BD2FB71E16B37B000109F9 /* ThumbnailViewItem.swift */,
+				ECB2763223F7ED7200F22E29 /* LongPressButton.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,6 +279,7 @@
 				74FC094B203DEEF500B27538 /* AppData.swift in Sources */,
 				74BD2FB81E16B37B000109F9 /* ThumbnailViewItem.swift in Sources */,
 				74443D531DF944B000625848 /* Configuration.swift in Sources */,
+				ECB2763323F7ED7200F22E29 /* LongPressButton.swift in Sources */,
 				74FD6818201BA9180046DC1A /* ForwardingScrollView.swift in Sources */,
 				740820AD1E6B4554004BA3CE /* PhotoCollectionView.swift in Sources */,
 				74174E681DF838EE00D10710 /* TitlebarController.swift in Sources */,
@@ -444,6 +456,7 @@
 				DEVELOPMENT_TEAM = Y9N34UZ32J;
 				INFOPLIST_FILE = PhotoMiner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trikatz.photominer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -458,6 +471,7 @@
 				DEVELOPMENT_TEAM = Y9N34UZ32J;
 				INFOPLIST_FILE = PhotoMiner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trikatz.photominer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

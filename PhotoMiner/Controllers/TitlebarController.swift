@@ -9,7 +9,7 @@
 import Cocoa
 
 protocol TitlebarDelegate {
-	func titlebar(_ controller: TitlebarController, scanButtonPressed sender: NSButton)
+	func titlebar(_ controller: TitlebarController, startScanForPath scanPath: String?)
 	func titlebar(_ controller: TitlebarController, cancelButtonPressed sender: NSButton)
 	func titlebarSidebarToggled(_ controller: TitlebarController)
 }
@@ -21,21 +21,40 @@ class TitlebarController: NSViewController {
 	
 	var delegate:TitlebarDelegate?
 	
-	@IBOutlet private weak var titleField: NSTextField!
-	@IBOutlet private weak var cancelButton: NSButton!
-	@IBOutlet private weak var sidebarButton: NSButton!
-	@IBOutlet private weak var progressIndicator: NSProgressIndicator!
-	
+	@IBOutlet private var titleField: NSTextField!
+	@IBOutlet private var cancelButton: NSButton!
+	@IBOutlet private var sidebarButton: NSButton!
+	@IBOutlet private var progressIndicator: NSProgressIndicator!
+	@IBOutlet private var scanButton: LongPressButton!
+
 	private let sidebarOnImage  = NSImage(named: "SidebarOn")
 	private let sidebarOffImage = NSImage(named: "SidebarOff")
-	
+
+//	private var longScanPressTimer: Repeater?
+	private var longScanPressMenu = NSMenu()
+
+	private var predefinedDirectories: [[String]] = [
+		["Scan Messages attachments", "~/Library/Messages"],
+		["Scan Mail attachments", "~/Library/Mail"]
+	]
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.setTotalCount(0)
 		self.progressOn(false)
-		
-		NotificationCenter.default.addObserver(self, selector: #selector(self.sidebarOnNotification(notification:)),  name: TitlebarController.sidebarOnNotification,  object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(self.sidebarOffNotification(notification:)), name: TitlebarController.sidebarOffNotification, object: nil)
+
+		// Construct menu for scanButton longpress
+		for (index, itemDef) in predefinedDirectories.enumerated() {
+			let menuItem = NSMenuItem(title: itemDef[0], action: #selector(scanMenuItemSelected(_:)), keyEquivalent: "")
+			menuItem.target = self
+			menuItem.tag = index
+			longScanPressMenu.addItem(menuItem)
+		}
+
+		scanButton.longPressMenu = longScanPressMenu
+
+		NotificationCenter.default.addObserver(self, selector: #selector(sidebarOnNotification(notification:)),  name: TitlebarController.sidebarOnNotification,  object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(sidebarOffNotification(notification:)), name: TitlebarController.sidebarOffNotification, object: nil)
 	}
 	
 	deinit {
@@ -49,9 +68,30 @@ class TitlebarController: NSViewController {
 	@objc func sidebarOffNotification(notification: Notification){
 		sidebarButton.image = sidebarOffImage
 	}
-	
+
 	@IBAction func scanButtonPressed(_ sender: NSButton) {
-		delegate?.titlebar(self, scanButtonPressed: sender)
+		delegate?.titlebar(self, startScanForPath: nil)
+	}
+
+	@objc func scanMenuItemSelected(_ sender: NSMenuItem) {
+		guard (0..<predefinedDirectories.count).contains(sender.tag) else { return }
+
+		// Construct home directory
+		// Sandboxed app will have home dir in it's sandboxed container, we need the user's home directory globally
+		var homeDirectory = ""
+		for component in NSHomeDirectory().components(separatedBy: "/") {
+			if component.isEmpty { continue }
+			homeDirectory += "/\(component)"
+			if component == NSUserName() {
+				break
+			}
+		}
+
+		// Replace tilde in path
+		let scanDirectory = predefinedDirectories[sender.tag][1].replacingOccurrences(of: "~", with: homeDirectory)
+
+		// Start scan for this directory
+		delegate?.titlebar(self, startScanForPath: scanDirectory)
 	}
 	
 	@IBAction func cancelButtonPressed(_ sender: NSButton) {
@@ -91,3 +131,12 @@ class TitlebarController: NSViewController {
 	}
 	
 }
+
+//extension TitlebarController: NSMenuDelegate {
+//
+//	func menuDidClose(_ menu: NSMenu) {
+////		scanButton.highlight(false)
+////		NSApp.sendEvent(NSEvent(eventRef: <#T##UnsafeRawPointer#>))
+//	}
+//
+//}
