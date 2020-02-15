@@ -70,7 +70,25 @@ class Configuration: NSObject {
 			self.saveConfiguration()
 		}
 	}
-	
+
+	@objc dynamic var searchForImages = true {
+		   didSet {
+			   #if DEBUG
+				   NSLog("searchForImages: \(searchForImages)")
+			   #endif
+			   self.saveConfiguration()
+		   }
+	   }
+
+	@objc dynamic var searchForMovies = true {
+		   didSet {
+			   #if DEBUG
+				   NSLog("searchForMovies: \(searchForMovies)")
+			   #endif
+			   self.saveConfiguration()
+		   }
+	   }
+
 	var displayWarningForParsedScans = true {
 		didSet {
 			self.saveConfiguration()
@@ -111,6 +129,12 @@ class Configuration: NSObject {
 		if let boolValue = userDefaults.value(forKey: "displayWarningForParsedScans") as? Bool {
 			displayWarningForParsedScans = boolValue
 		}
+		if let boolValue = userDefaults.value(forKey: "searchForImages") as? Bool {
+			searchForImages = boolValue
+		}
+		if let boolValue = userDefaults.value(forKey: "searchForMovies") as? Bool {
+			searchForMovies = boolValue
+		}
 	}
 	
 	func saveConfiguration() {
@@ -121,6 +145,8 @@ class Configuration: NSObject {
 		UserDefaults.standard.set(highlightPicturesWithoutExif, forKey: "highlightPicturesWithoutExif")
 		UserDefaults.standard.set(collapseByClickingHeader, forKey: "collapseByClickingHeader")
 		UserDefaults.standard.set(displayWarningForParsedScans, forKey: "displayWarningForParsedScans")
+		UserDefaults.standard.set(searchForImages, forKey: "searchForImages")
+		UserDefaults.standard.set(searchForMovies, forKey: "searchForMovies")
 		UserDefaults.standard.synchronize()
 	}
 	

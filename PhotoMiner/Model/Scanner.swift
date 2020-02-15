@@ -104,9 +104,15 @@ class Scanner: NSObject {
 								fileType = fileURL.pathExtension
 							}
 							
-							// Check UTI file type (file must be an image)
+							// Check UTI file type (file must be an image or movie)
+							var isMovie = false
 							if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileType as CFString, nil)?.takeRetainedValue() {
-								if !UTTypeConformsTo(fileUTI, kUTTypeImage) {
+								let isImage = UTTypeConformsTo(fileUTI, kUTTypeImage)
+								isMovie = UTTypeConformsTo(fileUTI, kUTTypeMovie)
+								if (!isImage && !isMovie) ||
+								   (isImage && !Configuration.shared.searchForImages) ||
+								   (isMovie && !Configuration.shared.searchForMovies)
+								{
 									#if DEBUG
 //									NSLog("- [%@] %@", fileType, fileURL.lastPathComponent)
 									#endif
@@ -122,7 +128,7 @@ class Scanner: NSObject {
 							}
 							
 							// Create and add image to collection
-							if self.scannedCollection.addImage(ImageData(path: filePath, creationDate: imageDate)) {
+							if self.scannedCollection.addImage(ImageData(path: filePath, creationDate: imageDate, isMovie: isMovie)) {
 								
 								directoryWasEmpty = false
 								

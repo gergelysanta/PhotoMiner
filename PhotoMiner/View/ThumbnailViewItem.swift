@@ -17,6 +17,8 @@ class ThumbnailViewItem: NSCollectionViewItem {
 	
 	var delegate:ThumbnailViewItemDelegate? = nil
 	
+	@IBOutlet private var tag: NSTextField!
+
 	override var isSelected:Bool {
 		didSet {
 			updateBackground()
@@ -48,6 +50,14 @@ class ThumbnailViewItem: NSCollectionViewItem {
 					formatter.timeStyle = .short
 					self.textField?.stringValue = formatter.string(from: object.creationDate)
 				}
+
+				if object.isMovie {
+					self.tag.isHidden = false
+					self.tag.stringValue = "🎦"
+				} else {
+					self.tag.isHidden = true
+				}
+
 				self.imageView?.bind(NSBindingName(rawValue: "value"), to: object, withKeyPath: "imageThumbnail", options: nil)
 			}
 		}

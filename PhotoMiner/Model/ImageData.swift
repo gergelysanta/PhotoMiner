@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import AVKit
 
 class ImageData: NSObject, Codable {
 	
@@ -17,6 +18,7 @@ class ImageData: NSObject, Codable {
 	
 	private(set) var dimensions:NSSize = NSZeroSize
 	private(set) var isLandscape:Bool = false
+	private(set) var isMovie:Bool = false
 	
 	private(set) var exifData = [String: AnyObject]()
 	
@@ -88,11 +90,12 @@ class ImageData: NSObject, Codable {
 		super.init()
 	}
 
-	convenience init (path:String, creationDate:Date) {
+	convenience init (path:String, creationDate:Date, isMovie:Bool = false) {
 		self.init()
 		self.imagePath = path
 		self.imageName = URL(fileURLWithPath: path).lastPathComponent
 		self.creationDate = creationDate
+		self.isMovie = isMovie
 		parseImageProperties()
 	}
 
@@ -167,26 +170,74 @@ class ImageData: NSObject, Codable {
 	
 	func setThumbnail() {
 		thumbnailQueue.async {
-			if let imageSource = self.createImageSource() {
-				let options:CFDictionary = [
-						// Ask ImageIO to create a thumbnail from the file's image data, if it can't find
-						// a suitable existing thumbnail image in the file.  We could comment out the following
-						// line if only existing thumbnails were desired for some reason (maybe to favor
-						// performance over being guaranteed a complete set of thumbnails).
-						kCGImageSourceCreateThumbnailFromImageIfAbsent as String : true,
-						kCGImageSourceCreateThumbnailWithTransform as String : true,
-						kCGImageSourceThumbnailMaxPixelSize as String : 148
-					] as CFDictionary
-				if let thumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options) {
-					let image = NSImage(cgImage: thumbnail, size: NSZeroSize)
-					self.mainQueue.sync {
-						self.willChangeValue(forKey: "imageThumbnail")
-						self.imageThumbnail = image
-						self.didChangeValue(forKey: "imageThumbnail")
-					}
+			if self.isMovie {
+				self.setMovieThumbnail()
+			} else {
+				self.setImageThumbnail()
+			}
+		}
+	}
+
+	private func setImageThumbnail() {
+		if let imageSource = self.createImageSource() {
+			let options:CFDictionary = [
+					// Ask ImageIO to create a thumbnail from the file's image data, if it can't find
+					// a suitable existing thumbnail image in the file.  We could comment out the following
+					// line if only existing thumbnails were desired for some reason (maybe to favor
+					// performance over being guaranteed a complete set of thumbnails).
+					kCGImageSourceCreateThumbnailFromImageIfAbsent as String : true,
+					kCGImageSourceCreateThumbnailWithTransform as String : true,
+					kCGImageSourceThumbnailMaxPixelSize as String : 148
+				] as CFDictionary
+			if let thumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options) {
+				let image = NSImage(cgImage: thumbnail, size: NSZeroSize)
+				self.mainQueue.sync {
+					self.willChangeValue(forKey: "imageThumbnail")
+					self.imageThumbnail = image
+					self.didChangeValue(forKey: "imageThumbnail")
 				}
 			}
 		}
 	}
-	
+
+	private func setMovieThumbnail() {
+		// Create asset
+		let asset = AVURLAsset(url: URL(fileURLWithPath: self.imagePath))
+		let assetGenerator = AVAssetImageGenerator(asset: asset)
+		assetGenerator.appliesPreferredTrackTransform = true
+		assetGenerator.maximumSize = CGSize(width: 320, height: 320)
+
+		let time = CMTime(seconds: Double(asset.duration.value / 2), preferredTimescale: 600)
+
+		assetGenerator.generateCGImagesAsynchronously(forTimes: [NSValue(time: time)]) { (requestedTime: CMTime, image: CGImage?, actualTime: CMTime, result: AVAssetImageGenerator.Result, error: Error?) in
+			if let generateError = error {
+				#if DEBUG
+				NSLog("ERROR Generating movie thumbnail: \(generateError.localizedDescription)")
+				#endif
+				return
+			}
+
+			if result != .succeeded {
+				#if DEBUG
+				NSLog("ERROR Generating movie thumbnail")
+				#endif
+				return
+			}
+
+			guard let cgImage = image else {
+				#if DEBUG
+				NSLog("ERROR Generating movie thumbnail: No image")
+				#endif
+				return
+			}
+			let thumbnailImage = NSImage(cgImage: cgImage, size: .zero)
+
+			self.mainQueue.sync {
+				self.willChangeValue(forKey: "imageThumbnail")
+				self.imageThumbnail = thumbnailImage
+				self.didChangeValue(forKey: "imageThumbnail")
+			}
+		}
+	}
+
 }

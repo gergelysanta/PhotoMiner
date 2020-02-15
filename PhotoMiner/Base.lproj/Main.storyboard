@@ -104,6 +104,62 @@
             </objects>
             <point key="canvasLocation" x="-434" y="-245"/>
         </scene>
+        <!--Load Accessory Controller-->
+        <scene sceneID="Lqm-Hx-Yum">
+            <objects>
+                <viewController storyboardIdentifier="LoadAccessoryController" id="bP3-cE-fdP" customClass="LoadAccessoryController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="6xA-7h-emJ">
+                        <rect key="frame" x="0.0" y="0.0" width="582" height="32"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="u71-Vo-ka8">
+                                <rect key="frame" x="18" y="8" width="71" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Search for:" id="OP0-Mp-M8r">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wg8-ny-XZB">
+                                <rect key="frame" x="105" y="7" width="66" height="18"/>
+                                <buttonCell key="cell" type="check" title="Images" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="x30-Ow-2r0">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="bP3-cE-fdP" name="enabled" keyPath="self.checkImagesEnabled" id="bOe-Y5-7M6"/>
+                                    <binding destination="bP3-cE-fdP" name="value" keyPath="self.includeImages" id="sTL-uy-peI"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Woa-IX-ahY">
+                                <rect key="frame" x="187" y="7" width="65" height="18"/>
+                                <buttonCell key="cell" type="check" title="Movies" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="w0h-UB-s5N">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="bP3-cE-fdP" name="enabled" keyPath="self.checkMoviesEnabled" id="Bza-rL-fo3"/>
+                                    <binding destination="bP3-cE-fdP" name="value" keyPath="self.includeMovies" id="uuQ-8O-mCS"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="u71-Vo-ka8" secondAttribute="bottom" constant="8" id="0YL-0o-fFM"/>
+                            <constraint firstItem="Wg8-ny-XZB" firstAttribute="centerY" secondItem="u71-Vo-ka8" secondAttribute="centerY" id="FcB-mv-bnh"/>
+                            <constraint firstItem="u71-Vo-ka8" firstAttribute="top" secondItem="6xA-7h-emJ" secondAttribute="top" constant="8" id="Hmx-6c-Gkc"/>
+                            <constraint firstItem="Wg8-ny-XZB" firstAttribute="leading" secondItem="u71-Vo-ka8" secondAttribute="trailing" constant="20" id="dqB-3W-6PB"/>
+                            <constraint firstItem="Woa-IX-ahY" firstAttribute="centerY" secondItem="u71-Vo-ka8" secondAttribute="centerY" id="iKw-ng-k0k"/>
+                            <constraint firstItem="u71-Vo-ka8" firstAttribute="leading" secondItem="6xA-7h-emJ" secondAttribute="leading" constant="20" id="thi-XM-k9Q"/>
+                            <constraint firstItem="Woa-IX-ahY" firstAttribute="leading" secondItem="Wg8-ny-XZB" secondAttribute="trailing" constant="20" id="vSH-tN-Uh6"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Woa-IX-ahY" secondAttribute="trailing" constant="20" id="wga-hV-PzW"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="KeM-Uh-MAx" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController id="TfB-aR-J3j"/>
+            </objects>
+            <point key="canvasLocation" x="9" y="-240"/>
+        </scene>
         <!--Titlebar Controller-->
         <scene sceneID="SJ8-9S-pdM">
             <objects>

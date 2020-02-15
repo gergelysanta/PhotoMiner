@@ -35,6 +35,7 @@
 		74FD6816201A39EA0046DC1A /* SidebarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD6815201A39EA0046DC1A /* SidebarController.swift */; };
 		74FD6818201BA9180046DC1A /* ForwardingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */; };
 		ECB2763323F7ED7200F22E29 /* LongPressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB2763223F7ED7200F22E29 /* LongPressButton.swift */; };
+		ECB2763723F8877C00F22E29 /* LoadAccessoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB2763623F8877C00F22E29 /* LoadAccessoryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		74FD6815201A39EA0046DC1A /* SidebarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarController.swift; sourceTree = "<group>"; };
 		74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardingScrollView.swift; sourceTree = "<group>"; };
 		ECB2763223F7ED7200F22E29 /* LongPressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressButton.swift; sourceTree = "<group>"; };
+		ECB2763623F8877C00F22E29 /* LoadAccessoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadAccessoryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +138,7 @@
 				74FD680D20187A560046DC1A /* MainSplitViewController.swift */,
 				74FD6815201A39EA0046DC1A /* SidebarController.swift */,
 				74F4B6F51EA13B7E00FE73C7 /* SettingsController.swift */,
+				ECB2763623F8877C00F22E29 /* LoadAccessoryController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 			files = (
 				74174E5B1DF835C100D10710 /* MainViewController.swift in Sources */,
 				7407A13D20E9FA4600645B54 /* Colors.swift in Sources */,
+				ECB2763723F8877C00F22E29 /* LoadAccessoryController.swift in Sources */,
 				74FD680E20187A560046DC1A /* MainSplitViewController.swift in Sources */,
 				74F4B6F61EA13B7E00FE73C7 /* SettingsController.swift in Sources */,
 				74BD2FBA1E16B671000109F9 /* ImageData.swift in Sources */,

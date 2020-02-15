@@ -89,7 +89,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	// MARK: - Scan
-	
+
 	private func internalStartScan() {
 		// We're starting a new scan, clean parsed data (won't be displayed)
 		AppData.shared.parsedImageCollection = nil
@@ -157,17 +157,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			AppData.shared.parsedImageCollection == nil,
 			withConfirmation && Configuration.shared.newScanMustBeConfirmed && windowController.hasContent
 		{
-			let scanCompletionHandler: (Bool) -> Void = { response in
+			self.confirmAction(NSLocalizedString("Are you sure you want to start a new scan?", comment: "Confirmation for starting new scan"),
+							   forWindow: windowController.window)
+			{ (response: Bool) in
 				if response {
 					self.internalStartScan()
-				}
-				else {
+				} else {
 					windowController.isDragAndDropVisible = false
 				}
 			}
-			self.confirmAction(NSLocalizedString("Are you sure you want to start a new scan?", comment: "Confirmation for starting new scan"),
-							   forWindow: windowController.window,
-							   action: scanCompletionHandler)
 		}
 		else {
 			internalCheckParsedScan()

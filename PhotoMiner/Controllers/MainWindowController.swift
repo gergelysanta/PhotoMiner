@@ -11,7 +11,8 @@ import Cocoa
 class MainWindowController: NSWindowController {
 	
 	let scanner = Scanner()
-	var titlebarController: TitlebarController? = nil
+	var titlebarController: TitlebarController?
+	var loadAccessoryController: LoadAccessoryController?
 	
 	var mainViewController:MainViewController? {
 		get {
@@ -44,6 +45,8 @@ class MainWindowController: NSWindowController {
 
 		scanner.delegate = self
 		self.titlebarController = self.storyboard?.instantiateController(withIdentifier: "TitlebarController") as! TitlebarController?
+		self.loadAccessoryController = self.storyboard?.instantiateController(withIdentifier: "LoadAccessoryController") as! LoadAccessoryController
+
 		guard let titlebarController = self.titlebarController else { return }
 		
 		let titleViewFrame = titlebarController.view.frame
@@ -160,12 +163,14 @@ extension MainWindowController: TitlebarDelegate {
 
 	func titlebar(_ controller: TitlebarController, startScanForPath scanPath: String?) {
 		let dialog = NSOpenPanel()
-		
+
 		dialog.title = "Select a directory to scan"
 		dialog.showsHiddenFiles        = false
 		dialog.canChooseDirectories    = true
 		dialog.canChooseFiles          = false
 		dialog.allowsMultipleSelection = true
+		dialog.accessoryView           = self.loadAccessoryController?.view
+		dialog.isAccessoryViewDisclosed = true
 
 		if let path = scanPath {
 			dialog.directoryURL        = URL(fileURLWithPath: path)
@@ -173,10 +178,7 @@ extension MainWindowController: TitlebarDelegate {
 		
 		let successBlock: (NSApplication.ModalResponse) -> Void = { response in
 			if response == .OK {
-				var directoryList = [String]()
-				for url in dialog.urls {
-					directoryList.append(url.path)
-				}
+				let directoryList = dialog.urls.map { $0.path }
 				AppData.shared.setLookupDirectories(directoryList)
 				
 				// Start scan without confirmation
