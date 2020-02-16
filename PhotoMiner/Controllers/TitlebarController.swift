@@ -34,8 +34,8 @@ class TitlebarController: NSViewController {
 	private var longScanPressMenu = NSMenu()
 
 	private var predefinedDirectories: [[String]] = [
-		["Scan Messages attachments", "~/Library/Messages"],
-		["Scan Mail attachments", "~/Library/Mail"]
+		[NSLocalizedString("Scan Messages attachments", comment: "Scan Messages attachments"), "~/Library/Messages"],
+		[NSLocalizedString("Scan Mail attachments", comment: "Scan Mail attachments"), "~/Library/Mail"]
 	]
 
 	override func viewDidLoad() {

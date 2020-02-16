@@ -121,3 +121,12 @@
 
 /* Class = "NSButtonCell"; title = "Close"; ObjectID = "QUC-uj-7xR"; */
 "QUC-uj-7xR.title" = "Bezár";
+
+/* Class = "NSTextFieldCell"; title = "Search for file types:"; ObjectID = "OP0-Mp-M8r"; */
+"OP0-Mp-M8r.title" = "Keresd a következő fájlokat:";
+
+/* Class = "NSButton"; title = "Images"; ObjectID = "x30-Ow-2r0"; */
+"x30-Ow-2r0.title" = "Képek";
+
+/* Class = "NSButton"; title = "Videos"; ObjectID = "w0h-UB-s5N"; */
+"w0h-UB-s5N.title" = "Videók";

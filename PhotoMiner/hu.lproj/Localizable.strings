@@ -52,3 +52,9 @@
 /* Confirmation for saving before termination */
 "Your loaded scan changed. Do you want to save it before terminating application?" =
 "A beolvasott keresési adatok megváltoztak. Akarod menteni őket a kilépés előtt?";
+
+/* Scan Messages attachments */
+"Scan Messages attachments" = "Messages mellékleteinek keresése";
+
+/* Scan Mail attachments */
+"Scan Mail attachments" = "Mail mellékleteinek keresése";
