@@ -27,8 +27,8 @@ class MainSplitViewController: NSSplitViewController {
 			removeSplitViewItem(rightItem)
 			let sidebarItem = NSSplitViewItem(sidebarWithViewController: rightItem.viewController)
 			sidebarItem.collapseBehavior = .preferResizingSplitViewWithFixedSiblings
-			sidebarItem.minimumThickness = CGFloat(Configuration.shared.sidepanelMinSize)
-			sidebarItem.maximumThickness = CGFloat(Configuration.shared.sidePanelMaxSize)
+			sidebarItem.minimumThickness = CGFloat(Configuration.shared.sidepanelMinWidth)
+			sidebarItem.maximumThickness = CGFloat(Configuration.shared.sidePanelMaxWidth)
 			sidebarItem.canCollapse = true
 			sidebarItem.isCollapsed = true
 			addSplitViewItem(sidebarItem)

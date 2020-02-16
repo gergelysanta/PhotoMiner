@@ -292,7 +292,6 @@ extension MainViewController: NSCollectionViewDataSource {
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
 		let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ThumbnailViewItem"), for: indexPath) as! ThumbnailViewItem
 		if let imageData = self.imageAtIndexPath(indexPath: indexPath) {
-			imageData.frame = item.view.frame
 			imageData.parseImageProperties()
 			item.representedObject = imageData
 		}

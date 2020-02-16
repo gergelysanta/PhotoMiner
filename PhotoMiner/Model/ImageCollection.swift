@@ -8,15 +8,28 @@
 
 import Cocoa
 
+/// Class representing collection of images on the disk
 class ImageCollection: NSObject, Codable {
 
-	private(set) var rootDirs = [String]()					// Scanned directories
-	private(set) var dictionary = [String:[ImageData]]()	// Dictionary have unarranged keys
-	private(set) var arrangedKeys = [String]()				// So we're storing arranged keys here
-	private(set) var count:Int = 0							// Count of all objects in dictionary
-	
-	private var allImagesArray = [ImageData]()				// Inner array caching arranged array of all images when requested
-	private var allImagesArrayActualized = false			// Flag indicating if inner array of all images is actualized
+	/// Directories where collection are images are located (directories which were scanned)
+	private(set) var rootDirs = [String]()
+
+	/// Dictionary of images grouped in months (keys are representing months)
+	private(set) var dictionary = [String:[ImageData]]()
+
+	// Arranged keys of image collection keys (months)
+	private(set) var arrangedKeys = [String]()
+
+	/// Count of all objects in dictionary
+	private(set) var count:Int = 0
+
+	/// Inner array caching arranged array of all images when requested
+	private var allImagesArray = [ImageData]()
+
+	/// Flag indicating if inner array of all images is actualized
+	private var allImagesArrayActualized = false
+
+	// Array of all images in arranged order (arranged by months)
 	var allImages:[ImageData] {
 		get {
 			if !allImagesArrayActualized {
@@ -33,19 +46,20 @@ class ImageCollection: NSObject, Codable {
 			return allImagesArray
 		}
 	}
-	
+
 	//
 	// MARK: - Serialization
 	//
-	
+
+	/// Keys for serializing this object
 	public enum CodingKeys: String, CodingKey {
 		case rootDirs = "root"
 		case dictionary = "images"
 		case arrangedKeys = "ordered"
 		case count = "count"
 	}
-	
-	// Encode object to serialized data
+
+	/// Encode object to serialized data
 	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(rootDirs, forKey: .rootDirs)
@@ -53,8 +67,8 @@ class ImageCollection: NSObject, Codable {
 		try container.encode(arrangedKeys, forKey: .arrangedKeys)
 		try container.encode(count, forKey: .count)
 	}
-	
-	// Initializing object from serialized data
+
+	/// Initializing object from serialized data
 	required init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		rootDirs = try values.decode([String].self, forKey: .rootDirs)
@@ -62,44 +76,48 @@ class ImageCollection: NSObject, Codable {
 		arrangedKeys = try values.decode([String].self, forKey: .arrangedKeys)
 		count = try values.decode(Int.self, forKey: .count)
 	}
-	
+
 	//
 	// MARK: - Instance methods
 	//
-	
+
 	// Disable default constructor (by making it private)
 	override private init() {
 		super.init()
 	}
-	
+
 	convenience init(withDirectories scanDirectories: [String]) {
 		self.init()
 		rootDirs = scanDirectories
 	}
-	
+
+	/// Add a directory to the array of root dirs
+	/// - Parameter directory: new directory path
 	func removeDirectory(_ directory:String) {
 		if let index = rootDirs.firstIndex(of: directory) {
 			rootDirs.remove(at: index)
 		}
 	}
-	
+
+	/// Add an image to the collection. Method will create a new group (months) for this image if that do not yet exists.
+	/// - Parameter image: image data
 	func addImage(_ image:ImageData) -> Bool {
-		
+
 		// Construct key for creating month of the new image
 		let dateComponents = Calendar.current.dateComponents([.year, .month], from:image.creationDate)
 		let monthKey = String(format:"%04ld%02ld", dateComponents.year!, dateComponents.month!)
-		
+
 		// Check if we have an array in our dictionary for this month
 		if (dictionary[monthKey] == nil) {
-			
+
 			// Create new array for new month section
 			dictionary[monthKey] = [ImageData]()
-			
+
 			// Add new key to arranged keys array and re-arrange the array
 			arrangedKeys.append(monthKey)
 			arrangedKeys.sort { Int($0)! > Int($1)! }
 		}
-		
+
 		// Add image to the month array
 		if let imagesOfMonth = dictionary[monthKey] {
 			var index = 0
@@ -109,7 +127,7 @@ class ImageCollection: NSObject, Codable {
 				}
 				index += 1
 			}
-			
+
 			if index >= imagesOfMonth.count {
 				dictionary[monthKey]?.append(image)
 			}
@@ -119,10 +137,12 @@ class ImageCollection: NSObject, Codable {
 			count += 1
 			allImagesArrayActualized = false
 		}
-		
+
 		return true
 	}
-	
+
+	/// Remove an image from the collection
+	/// - Parameter image: image data
 	func removeImage(_ image:ImageData) -> Bool {
 		var imageRemoved = false
 		for monthKey in arrangedKeys {
@@ -144,7 +164,9 @@ class ImageCollection: NSObject, Codable {
 		}
 		return imageRemoved
 	}
-	
+
+	/// Remove an image specified by path from the collection
+	/// - Parameter path: path to the image
 	@discardableResult func removeImage(withPath path:String) -> Bool {
 		var imageRemoved = false
 		for monthKey in arrangedKeys {
@@ -166,7 +188,9 @@ class ImageCollection: NSObject, Codable {
 		}
 		return imageRemoved
 	}
-	
+
+	/// Find an image in the collection by it's name
+	/// - Parameter name: image name
 	func image(withName name: String) -> ImageData? {
 		for monthKey in arrangedKeys {
 			if let imagesOfMonth = dictionary[monthKey] {
@@ -179,7 +203,9 @@ class ImageCollection: NSObject, Codable {
 		}
 		return nil
 	}
-	
+
+	/// Find an image in the collection by it's path
+	/// - Parameter path: image path
 	func image(withPath path: String) -> ImageData? {
 		for monthKey in arrangedKeys {
 			if let imagesOfMonth = dictionary[monthKey] {
@@ -192,7 +218,9 @@ class ImageCollection: NSObject, Codable {
 		}
 		return nil
 	}
-	
+
+	/// Find an image in the collection by it's index path
+	/// - Parameter indexPath: index path
 	func image(withIndexPath indexPath: IndexPath) -> ImageData? {
 		if indexPath.section < arrangedKeys.count {
 			let monthKey = arrangedKeys[indexPath.section]
@@ -204,7 +232,9 @@ class ImageCollection: NSObject, Codable {
 		}
 		return nil
 	}
-	
+
+	/// Get index path of an image
+	/// - Parameter image: image data
 	func indexPath(of image:ImageData) -> IndexPath? {
 		for section in 0..<arrangedKeys.count {
 			let monthKey = arrangedKeys[section]
@@ -218,5 +248,5 @@ class ImageCollection: NSObject, Codable {
 		}
 		return nil
 	}
-	
+
 }

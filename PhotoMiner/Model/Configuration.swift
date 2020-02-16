@@ -8,15 +8,25 @@
 
 import Cocoa
 
+/// Application configuratio singleton
 class Configuration: NSObject {
-	
+
+	/// Shared object
 	static let shared = Configuration()
-	
-	let ignoreImagesBelowSize = 51200		// 50kB (50 * 1024 = 51200)
-	let sidepanelMinSize = 150
-	let sidePanelMaxSize = 500
+
+	/// Ignore images smaller than this size
+	let ignoreImagesBelowSize = 51200              // 50kB (50 * 1024 = 51200)
+
+	/// Minimum width of sidepanel
+	let sidepanelMinWidth = 150
+
+	/// Maximum width of sidepanel
+	let sidePanelMaxWidth = 500
+
+	/// Extension of exported scan file
 	let saveDataExtension = "pms"
 
+	/// Use date of image creation as thumbnail label
 	@objc dynamic var creationDateAsLabel = true {
 		didSet {
 			#if DEBUG
@@ -25,7 +35,8 @@ class Configuration: NSObject {
 			self.saveConfiguration()
 		}
 	}
-	
+
+	/// Ask for confirmation if old scan exists and new scan was requested
 	@objc dynamic var newScanMustBeConfirmed = true {
 		didSet {
 			#if DEBUG
@@ -34,7 +45,8 @@ class Configuration: NSObject {
 			self.saveConfiguration()
 		}
 	}
-	
+
+	/// Ask for confirmation before removing images
 	@objc dynamic var removeMustBeConfirmed = true {
 		didSet {
 			#if DEBUG
@@ -43,7 +55,8 @@ class Configuration: NSObject {
 			self.saveConfiguration()
 		}
 	}
-	
+
+	/// Remove also directory after removing an image if this was the last file in it
 	@objc dynamic var removeAlsoEmptyDirectories = false {
 		didSet {
 			#if DEBUG
@@ -52,7 +65,8 @@ class Configuration: NSObject {
 			self.saveConfiguration()
 		}
 	}
-	
+
+	/// Hightlight images which have no EXIF data
 	@objc dynamic var highlightPicturesWithoutExif = false {
 		didSet {
 			#if DEBUG
@@ -61,7 +75,8 @@ class Configuration: NSObject {
 			self.saveConfiguration()
 		}
 	}
-	
+
+	/// Collapse groups by clicking header (not just the arrow on the left side)
 	@objc dynamic var collapseByClickingHeader = false {
 		didSet {
 			#if DEBUG
@@ -71,6 +86,7 @@ class Configuration: NSObject {
 		}
 	}
 
+	/// Search for images
 	@objc dynamic var searchForImages = true {
 		   didSet {
 			   #if DEBUG
@@ -80,6 +96,7 @@ class Configuration: NSObject {
 		   }
 	   }
 
+	/// Search for movie files
 	@objc dynamic var searchForMovies = true {
 		   didSet {
 			   #if DEBUG
@@ -89,12 +106,14 @@ class Configuration: NSObject {
 		   }
 	   }
 
+	/// Display warning if previous scan was parsed from a file (warning about needing to drag&drop the directories to the app)
 	var displayWarningForParsedScans = true {
 		didSet {
 			self.saveConfiguration()
 		}
 	}
-	
+
+	// Flag indication if collapsing section is available on this system (available only from 10.12)
 	@objc dynamic var isSectionCollapseAvailable:Bool {
 		get {
 			if #available(OSX 10.12, *) {
@@ -103,7 +122,8 @@ class Configuration: NSObject {
 			return false
 		}
 	}
-	
+
+	// Constructor loading configuration saved in user defaults
 	private override init() {
 		super.init()
 		// Load configuration
@@ -136,7 +156,8 @@ class Configuration: NSObject {
 			searchForMovies = boolValue
 		}
 	}
-	
+
+	// Save configuration to user defaults
 	func saveConfiguration() {
 		UserDefaults.standard.set(creationDateAsLabel, forKey: "creationDateAsLabel")
 		UserDefaults.standard.set(newScanMustBeConfirmed, forKey: "newScanMustBeConfirmed")
@@ -149,5 +170,5 @@ class Configuration: NSObject {
 		UserDefaults.standard.set(searchForMovies, forKey: "searchForMovies")
 		UserDefaults.standard.synchronize()
 	}
-	
+
 }
