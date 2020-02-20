@@ -63,12 +63,12 @@ class PhotoCollectionView: NSCollectionView {
 		case .outsideApplication:
 			return [ .copy, .link, .generic, .delete, .move ]
 		case .withinApplication:
-			return NSDragOperation(rawValue: 0)
+			return []
 		@unknown default:
 			#if DEBUG
 			NSLog("Unknown dragging context: \(context)")
 			#endif
-			return NSDragOperation(rawValue: 0)
+			return []
 		}
 	}
 	
