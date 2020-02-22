@@ -130,3 +130,27 @@
 
 /* Class = "NSButton"; title = "Videos"; ObjectID = "w0h-UB-s5N"; */
 "w0h-UB-s5N.title" = "Videók";
+
+/* Class = "NSBox"; title = "Thumbnails"; ObjectID = "urA-q9-cbF"; */
+"urA-q9-cbF.title" = "Indexképek";
+
+/* Class = "NSBox"; title = "Scan"; ObjectID = "gFx-kJ-2Bf"; */
+"gFx-kJ-2Bf.title" = "Keresés";
+
+/* Class = "NSBox"; title = "Image operations"; ObjectID = "PBO-d0-m2i"; */
+"PBO-d0-m2i.title" = "Képfájl műveletek";
+
+/* Class = "NSBox"; title = "Export"; ObjectID = "6Wu-8R-wrn"; */
+"6Wu-8R-wrn.title" = "Exportálás";
+
+/* Class = "NSButtonCell"; title = "Offer to remove images by default in the export dialog"; ObjectID = "NDM-7J-VrC"; */
+"NDM-7J-VrC.title" = "Képfájlok törlésének felajánlása minden exportálás előtt";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Exporting scanned images will make copies of them in a selected directory. With this option enabled the original images will be removed (instead copying they will be moved).\nThis is the default option offered in export dialogs. Can be overridden individually for each export."; ObjectID = "mCu-cC-FJe"; */
+"mCu-cC-FJe.ibShadowedToolTip" = "A talált képek exportálása azok másolatát hozza létre a választott mappában. Ha ez az opció be van állítva az eredeti képfájlok törlésre kerülnek (másolás helyett azok áthelyeződnek).\nEz az alapbeállítás minden egyes exportálás indításakor. Az exportálást indító ablakokban ezt felül lehet írni az adott művelethez.";
+
+/* Class = "NSButtonCell"; title = "Remove images after exporting"; ObjectID = "AMf-cm-LzE"; */
+"AMf-cm-LzE.title" = "Képfájlok törlése exportálás után";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Override global setting here for this export."; ObjectID = "Gn6-WF-ERa"; */
+"Gn6-WF-ERa.ibShadowedToolTip" = "Globális beállatás felülírása az adott exportáláshoz.";

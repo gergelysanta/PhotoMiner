@@ -13,7 +13,8 @@ class MainWindowController: NSWindowController {
 	let scanner = Scanner()
 	var titlebarController: TitlebarController?
 	var loadAccessoryController: LoadAccessoryController?
-	
+	var exportAccessoryController: ExportAccessoryController?
+
 	var mainViewController:MainViewController? {
 		get {
 			return MainViewController.instance
@@ -46,6 +47,7 @@ class MainWindowController: NSWindowController {
 		scanner.delegate = self
 		self.titlebarController = self.storyboard?.instantiateController(withIdentifier: "TitlebarController") as! TitlebarController?
 		self.loadAccessoryController = self.storyboard?.instantiateController(withIdentifier: "LoadAccessoryController") as! LoadAccessoryController
+		self.exportAccessoryController = self.storyboard?.instantiateController(withIdentifier: "ExportAccessoryController") as! ExportAccessoryController
 
 		guard let titlebarController = self.titlebarController else { return }
 		

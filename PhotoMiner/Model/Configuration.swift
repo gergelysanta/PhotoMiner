@@ -113,6 +113,13 @@ class Configuration: NSObject {
 		}
 	}
 
+	/// Remove original image after it was exported
+	@objc dynamic var removeOriginalAfterExportingImages = false {
+		didSet {
+			self.saveConfiguration()
+		}
+	}
+
 	// Flag indication if collapsing section is available on this system (available only from 10.12)
 	@objc dynamic var isSectionCollapseAvailable:Bool {
 		get {
@@ -149,6 +156,9 @@ class Configuration: NSObject {
 		if let boolValue = userDefaults.value(forKey: "displayWarningForParsedScans") as? Bool {
 			displayWarningForParsedScans = boolValue
 		}
+		if let boolValue = userDefaults.value(forKey: "removeOriginalAfterExportingImages") as? Bool {
+			removeOriginalAfterExportingImages = boolValue
+		}
 		if let boolValue = userDefaults.value(forKey: "searchForImages") as? Bool {
 			searchForImages = boolValue
 		}
@@ -166,6 +176,7 @@ class Configuration: NSObject {
 		UserDefaults.standard.set(highlightPicturesWithoutExif, forKey: "highlightPicturesWithoutExif")
 		UserDefaults.standard.set(collapseByClickingHeader, forKey: "collapseByClickingHeader")
 		UserDefaults.standard.set(displayWarningForParsedScans, forKey: "displayWarningForParsedScans")
+		UserDefaults.standard.set(removeOriginalAfterExportingImages, forKey: "removeOriginalAfterExportingImages")
 		UserDefaults.standard.set(searchForImages, forKey: "searchForImages")
 		UserDefaults.standard.set(searchForMovies, forKey: "searchForMovies")
 		UserDefaults.standard.synchronize()

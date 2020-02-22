@@ -359,5 +359,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			}
 		})
 	}
-	
+
+	@IBAction func exportScannedPhotosMenuItemPressed(_ sender: NSMenuItem) {
+		guard let window = mainWindowController?.window else { return }
+
+		let savePanel = NSSavePanel()
+		savePanel.title = "Select a destination for exporting your photos"
+		savePanel.canCreateDirectories = true
+		savePanel.allowedFileTypes = [ Configuration.shared.saveDataExtension ]
+		savePanel.accessoryView = mainWindowController?.exportAccessoryController?.view
+
+		savePanel.beginSheetModal(for: window, completionHandler: { (response:NSApplication.ModalResponse) in
+			if response == .OK {
+				if let fileUrl = savePanel.url {
+//					if self.saveImageDatabase(fileUrl, onError: { savePanel.close() }) {
+//						AppData.shared.openedFileUrl = fileUrl
+//					}
+				}
+			}
+		})
+	}
+
 }

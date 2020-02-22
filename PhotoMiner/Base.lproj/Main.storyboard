@@ -89,6 +89,13 @@
                                                 <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.isListingAvailable" id="fEQ-rN-UGX"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="g84-a4-dCs"/>
+                                        <menuItem title="Export All" keyEquivalent="E" id="Wnz-py-11F">
+                                            <connections>
+                                                <action selector="exportScannedPhotosMenuItemPressed:" target="Voe-Tx-rLC" id="1h3-XI-8zG"/>
+                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.isListingAvailable" id="4X5-tM-eJr"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -101,6 +108,7 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="PhotoMiner" customModuleProvider="target"/>
                 <userDefaultsController id="2Lc-p9-3rX"/>
+                <userDefaultsController id="3Za-42-McA"/>
             </objects>
             <point key="canvasLocation" x="-434" y="-245"/>
         </scene>
@@ -276,54 +284,11 @@
             <objects>
                 <viewController id="ARC-gx-P75" userLabel="Settings Controller Scene" customClass="SettingsController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Ax0-aT-fo1">
-                        <rect key="frame" x="0.0" y="0.0" width="347" height="183"/>
+                        <rect key="frame" x="0.0" y="0.0" width="415" height="333"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="7oo-hi-BaQ">
-                                <rect key="frame" x="18" y="147" width="311" height="18"/>
-                                <string key="toolTip">Image names are displayed below their thumbnails in the listing except when this option is checked. If checked, their creation date is displayed.</string>
-                                <buttonCell key="cell" type="check" title="Show creation date as picture labels" bezelStyle="regularSquare" imagePosition="left" inset="2" id="zH8-yR-T1y">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.creationDateAsLabel" id="JYB-zB-Ji1"/>
-                                </connections>
-                            </button>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="f6e-g2-bnv">
-                                <rect key="frame" x="18" y="127" width="311" height="18"/>
-                                <string key="toolTip">Starting a new scan will forget your previous one. If this option is checked, a confirmation dialog will be displayed before each scan started by dropping directory icon(s) to the application window or dock icon.</string>
-                                <buttonCell key="cell" type="check" title="Ask for confirmation before new scans" bezelStyle="regularSquare" imagePosition="left" inset="2" id="DTv-xr-dpY">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.newScanMustBeConfirmed" id="2Pi-Qc-bny"/>
-                                </connections>
-                            </button>
-                            <button toolTip="If this option is checked, a confirmation dialog will be displayed before removing pictures." translatesAutoresizingMaskIntoConstraints="NO" id="vTb-fo-X47">
-                                <rect key="frame" x="18" y="107" width="311" height="18"/>
-                                <buttonCell key="cell" type="check" title="Ask for confirmation before deleting pictures" bezelStyle="regularSquare" imagePosition="left" inset="2" id="BqX-eo-Dzq">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.removeMustBeConfirmed" id="p7K-xn-zPn"/>
-                                </connections>
-                            </button>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="BZd-xT-pHQ">
-                                <rect key="frame" x="18" y="87" width="311" height="18"/>
-                                <string key="toolTip">Directories may be left empty when the picture you delete was the last one in them. If this option is checked, empty directories will be removed too.</string>
-                                <buttonCell key="cell" type="check" title="Remove empty directories after deleting" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="qPe-Ba-Ogz">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.removeAlsoEmptyDirectories" id="MeL-Da-ZpX"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EBE-jo-SzM">
-                                <rect key="frame" x="258" y="13" width="75" height="32"/>
+                                <rect key="frame" x="326" y="13" width="75" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QUC-uj-7xR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -335,60 +300,177 @@ DQ
                                     <action selector="dismissController:" target="ARC-gx-P75" id="xaY-Ok-wXP"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aKa-u5-dwx">
-                                <rect key="frame" x="18" y="67" width="311" height="18"/>
-                                <string key="toolTip">Pictures mostly hold their creation date in their EXIF data. This data may not be present mostly when image was not taken by camera. In this case date of creation is detected from filesystem which may be not correct. Such pictures are highlighted with a light border when this is checked.</string>
-                                <buttonCell key="cell" type="check" title="Highlight pictures with guessed date" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jvh-hS-u18">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.highlightPicturesWithoutExif" id="cwz-fW-Bdc"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CyR-6W-bcz">
-                                <rect key="frame" x="18" y="47" width="311" height="18"/>
-                                <string key="toolTip">Sections can be collapsed/expanded by clicking on the arrow icon on the header's left side. If this option is checked, the whole header will behave like this button.</string>
-                                <buttonCell key="cell" type="check" title="Collapse/Expand sections by clicking on header" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Ayp-Hp-5VS">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.collapseByClickingHeader" id="qff-iV-OM5"/>
-                                    <binding destination="ARC-gx-P75" name="enabled" keyPath="self.configuration.isSectionCollapseAvailable" id="WIL-Xz-F44"/>
-                                </connections>
-                            </button>
+                            <box title="Thumbnails" translatesAutoresizingMaskIntoConstraints="NO" id="urA-q9-cbF">
+                                <rect key="frame" x="17" y="227" width="381" height="92"/>
+                                <view key="contentView" id="NSx-eu-n4S">
+                                    <rect key="frame" x="3" y="3" width="375" height="74"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="7oo-hi-BaQ">
+                                            <rect key="frame" x="6" y="50" width="363" height="18"/>
+                                            <string key="toolTip">Image names are displayed below their thumbnails in the listing except when this option is checked. If checked, their creation date is displayed.</string>
+                                            <buttonCell key="cell" type="check" title="Show creation date as picture labels" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="zH8-yR-T1y">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.creationDateAsLabel" id="JYB-zB-Ji1"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CyR-6W-bcz">
+                                            <rect key="frame" x="6" y="6" width="363" height="18"/>
+                                            <string key="toolTip">Sections can be collapsed/expanded by clicking on the arrow icon on the header's left side. If this option is checked, the whole header will behave like this button.</string>
+                                            <buttonCell key="cell" type="check" title="Collapse/Expand sections by clicking on header" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Ayp-Hp-5VS">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.collapseByClickingHeader" id="qff-iV-OM5"/>
+                                                <binding destination="ARC-gx-P75" name="enabled" keyPath="self.configuration.isSectionCollapseAvailable" id="WIL-Xz-F44"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aKa-u5-dwx">
+                                            <rect key="frame" x="6" y="28" width="363" height="18"/>
+                                            <string key="toolTip">Pictures mostly hold their creation date in their EXIF data. This data may not be present mostly when image was not taken by camera. In this case date of creation is detected from filesystem which may be not correct. Such pictures are highlighted with a light border when this is checked.</string>
+                                            <buttonCell key="cell" type="check" title="Highlight pictures with guessed date" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="jvh-hS-u18">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.highlightPicturesWithoutExif" id="cwz-fW-Bdc"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="CyR-6W-bcz" secondAttribute="trailing" constant="8" id="3KF-hs-ncu"/>
+                                        <constraint firstItem="aKa-u5-dwx" firstAttribute="top" secondItem="7oo-hi-BaQ" secondAttribute="bottom" constant="8" id="5KF-yb-iUi"/>
+                                        <constraint firstAttribute="trailing" secondItem="aKa-u5-dwx" secondAttribute="trailing" constant="8" id="N7c-qv-wnI"/>
+                                        <constraint firstItem="7oo-hi-BaQ" firstAttribute="leading" secondItem="NSx-eu-n4S" secondAttribute="leading" constant="8" id="S7g-Li-c0A"/>
+                                        <constraint firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" constant="8" id="cEM-zG-fYj"/>
+                                        <constraint firstItem="7oo-hi-BaQ" firstAttribute="top" secondItem="NSx-eu-n4S" secondAttribute="top" constant="8" id="glR-Od-Qv0"/>
+                                        <constraint firstAttribute="bottom" secondItem="CyR-6W-bcz" secondAttribute="bottom" constant="8" id="ifa-bN-8xt"/>
+                                        <constraint firstItem="aKa-u5-dwx" firstAttribute="leading" secondItem="NSx-eu-n4S" secondAttribute="leading" constant="8" id="lWQ-Vt-MPe"/>
+                                        <constraint firstItem="CyR-6W-bcz" firstAttribute="top" secondItem="aKa-u5-dwx" secondAttribute="bottom" constant="8" id="qSq-id-ghH"/>
+                                        <constraint firstItem="CyR-6W-bcz" firstAttribute="leading" secondItem="NSx-eu-n4S" secondAttribute="leading" constant="8" id="vHR-xy-bsV"/>
+                                    </constraints>
+                                </view>
+                            </box>
+                            <box title="Scan" translatesAutoresizingMaskIntoConstraints="NO" id="gFx-kJ-2Bf">
+                                <rect key="frame" x="17" y="175" width="381" height="48"/>
+                                <view key="contentView" id="y0s-24-2qS">
+                                    <rect key="frame" x="3" y="3" width="375" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="f6e-g2-bnv">
+                                            <rect key="frame" x="6" y="6" width="363" height="18"/>
+                                            <string key="toolTip">Starting a new scan will forget your previous one. If this option is checked, a confirmation dialog will be displayed before each scan started by dropping directory icon(s) to the application window or dock icon.</string>
+                                            <buttonCell key="cell" type="check" title="Ask for confirmation before new scans" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="DTv-xr-dpY">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.newScanMustBeConfirmed" id="2Pi-Qc-bny"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="f6e-g2-bnv" firstAttribute="leading" secondItem="y0s-24-2qS" secondAttribute="leading" constant="8" id="AIF-lc-dMT"/>
+                                        <constraint firstAttribute="trailing" secondItem="f6e-g2-bnv" secondAttribute="trailing" constant="8" id="Gj6-o1-VEv"/>
+                                        <constraint firstItem="f6e-g2-bnv" firstAttribute="top" secondItem="y0s-24-2qS" secondAttribute="top" constant="8" id="ofV-Yc-poh"/>
+                                        <constraint firstAttribute="bottom" secondItem="f6e-g2-bnv" secondAttribute="bottom" constant="8" id="p3v-Ej-r0S"/>
+                                    </constraints>
+                                </view>
+                            </box>
+                            <box title="Image operations" translatesAutoresizingMaskIntoConstraints="NO" id="PBO-d0-m2i">
+                                <rect key="frame" x="17" y="101" width="381" height="70"/>
+                                <view key="contentView" id="CA5-hR-Xax">
+                                    <rect key="frame" x="3" y="3" width="375" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button toolTip="If this option is checked, a confirmation dialog will be displayed before removing pictures." translatesAutoresizingMaskIntoConstraints="NO" id="vTb-fo-X47">
+                                            <rect key="frame" x="6" y="28" width="379" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Ask for confirmation before deleting pictures" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="BqX-eo-Dzq">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.removeMustBeConfirmed" id="p7K-xn-zPn"/>
+                                            </connections>
+                                        </button>
+                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="BZd-xT-pHQ">
+                                            <rect key="frame" x="6" y="6" width="363" height="18"/>
+                                            <string key="toolTip">Directories may be left empty when the picture you delete was the last one in them. If this option is checked, empty directories will be removed too.</string>
+                                            <buttonCell key="cell" type="check" title="Remove empty directories after deleting" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="qPe-Ba-Ogz">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.removeAlsoEmptyDirectories" id="MeL-Da-ZpX"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="BZd-xT-pHQ" firstAttribute="leading" secondItem="CA5-hR-Xax" secondAttribute="leading" constant="8" id="R6V-hU-X7u"/>
+                                        <constraint firstItem="vTb-fo-X47" firstAttribute="leading" secondItem="CA5-hR-Xax" secondAttribute="leading" constant="8" id="SA9-4t-Ynj"/>
+                                        <constraint firstItem="BZd-xT-pHQ" firstAttribute="top" secondItem="vTb-fo-X47" secondAttribute="bottom" constant="8" id="dnD-Vr-Mn4"/>
+                                        <constraint firstAttribute="bottom" secondItem="BZd-xT-pHQ" secondAttribute="bottom" constant="8" id="hc7-Ot-TEy"/>
+                                        <constraint firstAttribute="trailing" secondItem="vTb-fo-X47" secondAttribute="trailing" constant="-8" id="kI6-Xi-4cx"/>
+                                        <constraint firstItem="vTb-fo-X47" firstAttribute="top" secondItem="CA5-hR-Xax" secondAttribute="top" constant="8" id="llE-fy-9Vx"/>
+                                        <constraint firstAttribute="trailing" secondItem="BZd-xT-pHQ" secondAttribute="trailing" constant="8" id="sxh-Vn-uhH"/>
+                                    </constraints>
+                                </view>
+                            </box>
+                            <box title="Export" translatesAutoresizingMaskIntoConstraints="NO" id="6Wu-8R-wrn">
+                                <rect key="frame" x="17" y="49" width="381" height="48"/>
+                                <view key="contentView" id="wiY-2x-gOk">
+                                    <rect key="frame" x="3" y="3" width="375" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mCu-cC-FJe">
+                                            <rect key="frame" x="6" y="6" width="363" height="18"/>
+                                            <mutableString key="toolTip">Exporting scanned images will make copies of them in a selected directory. With this option enabled the original images will be removed (instead copying they will be moved). This is the default option offered in export dialogs. Can be overridden individually for each export.</mutableString>
+                                            <buttonCell key="cell" type="check" title="Offer to remove images by default in the export dialog" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="NDM-7J-VrC">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="ARC-gx-P75" name="value" keyPath="self.configuration.removeOriginalAfterExportingImages" id="wqt-zf-a7s"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="mCu-cC-FJe" secondAttribute="bottom" constant="8" id="PZo-a0-TTs"/>
+                                        <constraint firstAttribute="trailing" secondItem="mCu-cC-FJe" secondAttribute="trailing" constant="8" id="eCt-79-RZQ"/>
+                                        <constraint firstItem="mCu-cC-FJe" firstAttribute="top" secondItem="wiY-2x-gOk" secondAttribute="top" constant="8" id="iKE-0c-tRz"/>
+                                        <constraint firstItem="mCu-cC-FJe" firstAttribute="leading" secondItem="wiY-2x-gOk" secondAttribute="leading" constant="8" id="yiw-Kh-IJN"/>
+                                    </constraints>
+                                </view>
+                            </box>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="f6e-g2-bnv" firstAttribute="top" secondItem="7oo-hi-BaQ" secondAttribute="bottom" constant="6" id="2gs-Sy-iEv"/>
-                            <constraint firstItem="aKa-u5-dwx" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="3Y4-s9-V2u"/>
-                            <constraint firstItem="aKa-u5-dwx" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="54P-R3-LTl"/>
+                            <constraint firstItem="6Wu-8R-wrn" firstAttribute="leading" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="3mH-5o-kga"/>
                             <constraint firstItem="EBE-jo-SzM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="6B9-5C-pRk"/>
-                            <constraint firstItem="vTb-fo-X47" firstAttribute="top" secondItem="f6e-g2-bnv" secondAttribute="bottom" constant="6" id="7E1-Db-fP9"/>
+                            <constraint firstItem="urA-q9-cbF" firstAttribute="top" secondItem="Ax0-aT-fo1" secondAttribute="top" constant="14" id="CRy-qG-ViO"/>
+                            <constraint firstItem="gFx-kJ-2Bf" firstAttribute="leading" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="E2B-YK-2Ss"/>
                             <constraint firstAttribute="trailing" secondItem="EBE-jo-SzM" secondAttribute="trailing" constant="20" id="GQ5-Rs-7h0"/>
-                            <constraint firstItem="CyR-6W-bcz" firstAttribute="top" secondItem="aKa-u5-dwx" secondAttribute="bottom" constant="6" id="HaX-DS-rL0"/>
-                            <constraint firstItem="BZd-xT-pHQ" firstAttribute="top" secondItem="vTb-fo-X47" secondAttribute="bottom" constant="6" id="MFa-Aq-NY1"/>
-                            <constraint firstItem="BZd-xT-pHQ" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="Mrk-7O-Iy3"/>
-                            <constraint firstItem="EBE-jo-SzM" firstAttribute="top" secondItem="CyR-6W-bcz" secondAttribute="bottom" constant="8" id="Ouw-lq-3lX"/>
-                            <constraint firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" constant="20" id="PD7-ZS-ZoB"/>
-                            <constraint firstItem="7oo-hi-BaQ" firstAttribute="top" secondItem="Ax0-aT-fo1" secondAttribute="top" constant="20" id="PhM-Qy-4OM"/>
-                            <constraint firstItem="vTb-fo-X47" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="VCH-mJ-Oct"/>
-                            <constraint firstItem="CyR-6W-bcz" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="ZdQ-Ff-5yE"/>
+                            <constraint firstAttribute="trailing" secondItem="PBO-d0-m2i" secondAttribute="trailing" constant="20" id="RVd-SG-Nf6"/>
+                            <constraint firstItem="PBO-d0-m2i" firstAttribute="leading" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="Tbj-er-ro3"/>
+                            <constraint firstAttribute="trailing" secondItem="gFx-kJ-2Bf" secondAttribute="trailing" constant="20" id="UQj-84-xm2"/>
+                            <constraint firstItem="EBE-jo-SzM" firstAttribute="top" secondItem="6Wu-8R-wrn" secondAttribute="bottom" constant="12" id="Whd-Gz-b5c"/>
+                            <constraint firstAttribute="trailing" secondItem="6Wu-8R-wrn" secondAttribute="trailing" constant="20" id="byS-4S-okz"/>
+                            <constraint firstItem="6Wu-8R-wrn" firstAttribute="top" secondItem="PBO-d0-m2i" secondAttribute="bottom" constant="8" id="cZx-v6-nuS"/>
                             <constraint firstAttribute="bottom" secondItem="EBE-jo-SzM" secondAttribute="bottom" constant="20" id="caz-tL-uwC"/>
-                            <constraint firstItem="7oo-hi-BaQ" firstAttribute="leading" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="iw6-WM-XGs"/>
-                            <constraint firstItem="BZd-xT-pHQ" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="ldv-hE-4W4"/>
-                            <constraint firstItem="CyR-6W-bcz" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="o9f-AL-2zt"/>
-                            <constraint firstItem="f6e-g2-bnv" firstAttribute="trailing" secondItem="7oo-hi-BaQ" secondAttribute="trailing" id="pFC-6S-ZFt"/>
-                            <constraint firstItem="vTb-fo-X47" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="th2-iW-0j8"/>
-                            <constraint firstItem="f6e-g2-bnv" firstAttribute="leading" secondItem="7oo-hi-BaQ" secondAttribute="leading" id="xjP-Ft-aU0"/>
-                            <constraint firstItem="aKa-u5-dwx" firstAttribute="top" secondItem="BZd-xT-pHQ" secondAttribute="bottom" constant="6" id="zyV-hr-uaa"/>
+                            <constraint firstItem="PBO-d0-m2i" firstAttribute="top" secondItem="gFx-kJ-2Bf" secondAttribute="bottom" constant="8" id="edi-pJ-Qv5"/>
+                            <constraint firstItem="urA-q9-cbF" firstAttribute="leading" secondItem="Ax0-aT-fo1" secondAttribute="leading" constant="20" id="mOr-Rp-dz1"/>
+                            <constraint firstItem="gFx-kJ-2Bf" firstAttribute="top" secondItem="urA-q9-cbF" secondAttribute="bottom" constant="8" id="rd0-Kp-WUI"/>
+                            <constraint firstAttribute="trailing" secondItem="urA-q9-cbF" secondAttribute="trailing" constant="20" id="sD9-KT-enB"/>
                         </constraints>
                     </view>
                 </viewController>
                 <customObject id="3gu-27-ohB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="yOb-kQ-SNm"/>
             </objects>
-            <point key="canvasLocation" x="571" y="-86.5"/>
+            <point key="canvasLocation" x="650" y="-163"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -608,7 +690,7 @@ DQ
                                         <textField horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BZr-Xg-t0D">
                                             <rect key="frame" x="39" y="156" width="205" height="11"/>
                                             <textFieldCell key="cell" controlSize="mini" selectable="YES" sendsActionOnEndEditing="YES" title="&lt;path_to_image&gt;" id="cUj-PJ-oae">
-                                                <font key="font" metaFont="label" size="9"/>
+                                                <font key="font" metaFont="menu" size="9"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
@@ -642,12 +724,12 @@ DQ
                                                         <tableColumns>
                                                             <tableColumn identifier="key" editable="NO" width="83" minWidth="40" maxWidth="1000" id="r8a-he-Jjw">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <font key="font" metaFont="label" size="9"/>
+                                                                    <font key="font" metaFont="menu" size="9"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
                                                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="G41-jf-cGw">
-                                                                    <font key="font" metaFont="label" size="9"/>
+                                                                    <font key="font" metaFont="menu" size="9"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
@@ -660,7 +742,7 @@ DQ
                                                                                 <rect key="frame" x="0.0" y="-5" width="83" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="XEZ-5E-7bi">
-                                                                                    <font key="font" metaFont="label" size="9"/>
+                                                                                    <font key="font" metaFont="menu" size="9"/>
                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
@@ -674,12 +756,12 @@ DQ
                                                             </tableColumn>
                                                             <tableColumn identifier="value" editable="NO" width="95" minWidth="40" maxWidth="1000" id="RCL-m7-Nr9">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <font key="font" metaFont="label" size="9"/>
+                                                                    <font key="font" metaFont="menu" size="9"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
                                                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="dMC-0g-4hW">
-                                                                    <font key="font" metaFont="label" size="9"/>
+                                                                    <font key="font" metaFont="menu" size="9"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
@@ -692,7 +774,7 @@ DQ
                                                                                 <rect key="frame" x="0.0" y="-5" width="95" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="wkb-xN-3wc">
-                                                                                    <font key="font" metaFont="label" size="9"/>
+                                                                                    <font key="font" metaFont="menu" size="9"/>
                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
@@ -768,6 +850,38 @@ DQ
                 <userDefaultsController id="jbO-6F-aP4"/>
             </objects>
             <point key="canvasLocation" x="678" y="850"/>
+        </scene>
+        <!--Export Accessory Controller-->
+        <scene sceneID="zi5-QP-TAF">
+            <objects>
+                <viewController storyboardIdentifier="ExportAccessoryController" id="4Ek-bP-wNK" customClass="ExportAccessoryController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="qvd-p9-sKc">
+                        <rect key="frame" x="0.0" y="0.0" width="582" height="30"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button toolTip="Override global setting here for this export." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gn6-WF-ERa">
+                                <rect key="frame" x="18" y="6" width="546" height="18"/>
+                                <buttonCell key="cell" type="check" title="Remove images after exporting" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AMf-cm-LzE">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="4Ek-bP-wNK" name="value" keyPath="self.removeAfterExporting" id="AqN-x2-PwR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Gn6-WF-ERa" firstAttribute="leading" secondItem="qvd-p9-sKc" secondAttribute="leading" constant="20" id="33k-SM-IsR"/>
+                            <constraint firstAttribute="trailing" secondItem="Gn6-WF-ERa" secondAttribute="trailing" constant="20" id="WNZ-Qy-IYJ"/>
+                            <constraint firstItem="Gn6-WF-ERa" firstAttribute="top" secondItem="qvd-p9-sKc" secondAttribute="top" constant="8" id="ghU-X3-Fke"/>
+                            <constraint firstAttribute="bottom" secondItem="Gn6-WF-ERa" secondAttribute="bottom" constant="8" id="vZz-T7-7Sp"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="07s-lR-FL6" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController id="o7c-tH-aQW"/>
+            </objects>
+            <point key="canvasLocation" x="9" y="-350"/>
         </scene>
     </scenes>
     <resources>
