@@ -279,6 +279,62 @@
             </objects>
             <point key="canvasLocation" x="-234.5" y="277.5"/>
         </scene>
+        <!--Export Progress Controller-->
+        <scene sceneID="WDO-fM-UrZ">
+            <objects>
+                <viewController storyboardIdentifier="ExportProgressController" id="LZ5-xO-Oce" customClass="ExportProgressController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="T2x-yQ-GIq">
+                        <rect key="frame" x="0.0" y="0.0" width="415" height="123"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <progressIndicator wantsLayer="YES" maxValue="100" doubleValue="50" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="kN7-rb-ght">
+                                <rect key="frame" x="20" y="60" width="375" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="375" id="xaN-f6-enK"/>
+                                </constraints>
+                            </progressIndicator>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UCR-73-qW9">
+                                <rect key="frame" x="18" y="87" width="379" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Exporting images:" id="rg9-lR-27u">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ymh-Kb-njo">
+                                <rect key="frame" x="319" y="13" width="82" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sod-Q0-qXT">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cancelButtonPressed:" target="LZ5-xO-Oce" id="RHd-PG-D6l"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="kN7-rb-ght" firstAttribute="top" secondItem="UCR-73-qW9" secondAttribute="bottom" constant="8" id="6YN-PR-8DS"/>
+                            <constraint firstAttribute="trailing" secondItem="Ymh-Kb-njo" secondAttribute="trailing" constant="20" id="A3S-oL-jjK"/>
+                            <constraint firstItem="kN7-rb-ght" firstAttribute="leading" secondItem="T2x-yQ-GIq" secondAttribute="leading" constant="20" id="Dw1-Jw-bKX"/>
+                            <constraint firstAttribute="trailing" secondItem="kN7-rb-ght" secondAttribute="trailing" constant="20" id="bu2-wc-Cfh"/>
+                            <constraint firstItem="Ymh-Kb-njo" firstAttribute="top" secondItem="kN7-rb-ght" secondAttribute="bottom" constant="20" id="h6b-rD-aaS"/>
+                            <constraint firstItem="UCR-73-qW9" firstAttribute="leading" secondItem="T2x-yQ-GIq" secondAttribute="leading" constant="20" id="tmv-YP-Ca5"/>
+                            <constraint firstAttribute="bottom" secondItem="Ymh-Kb-njo" secondAttribute="bottom" constant="20" id="v6l-XS-Cfe"/>
+                            <constraint firstAttribute="trailing" secondItem="UCR-73-qW9" secondAttribute="trailing" constant="20" id="y7I-4f-jSM"/>
+                            <constraint firstItem="UCR-73-qW9" firstAttribute="top" secondItem="T2x-yQ-GIq" secondAttribute="top" constant="20" id="ygA-7T-Dqb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="progressBar" destination="kN7-rb-ght" id="d1g-N4-frs"/>
+                    </connections>
+                </viewController>
+                <customObject id="E6e-D2-K7D" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="650" y="-500"/>
+        </scene>
         <!--Settings Controller Scene-->
         <scene sceneID="dpf-bd-b1M">
             <objects>
@@ -512,6 +568,9 @@ DQ
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ryn-em-FRp" customClass="ShadeView" customModule="PhotoMiner" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="571" height="381"/>
+                            </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="6ID-Zn-x24" customClass="DropView" customModule="PhotoMiner" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="571" height="381"/>
                                 <subviews>
@@ -551,13 +610,17 @@ DQ
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="6ID-Zn-x24" secondAttribute="bottom" id="Asv-bQ-eFx"/>
+                            <constraint firstItem="Ryn-em-FRp" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="CYc-VY-bfa"/>
+                            <constraint firstAttribute="trailing" secondItem="Ryn-em-FRp" secondAttribute="trailing" id="OZn-eh-GfA"/>
                             <constraint firstAttribute="trailing" secondItem="6ID-Zn-x24" secondAttribute="trailing" id="WYg-ki-exo"/>
                             <constraint firstItem="uqh-py-6nF" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Wbx-SU-SAR"/>
                             <constraint firstItem="6ID-Zn-x24" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="dYB-3t-JX7"/>
+                            <constraint firstAttribute="bottom" secondItem="Ryn-em-FRp" secondAttribute="bottom" id="dcc-4V-pkI"/>
                             <constraint firstAttribute="trailing" secondItem="uqh-py-6nF" secondAttribute="trailing" id="eq6-Q1-MjH"/>
                             <constraint firstItem="6ID-Zn-x24" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="gEh-aY-kN4"/>
                             <constraint firstItem="uqh-py-6nF" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="nzI-TZ-BcP"/>
                             <constraint firstAttribute="bottom" secondItem="uqh-py-6nF" secondAttribute="bottom" id="ohk-hi-nCd"/>
+                            <constraint firstItem="Ryn-em-FRp" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="zdr-nf-C0u"/>
                         </constraints>
                     </view>
                     <connections>
@@ -565,6 +628,7 @@ DQ
                         <outlet property="collectionViewFlowLayout" destination="ROs-3M-pX3" id="XtW-gL-iph"/>
                         <outlet property="dropDescription" destination="pcC-K9-lNr" id="WKq-gC-yre"/>
                         <outlet property="dropView" destination="6ID-Zn-x24" id="Et7-0t-5GL"/>
+                        <outlet property="shadeView" destination="Ryn-em-FRp" id="35e-6Z-82e"/>
                         <outlet property="thumbnailContextMenu" destination="ntQ-ao-zxQ" id="14e-R6-Mm4"/>
                         <outlet property="viewContextMenu" destination="5Tn-es-1hd" id="pBA-Jd-8Vb"/>
                     </connections>

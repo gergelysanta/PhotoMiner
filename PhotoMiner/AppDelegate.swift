@@ -361,23 +361,70 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 
 	@IBAction func exportScannedPhotosMenuItemPressed(_ sender: NSMenuItem) {
-		guard let window = mainWindowController?.window else { return }
+		guard
+			let window = mainWindowController?.window,
+			let storyboard = mainWindowController?.storyboard,
+			let exportAccessoryController = storyboard.instantiateController(withIdentifier: "ExportAccessoryController") as? ExportAccessoryController,
+			let exportProgressController = storyboard.instantiateController(withIdentifier: "ExportProgressController") as? ExportProgressController
+		else { return }
 
-		let savePanel = NSSavePanel()
-		savePanel.title = "Select a destination for exporting your photos"
-		savePanel.canCreateDirectories = true
-		savePanel.allowedFileTypes = [ Configuration.shared.saveDataExtension ]
-		savePanel.accessoryView = mainWindowController?.exportAccessoryController?.view
+		// Create export sheet (open panel for selecting destination directory)
+		let dialog = NSOpenPanel()
+		dialog.title = "Select a destination for exporting your photos"
+		dialog.showsHiddenFiles         = false
+		dialog.canCreateDirectories     = true
+		dialog.canChooseDirectories     = true
+		dialog.canChooseFiles           = false
+		dialog.allowsMultipleSelection  = false
+		dialog.accessoryView            = exportAccessoryController.view
+		dialog.isAccessoryViewDisclosed = true
 
-		savePanel.beginSheetModal(for: window, completionHandler: { (response:NSApplication.ModalResponse) in
+		// Rename "Open" button
+		dialog.prompt = NSLocalizedString("Export", comment: "Export button")
+
+		// Block called periodically from export
+		let exportReportingProgress = { (sourcePath: String, destinationPath: String, percentComplete: Double) in
+			exportProgressController.progressBar.doubleValue = percentComplete
+		}
+
+		// Display export sheet
+		dialog.beginSheetModal(for: window) { (response: NSApplication.ModalResponse) in
 			if response == .OK {
-				if let fileUrl = savePanel.url {
-//					if self.saveImageDatabase(fileUrl, onError: { savePanel.close() }) {
-//						AppData.shared.openedFileUrl = fileUrl
-//					}
+				guard let fileUrl = dialog.url else { return }
+
+				let removeOldFiles = exportAccessoryController.removeAfterExporting
+
+				// Close export sheet
+				dialog.close()
+
+				// Shade content
+				self.mainWindowController?.mainViewController?.shadeView.show()
+
+				// Open sheet displaying progress
+				let exportDialog = NSWindow()
+				exportDialog.contentView = exportProgressController.view
+				exportProgressController.progressBar.doubleValue = 0
+				window.beginSheet(exportDialog) { (response: NSApplication.ModalResponse) in
+					// Close dialog if 'Cancel' pressed
+					if response == .cancel {
+						// Closed
+						AppData.shared.imageCollection.exportStop()
+					}
+					// Unshade content
+					self.mainWindowController?.mainViewController?.shadeView.hide()
+				}
+
+				AppData.shared.imageCollection.exportStart(toDirectory: fileUrl,
+														   removeOriginals: removeOldFiles,
+														   reportProgress: exportReportingProgress)
+				{
+					// Scan ended, close the progress sheet (check first whether it was already closed)
+					if exportDialog.sheetParent == window {
+						window.endSheet(exportDialog, returnCode: .OK)
+					}
 				}
 			}
-		})
+		}
 	}
 
 }

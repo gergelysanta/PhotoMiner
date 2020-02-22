@@ -20,4 +20,10 @@ class ExportAccessoryController: NSViewController {
         removeAfterExporting = Configuration.shared.removeOriginalAfterExportingImages
     }
 
+	deinit {
+		#if DEBUG
+		NSLog("-- ExportAccessoryController RELEASED")
+		#endif
+	}
+
 }

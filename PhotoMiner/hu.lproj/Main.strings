@@ -154,3 +154,9 @@
 
 /* Class = "NSButton"; ibShadowedToolTip = "Override global setting here for this export."; ObjectID = "Gn6-WF-ERa"; */
 "Gn6-WF-ERa.ibShadowedToolTip" = "Globális beállatás felülírása az adott exportáláshoz.";
+
+/* Class = "NSTextFieldCell"; title = "Exporting images:"; ObjectID = "rg9-lR-27u"; */
+"rg9-lR-27u.title" = "Képfájlok exportálása:";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "sod-Q0-qXT"; */
+"sod-Q0-qXT.title" = "Mégsem";

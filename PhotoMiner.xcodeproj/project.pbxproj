@@ -35,6 +35,8 @@
 		74FD6816201A39EA0046DC1A /* SidebarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD6815201A39EA0046DC1A /* SidebarController.swift */; };
 		74FD6818201BA9180046DC1A /* ForwardingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */; };
 		EC2EE99723FEE84D000DF12F /* ExportAccessoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2EE99623FEE84D000DF12F /* ExportAccessoryController.swift */; };
+		EC2EE9AC240150DD000DF12F /* ExportProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2EE9AB240150DD000DF12F /* ExportProgressController.swift */; };
+		EC2EE9AE2401C73F000DF12F /* ShadeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2EE9AD2401C73F000DF12F /* ShadeView.swift */; };
 		ECB2763323F7ED7200F22E29 /* LongPressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB2763223F7ED7200F22E29 /* LongPressButton.swift */; };
 		ECB2763723F8877C00F22E29 /* LoadAccessoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB2763623F8877C00F22E29 /* LoadAccessoryController.swift */; };
 /* End PBXBuildFile section */
@@ -72,6 +74,8 @@
 		74FD6815201A39EA0046DC1A /* SidebarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarController.swift; sourceTree = "<group>"; };
 		74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardingScrollView.swift; sourceTree = "<group>"; };
 		EC2EE99623FEE84D000DF12F /* ExportAccessoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportAccessoryController.swift; sourceTree = "<group>"; };
+		EC2EE9AB240150DD000DF12F /* ExportProgressController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportProgressController.swift; sourceTree = "<group>"; };
+		EC2EE9AD2401C73F000DF12F /* ShadeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadeView.swift; sourceTree = "<group>"; };
 		ECB2763223F7ED7200F22E29 /* LongPressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressButton.swift; sourceTree = "<group>"; };
 		ECB2763623F8877C00F22E29 /* LoadAccessoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadAccessoryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,6 +146,7 @@
 				74F4B6F51EA13B7E00FE73C7 /* SettingsController.swift */,
 				ECB2763623F8877C00F22E29 /* LoadAccessoryController.swift */,
 				EC2EE99623FEE84D000DF12F /* ExportAccessoryController.swift */,
+				EC2EE9AB240150DD000DF12F /* ExportProgressController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 			children = (
 				7492390C1E66B1B8005F629E /* HeaderView.swift */,
 				74AC4CAA1E7851900002A654 /* DropView.swift */,
+				EC2EE9AD2401C73F000DF12F /* ShadeView.swift */,
 				74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */,
 				74FD680F2018A6700046DC1A /* MainSplitView.swift */,
 				74FD6813201A03610046DC1A /* FlippedView.swift */,
@@ -288,7 +294,9 @@
 				74BD2FB81E16B37B000109F9 /* ThumbnailViewItem.swift in Sources */,
 				74443D531DF944B000625848 /* Configuration.swift in Sources */,
 				ECB2763323F7ED7200F22E29 /* LongPressButton.swift in Sources */,
+				EC2EE9AC240150DD000DF12F /* ExportProgressController.swift in Sources */,
 				74FD6818201BA9180046DC1A /* ForwardingScrollView.swift in Sources */,
+				EC2EE9AE2401C73F000DF12F /* ShadeView.swift in Sources */,
 				740820AD1E6B4554004BA3CE /* PhotoCollectionView.swift in Sources */,
 				74174E681DF838EE00D10710 /* TitlebarController.swift in Sources */,
 				74174E6A1DF83AED00D10710 /* MainWindowController.swift in Sources */,

@@ -12,8 +12,8 @@ class MainWindowController: NSWindowController {
 	
 	let scanner = Scanner()
 	var titlebarController: TitlebarController?
-	var loadAccessoryController: LoadAccessoryController?
-	var exportAccessoryController: ExportAccessoryController?
+
+	private var exportProgressController: ExportProgressController?
 
 	var mainViewController:MainViewController? {
 		get {
@@ -46,8 +46,6 @@ class MainWindowController: NSWindowController {
 
 		scanner.delegate = self
 		self.titlebarController = self.storyboard?.instantiateController(withIdentifier: "TitlebarController") as! TitlebarController?
-		self.loadAccessoryController = self.storyboard?.instantiateController(withIdentifier: "LoadAccessoryController") as! LoadAccessoryController
-		self.exportAccessoryController = self.storyboard?.instantiateController(withIdentifier: "ExportAccessoryController") as! ExportAccessoryController
 
 		guard let titlebarController = self.titlebarController else { return }
 		
@@ -135,6 +133,15 @@ class MainWindowController: NSWindowController {
 		// Refresh window title
 		titlebarController?.setTotalCount(AppData.shared.imageCollection.count)
 	}
+
+	func newExportProgressController() -> ExportProgressController? {
+		exportProgressController = self.storyboard?.instantiateController(withIdentifier: "ExportProgressController") as? ExportProgressController
+		return exportProgressController
+	}
+
+	func deleteExportProgressController() {
+		exportProgressController = nil
+	}
 	
 }
 
@@ -165,13 +172,14 @@ extension MainWindowController: TitlebarDelegate {
 
 	func titlebar(_ controller: TitlebarController, startScanForPath scanPath: String?) {
 		let dialog = NSOpenPanel()
+		let loadAccessoryController = self.storyboard?.instantiateController(withIdentifier: "LoadAccessoryController") as? LoadAccessoryController
 
 		dialog.title = "Select a directory to scan"
 		dialog.showsHiddenFiles        = false
 		dialog.canChooseDirectories    = true
 		dialog.canChooseFiles          = false
 		dialog.allowsMultipleSelection = true
-		dialog.accessoryView           = self.loadAccessoryController?.view
+		dialog.accessoryView           = loadAccessoryController?.view
 		dialog.isAccessoryViewDisclosed = true
 
 		if let path = scanPath {
@@ -182,7 +190,12 @@ extension MainWindowController: TitlebarDelegate {
 			if response == .OK {
 				let directoryList = dialog.urls.map { $0.path }
 				AppData.shared.setLookupDirectories(directoryList)
-				
+
+				// Create dummy reference of loadAccessoryController
+				// This will create a strong reference to that controller from this block, so controller won't be
+				// released until this block exists (until NSOpenPanel is not closed)
+				_ = loadAccessoryController
+
 				// Start scan without confirmation
 				(NSApp.delegate as? AppDelegate)?.startScan(withConfirmation: false)
 			}

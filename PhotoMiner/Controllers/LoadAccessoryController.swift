@@ -40,6 +40,12 @@ class LoadAccessoryController: NSViewController {
 		}
 	}
 
+	deinit {
+		#if DEBUG
+		NSLog("-- LoadAccessoryController RELEASED")
+		#endif
+	}
+
 	@objc dynamic var checkImagesEnabled: Bool {
 		return !(includeImages && !includeMovies)
 	}

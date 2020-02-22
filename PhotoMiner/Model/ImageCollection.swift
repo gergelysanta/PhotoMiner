@@ -249,4 +249,29 @@ class ImageCollection: NSObject, Codable {
 		return nil
 	}
 
+	private var exportRunning = false
+
+	func exportStart(toDirectory: URL, removeOriginals: Bool = false, reportProgress: @escaping (_ sourcePath: String, _ destinationPath: String, _ percentComplete: Double)->Void, onCompletion: @escaping ()->Void) {
+		exportRunning = true
+		DispatchQueue(label: "new.quque").async {
+			for percent in (1...100) {
+				guard self.exportRunning == true else {
+					break
+				}
+				DispatchQueue.main.sync {
+					reportProgress("", "", Double(percent))
+				}
+				usleep(100000)
+			}
+			self.exportRunning = false
+			DispatchQueue.main.sync {
+				onCompletion()
+			}
+		}
+	}
+
+	func exportStop() {
+		exportRunning = false
+	}
+
 }

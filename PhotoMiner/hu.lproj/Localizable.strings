@@ -58,3 +58,6 @@
 
 /* Scan Mail attachments */
 "Scan Mail attachments" = "Mail mellékleteinek keresése";
+
+/* Export button */
+"Export" = "Exportálás";

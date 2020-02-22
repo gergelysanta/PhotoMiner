@@ -14,8 +14,10 @@ class MainViewController: NSViewController {
 	@IBOutlet weak var collectionView: PhotoCollectionView!
 	@IBOutlet weak var collectionViewFlowLayout: NSCollectionViewFlowLayout!
 	
-	@IBOutlet private weak var dropView: DropView!
-	@IBOutlet private weak var dropDescription: NSTextField!
+	@IBOutlet private(set) var shadeView: ShadeView!
+
+	@IBOutlet private var dropView: DropView!
+	@IBOutlet private var dropDescription: NSTextField!
 	
 	@IBOutlet var thumbnailContextMenu: NSMenu!
 	@IBOutlet var viewContextMenu: NSMenu!
@@ -70,6 +72,7 @@ class MainViewController: NSViewController {
 		if #available(OSX 10.12, *) {
 			collectionViewFlowLayout.sectionHeadersPinToVisibleBounds = true
 		}
+		shadeView.hide()
 		collectionView.keyDelegate = self
 		storyboardDescriptionString = dropDescription.stringValue
 	}
