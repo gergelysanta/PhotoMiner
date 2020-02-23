@@ -61,3 +61,9 @@
 
 /* Export button */
 "Export" = "Exportálás";
+
+/* Export error: couldn't create directory */
+"Couldn't create directory %@: %@" = "Nem tudtam létrehozni a %@ könyvtárat: %@";
+
+/* Export error: couldn't export image */
+"Couldn't export image %@: %@" = "Nem tudtam exportálni a %@ fájtl: %@";

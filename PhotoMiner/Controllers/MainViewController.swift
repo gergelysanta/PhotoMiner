@@ -182,20 +182,7 @@ class MainViewController: NSViewController {
 	
 	private func trashImages(_ imagePathList:[String]) {
 		guard imagePathList.count > 0 else { return }
-		
-		func removeDirURLIfEmpty(_ dirUrl: URL) {
-			do {
-				let files = try FileManager.default.contentsOfDirectory(at: dirUrl, includingPropertiesForKeys: nil, options: [.skipsPackageDescendants, .skipsSubdirectoryDescendants])
-				if	(files.count == 0) ||
-					((files.count == 1) && (files.first!.lastPathComponent == ".DS_Store"))
-				{
-					try FileManager.default.removeItem(at: dirUrl)
-					removeDirURLIfEmpty(dirUrl.deletingLastPathComponent())
-				}
-			} catch {
-			}
-		}
-		
+
 		let trashCompletionHandler = { (response: Bool)->Void in
 			if response {
 				var imageURLs = [URL]()
@@ -219,7 +206,7 @@ class MainViewController: NSViewController {
 						AppData.shared.imageCollection.removeImage(withPath: url.path)
 						
 						if Configuration.shared.removeAlsoEmptyDirectories {
-							removeDirURLIfEmpty(url.deletingLastPathComponent())
+							FileManager.default.removeDirIfEmpty(url.deletingLastPathComponent())
 						}
 					}
 					

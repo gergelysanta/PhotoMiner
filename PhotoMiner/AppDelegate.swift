@@ -38,7 +38,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	// MARK: - NSApplicationDelegate methods
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		NotificationCenter.default.addObserver(self, selector: #selector(self.directoryListNeedingAccessChanged(notification:)),  name: AppData.listOfFoldersRequiringAccessChanged,  object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.directoryListNeedingAccessChanged(notification:)), name: AppData.listOfFoldersRequiringAccessChanged, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.displayAlertDialog(notification:)), name: AppData.displayAlertDialog, object: nil)
 	}
 	
 	func applicationWillTerminate(_ aNotification: Notification) {
@@ -76,7 +77,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
-	@objc func directoryListNeedingAccessChanged(notification: Notification){
+	@objc func directoryListNeedingAccessChanged(notification: Notification) {
 		if AppData.shared.accessNeededForFolders.count > 1 {
 			mainWindowController?.mainViewController?.dropViewText = String.localizedStringWithFormat(NSLocalizedString("To give access to files in opened scan you need to start a scan for the following directories or drop them here:\n%@", comment: "Action needed for accessing more directories: drop view description"), AppData.shared.accessNeededForFolders.joined(separator: "\n"))
 		}
@@ -85,6 +86,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 		else {
 			mainWindowController?.mainViewController?.dropViewText = nil
+		}
+	}
+
+	@objc func displayAlertDialog(notification: Notification) {
+		guard let window = mainWindowController?.window else { return }
+		if let error = notification.userInfo?["error"] as? String {
+			self.displaySheet(withMessage: error, ofType: .critical, forWindow: window)
+		} else if let warning = notification.userInfo?["warning"] as? String {
+			self.displaySheet(withMessage: warning, ofType: .warning, forWindow: window)
+		} else if let notification = notification.userInfo?["notification"] as? String{
+			self.displaySheet(withMessage: notification, ofType: .informational, forWindow: window)
 		}
 	}
 	
@@ -422,6 +434,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 					if exportDialog.sheetParent == window {
 						window.endSheet(exportDialog, returnCode: .OK)
 					}
+					self.mainWindowController?.mainViewController?.collectionView.reloadData()
 				}
 			}
 		}

@@ -251,17 +251,80 @@ class ImageCollection: NSObject, Codable {
 
 	private var exportRunning = false
 
-	func exportStart(toDirectory: URL, removeOriginals: Bool = false, reportProgress: @escaping (_ sourcePath: String, _ destinationPath: String, _ percentComplete: Double)->Void, onCompletion: @escaping ()->Void) {
+	func exportStart(toDirectory destination: URL, removeOriginals: Bool = false, reportProgress: @escaping (_ sourcePath: String, _ destinationPath: String, _ percentComplete: Double)->Void, onCompletion: @escaping ()->Void) {
 		exportRunning = true
-		DispatchQueue(label: "new.quque").async {
-			for percent in (1...100) {
-				guard self.exportRunning == true else {
-					break
+		DispatchQueue(label: "com.trikatz.exportQueue").async {
+
+			let fileManager = FileManager.default
+
+			// Get count of all images for calculating progress in percents
+			let imagesCount = self.allImages.count
+
+			// Number of already exported images
+			var exportCount = 0
+
+			// Iterate through months
+			for monthKey in self.arrangedKeys {
+				if !self.exportRunning { break }
+
+				// Split month key into year and month
+				let year = String(monthKey.prefix(4))
+				let month = String(monthKey.suffix(2))
+
+				// Create directory
+				let monthDir = destination.appendingPathComponent("\(year)/\(month)")
+				do {
+					try fileManager.createDirectory(at: monthDir, withIntermediateDirectories: true, attributes: nil)
+				} catch {
+					let errorStr = String.localizedStringWithFormat(NSLocalizedString("Couldn't create directory %@: %@", comment: "Couldn't create directory"), monthDir.path, error.localizedDescription)
+					NSLog(errorStr)
+					DispatchQueue.main.sync {
+						NotificationCenter.default.post(name: AppData.displayAlertDialog, object: nil, userInfo: ["error": errorStr])
+					}
+					self.exportRunning = false
+					continue
 				}
-				DispatchQueue.main.sync {
-					reportProgress("", "", Double(percent))
+
+				// Iterate through images of this month and export them
+				if let imagesOfMonth = self.dictionary[monthKey] {
+					for storedImage in imagesOfMonth {
+						if !self.exportRunning { break }
+
+						let sourcePath = URL(fileURLWithPath: storedImage.imagePath)
+						let destinationPath = fileManager.nextAvailable(path: monthDir.appendingPathComponent(storedImage.imageName))
+
+						// Report progress
+						DispatchQueue.main.sync {
+							reportProgress(sourcePath.path, destinationPath.path, (Double(exportCount)/Double(imagesCount)) * 100.0)
+						}
+
+						// Copy/move image
+						do {
+							if removeOriginals {
+								// Move the image
+								try fileManager.moveItem(at: sourcePath, to: destinationPath)
+								// Check if source directory was left empty and remove if needed
+								if Configuration.shared.removeAlsoEmptyDirectories {
+									fileManager.removeDirIfEmpty(sourcePath.deletingLastPathComponent())
+								}
+								// Remove image data from our collection
+								self.removeImage(storedImage)
+							} else {
+								try fileManager.copyItem(at: sourcePath, to: destinationPath)
+							}
+						} catch {
+							let errorStr = String.localizedStringWithFormat(NSLocalizedString("Couldn't export image %@: %@", comment: "Couldn't export image"), destinationPath.path, error.localizedDescription)
+							NSLog(errorStr)
+							DispatchQueue.main.sync {
+								NotificationCenter.default.post(name: AppData.displayAlertDialog, object: nil, userInfo: ["error": errorStr])
+							}
+							self.exportRunning = false
+							continue
+						}
+
+						exportCount += 1
+					}
 				}
-				usleep(100000)
 			}
 			self.exportRunning = false
 			DispatchQueue.main.sync {

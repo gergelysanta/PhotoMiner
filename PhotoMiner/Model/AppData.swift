@@ -17,6 +17,9 @@ class AppData: NSObject {
 	/// Notification sent when list of folders which requires access changed
 	static let listOfFoldersRequiringAccessChanged  = Notification.Name("listOfFoldersRequiringAccessChanged")
 
+	/// Notification sent when alert dialog needs to be displayed
+	static let displayAlertDialog = Notification.Name("displayAlertDialog")
+
 	/// Property for unifying pasteboard url type on different system versions
 	static var pasteboardURLType:NSPasteboard.PasteboardType {
 		get {
