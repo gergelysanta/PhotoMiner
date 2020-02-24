@@ -335,6 +335,14 @@ extension MainViewController: NSCollectionViewDataSource {
 		{
 			sidebarController.imagePath = image.imagePath
 			sidebarController.exifData = image.exifData
+			if let latitude = image.gpsData["Latitude"] as? Double,
+			   let longitude = image.gpsData["Longitude"] as? Double
+			{
+				sidebarController.setLocation(latitude: latitude, longitude: longitude)
+			}
+			else {
+				sidebarController.clearLocation()
+			}
 		}
 		
 		if self.quickLookActive {

@@ -36,9 +36,17 @@ class ImageData: NSObject, Codable {
 	/// EXIF data of the image
 	private(set) var exifData = [String: AnyObject]()
 
+	/// GPS data of the image
+	private(set) var gpsData = [String: AnyObject]()
+
 	/// Has this image EXIF data?
 	var hasExif:Bool {
 		return exifData.keys.count > 0
+	}
+
+	/// Has this image GPS data?
+	var hasGPS:Bool {
+		return gpsData.keys.count > 0
 	}
 
 	/// Dispatch queue used for generating thumbnail
@@ -156,6 +164,10 @@ class ImageData: NSObject, Codable {
 
 				if self.dimensions.width > self.dimensions.height {
 					self.isLandscape = true
+				}
+
+				if let gpsDictionary = imageProperties[kCGImagePropertyGPSDictionary as String] as? [String: AnyObject] {
+					gpsData = gpsDictionary
 				}
 
 				if let exifDictionary = imageProperties[kCGImagePropertyExifDictionary as String] as? [String: AnyObject] {

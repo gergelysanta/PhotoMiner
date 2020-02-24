@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import MapKit
 
 class SidebarController: NSViewController {
 	
@@ -21,14 +22,19 @@ class SidebarController: NSViewController {
 			refreshExifTable()
 		}
 	}
-	
-	@IBOutlet private weak var exifTableView: NSTableView!
-	@IBOutlet private weak var exifTableHeightConstraint: NSLayoutConstraint!
+
+	private var gpsMark: MKAnnotation?
+	private var defaultRegion: MKCoordinateRegion?
+
+	@IBOutlet private var mapView: MKMapView!
+	@IBOutlet private var exifTableView: NSTableView!
+	@IBOutlet private var exifTableHeightConstraint: NSLayoutConstraint!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		SidebarController.instance = self
 		exifTableHeightConstraint.constant = 0.0
+		defaultRegion = mapView.region
 	}
 	
 	func exifValueToString(_ value: AnyObject) -> String? {
@@ -69,7 +75,40 @@ class SidebarController: NSViewController {
 		
 		return nil
 	}
-	
+
+	func setLocation(latitude: Double, longitude: Double) {
+		if let mark = gpsMark {
+			mapView.removeAnnotation(mark)
+		}
+
+		let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+		let regionRadius: CLLocationDistance = 1000		// in meters
+
+		// Mark location on map
+		gpsMark = MapPin(pointTo: coordinate)
+		mapView.addAnnotation(gpsMark!)
+
+		// Zoom in to 1000m area
+		let coordinateRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+		mapView.setRegion(coordinateRegion, animated: true)
+
+		mapView.needsDisplay = true
+	}
+
+	func clearLocation() {
+		// Remove mark
+		if let mark = gpsMark {
+			mapView.removeAnnotation(mark)
+		}
+		// Set the default region
+		if let region = defaultRegion {
+			mapView.setRegion(region, animated: true)
+		}
+		self.view.layout()
+
+		mapView.needsDisplay = true
+	}
+
 	private func refreshExifTable() {
 		exifTableView.reloadData()
 		
