@@ -143,6 +143,7 @@ class ImageCollection: NSObject, Codable {
 
 	/// Remove an image from the collection
 	/// - Parameter image: image data
+	@discardableResult
 	func removeImage(_ image:ImageData) -> Bool {
 		var imageRemoved = false
 		for monthKey in arrangedKeys {
@@ -167,7 +168,8 @@ class ImageCollection: NSObject, Codable {
 
 	/// Remove an image specified by path from the collection
 	/// - Parameter path: path to the image
-	@discardableResult func removeImage(withPath path:String) -> Bool {
+	@discardableResult
+	func removeImage(withPath path:String) -> Bool {
 		var imageRemoved = false
 		for monthKey in arrangedKeys {
 			if let imagesOfMonth = dictionary[monthKey] {

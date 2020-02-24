@@ -222,7 +222,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = TriKatz;
 				TargetAttributes = {
 					74174E541DF835C100D10710 = {
@@ -486,6 +486,7 @@
 				CODE_SIGN_ENTITLEMENTS = PhotoMiner/PhotoMiner.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEVELOPMENT_TEAM = Y9N34UZ32J;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = PhotoMiner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MARKETING_VERSION = 1.5;
@@ -501,6 +502,7 @@
 				CODE_SIGN_ENTITLEMENTS = PhotoMiner/PhotoMiner.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEVELOPMENT_TEAM = Y9N34UZ32J;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = PhotoMiner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MARKETING_VERSION = 1.5;
