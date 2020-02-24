@@ -99,6 +99,19 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Help" id="t6J-GZ-pVY">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Help" systemMenu="help" id="rx7-DY-q1d">
+                                    <items>
+                                        <menuItem title="Send Feedback" id="3PZ-vv-OWs">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="sendFeedbackMenuItemPressed:" target="Voe-Tx-rLC" id="nk0-eT-c7P"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                         </items>
                     </menu>
                     <connections>
@@ -484,7 +497,7 @@ DQ
                                     <subviews>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mCu-cC-FJe">
                                             <rect key="frame" x="6" y="6" width="363" height="18"/>
-                                            <mutableString key="toolTip">Exporting scanned images will make copies of them in a selected directory. With this option enabled the original images will be removed (instead copying they will be moved). This is the default option offered in export dialogs. Can be overridden individually for each export.</mutableString>
+                                            <string key="toolTip">Exporting scanned images will make copies of them in a selected directory. With this option enabled the original images will be removed (instead copying they will be moved). This is the default option offered in export dialogs. Can be overridden individually for each export.</string>
                                             <buttonCell key="cell" type="check" title="Offer to remove images by default in the export dialog" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="NDM-7J-VrC">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>

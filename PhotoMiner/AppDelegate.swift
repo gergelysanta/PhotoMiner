@@ -440,4 +440,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 
+	@IBAction func sendFeedbackMenuItemPressed(_ sender: NSMenuItem) {
+		// Send an email
+		if let emailService = NSSharingService(named: NSSharingService.Name.composeEmail) {
+			emailService.subject = NSLocalizedString("Feedback for PhotoMiner", comment: "Feedback for PhotoMiner")
+			emailService.recipients = ["feedback@trikatz.com"]
+			emailService.perform(withItems: [])
+		}
+	}
+
 }

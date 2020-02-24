@@ -67,3 +67,6 @@
 
 /* Export error: couldn't export image */
 "Couldn't export image %@: %@" = "Nem tudtam exportálni a %@ fájtl: %@";
+
+/* Feedback for PhotoMiner */
+"Feedback for PhotoMiner" = "Visszajelzés a PhotoMiner alkalmazásról";

@@ -160,3 +160,6 @@
 
 /* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "sod-Q0-qXT"; */
 "sod-Q0-qXT.title" = "Mégsem";
+
+/* Class = "NSMenuItem"; title = "Send Feedback"; ObjectID = "3PZ-vv-OWs"; */
+"3PZ-vv-OWs.title" = "Visszajelzés küldése";
