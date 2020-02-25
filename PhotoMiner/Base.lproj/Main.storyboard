@@ -104,13 +104,11 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="rx7-DY-q1d">
                                     <items>
-                                        <menuItem title="Send Feedback" keyEquivalent="?" id="JGj-lN-HC4">
-                                            <connections>
-                                                <action selector="showHelp:" target="Ady-hI-5gd" id="avY-Rk-sOM"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Item" id="3PZ-vv-OWs">
+                                        <menuItem title="Send Feedback" id="JGj-lN-HC4">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="sendFeedbackMenuItemPressed:" target="Voe-Tx-rLC" id="FTn-Se-Xff"/>
+                                            </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
@@ -798,13 +796,13 @@ DQ
                                                 <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2Rd-5B-BfB">
                                                     <rect key="frame" x="8" y="86" width="232" height="5"/>
                                                 </box>
-                                                <scrollView autoresizesSubviews="NO" borderType="none" autohidesScrollers="YES" horizontalLineScroll="14" horizontalPageScroll="10" verticalLineScroll="14" verticalPageScroll="10" hasVerticalScroller="NO" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="70s-lH-xas" customClass="ForwardingScrollView" customModule="PhotoMiner" customModuleProvider="target">
+                                                <scrollView autoresizesSubviews="NO" borderType="none" autohidesScrollers="YES" horizontalLineScroll="13" horizontalPageScroll="10" verticalLineScroll="13" verticalPageScroll="10" hasVerticalScroller="NO" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="70s-lH-xas" customClass="ForwardingScrollView" customModule="PhotoMiner" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="28" width="232" height="60"/>
                                                     <clipView key="contentView" drawsBackground="NO" id="Juz-ox-bKV">
                                                         <rect key="frame" x="0.0" y="0.0" width="232" height="60"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="12" rowSizeStyle="automatic" viewBased="YES" id="jar-Uf-ibV">
+                                                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="11" rowSizeStyle="automatic" viewBased="YES" id="jar-Uf-ibV">
                                                                 <rect key="frame" x="0.0" y="0.0" width="232" height="60"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <size key="intercellSpacing" width="3" height="2"/>
