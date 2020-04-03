@@ -29,19 +29,24 @@ class ImageCollection: NSObject, Codable {
 	/// Flag indicating if inner array of all images is actualized
 	private var allImagesArrayActualized = false
 
-	// Array of all images in arranged order (arranged by months)
+	/// Queue for synchronizing database management. Implements multiple reads and exclusive write operation.
+	private let syncQueue = DispatchQueue(label: "ImageCollectionSyncQueue", attributes: .concurrent)
+
+	/// Array of all images in arranged order (arranged by months)
 	var allImages:[ImageData] {
 		get {
-			if !allImagesArrayActualized {
-				allImagesArray = [ImageData]()
-				for monthKey in arrangedKeys {
-					if let imagesOfMonth = dictionary[monthKey] {
-						for storedImage in imagesOfMonth {
-							allImagesArray.append(storedImage)
+			syncQueue.sync { [unowned self] in
+				if !self.allImagesArrayActualized {
+					self.allImagesArray = [ImageData]()
+					for monthKey in self.arrangedKeys {
+						if let imagesOfMonth = self.dictionary[monthKey] {
+							for storedImage in imagesOfMonth {
+								self.allImagesArray.append(storedImage)
+							}
 						}
 					}
+					self.allImagesArrayActualized = true
 				}
-				allImagesArrayActualized = true
 			}
 			return allImagesArray
 		}
@@ -107,35 +112,37 @@ class ImageCollection: NSObject, Codable {
 		let dateComponents = Calendar.current.dateComponents([.year, .month], from:image.creationDate)
 		let monthKey = String(format:"%04ld%02ld", dateComponents.year!, dateComponents.month!)
 
-		// Check if we have an array in our dictionary for this month
-		if (dictionary[monthKey] == nil) {
+		syncQueue.sync(flags: .barrier) { [unowned self] in
+			// Check if we have an array in our dictionary for this month
+			if (self.dictionary[monthKey] == nil) {
 
-			// Create new array for new month section
-			dictionary[monthKey] = [ImageData]()
+				// Create new array for new month section
+				self.dictionary[monthKey] = [ImageData]()
 
-			// Add new key to arranged keys array and re-arrange the array
-			arrangedKeys.append(monthKey)
-			arrangedKeys.sort { Int($0)! > Int($1)! }
-		}
+				// Add new key to arranged keys array and re-arrange the array
+				self.arrangedKeys.append(monthKey)
+				self.arrangedKeys.sort { Int($0)! > Int($1)! }
+			}
 
-		// Add image to the month array
-		if let imagesOfMonth = dictionary[monthKey] {
-			var index = 0
-			for imageInArray in imagesOfMonth {
-				if image.creationDate > imageInArray.creationDate {
-					break
+			// Add image to the month array
+			if let imagesOfMonth = self.dictionary[monthKey] {
+				var index = 0
+				for imageInArray in imagesOfMonth {
+					if image.creationDate > imageInArray.creationDate {
+						break
+					}
+					index += 1
 				}
-				index += 1
-			}
 
-			if index >= imagesOfMonth.count {
-				dictionary[monthKey]?.append(image)
+				if index >= imagesOfMonth.count {
+					self.dictionary[monthKey]?.append(image)
+				}
+				else {
+					self.dictionary[monthKey]?.insert(image, at: index)
+				}
+				self.count += 1
+				self.allImagesArrayActualized = false
 			}
-			else {
-				dictionary[monthKey]?.insert(image, at: index)
-			}
-			count += 1
-			allImagesArrayActualized = false
 		}
 
 		return true
@@ -146,19 +153,21 @@ class ImageCollection: NSObject, Codable {
 	@discardableResult
 	func removeImage(_ image:ImageData) -> Bool {
 		var imageRemoved = false
-		for monthKey in arrangedKeys {
-			if let imagesOfMonth = dictionary[monthKey] {
-				if let imageIndex = imagesOfMonth.firstIndex(of: image) {
-					dictionary[monthKey]?.remove(at: imageIndex)
-					count -= 1
-					allImagesArrayActualized = false
-					imageRemoved = true
-					break
-				}
-				if dictionary[monthKey]?.count == 0 {
-					dictionary.removeValue(forKey: monthKey)
-					if let index = arrangedKeys.firstIndex(of: monthKey) {
-						arrangedKeys.remove(at: index)
+		syncQueue.sync(flags: .barrier) { [unowned self] in
+			for monthKey in self.arrangedKeys {
+				if let imagesOfMonth = self.dictionary[monthKey] {
+					if let imageIndex = imagesOfMonth.firstIndex(of: image) {
+						self.dictionary[monthKey]?.remove(at: imageIndex)
+						self.count -= 1
+						self.allImagesArrayActualized = false
+						imageRemoved = true
+						break
+					}
+					if self.dictionary[monthKey]?.count == 0 {
+						self.dictionary.removeValue(forKey: monthKey)
+						if let index = self.arrangedKeys.firstIndex(of: monthKey) {
+							self.arrangedKeys.remove(at: index)
+						}
 					}
 				}
 			}
@@ -171,19 +180,21 @@ class ImageCollection: NSObject, Codable {
 	@discardableResult
 	func removeImage(withPath path:String) -> Bool {
 		var imageRemoved = false
-		for monthKey in arrangedKeys {
-			if let imagesOfMonth = dictionary[monthKey] {
-				for (index, storedImage) in imagesOfMonth.enumerated() where storedImage.imagePath == path {
-					dictionary[monthKey]?.remove(at: index)
-					count -= 1
-					allImagesArrayActualized = false
-					imageRemoved = true
-					break
-				}
-				if dictionary[monthKey]?.count == 0 {
-					dictionary.removeValue(forKey: monthKey)
-					if let index = arrangedKeys.firstIndex(of: monthKey) {
-						arrangedKeys.remove(at: index)
+		syncQueue.sync(flags: .barrier) { [unowned self] in
+			for monthKey in self.arrangedKeys {
+				if let imagesOfMonth = self.dictionary[monthKey] {
+					for (index, storedImage) in imagesOfMonth.enumerated() where storedImage.imagePath == path {
+						self.dictionary[monthKey]?.remove(at: index)
+						self.count -= 1
+						self.allImagesArrayActualized = false
+						imageRemoved = true
+						break
+					}
+					if self.dictionary[monthKey]?.count == 0 {
+						self.dictionary.removeValue(forKey: monthKey)
+						if let index = self.arrangedKeys.firstIndex(of: monthKey) {
+							self.arrangedKeys.remove(at: index)
+						}
 					}
 				}
 			}
@@ -194,61 +205,77 @@ class ImageCollection: NSObject, Codable {
 	/// Find an image in the collection by it's name
 	/// - Parameter name: image name
 	func image(withName name: String) -> ImageData? {
-		for monthKey in arrangedKeys {
-			if let imagesOfMonth = dictionary[monthKey] {
-				for storedImage in imagesOfMonth {
-					if name == storedImage.imageName {
-						return storedImage
+		var foundImage: ImageData?
+		syncQueue.sync { [unowned self] in
+			for monthKey in self.arrangedKeys {
+				if let imagesOfMonth = self.dictionary[monthKey] {
+					for storedImage in imagesOfMonth {
+						if name == storedImage.imageName {
+							foundImage = storedImage
+							return
+						}
 					}
 				}
 			}
 		}
-		return nil
+		return foundImage
 	}
 
 	/// Find an image in the collection by it's path
 	/// - Parameter path: image path
 	func image(withPath path: String) -> ImageData? {
-		for monthKey in arrangedKeys {
-			if let imagesOfMonth = dictionary[monthKey] {
-				for storedImage in imagesOfMonth {
-					if path == storedImage.imagePath {
-						return storedImage
+		var foundImage: ImageData?
+		syncQueue.sync { [unowned self] in
+			for monthKey in self.arrangedKeys {
+				if let imagesOfMonth = self.dictionary[monthKey] {
+					for storedImage in imagesOfMonth {
+						if path == storedImage.imagePath {
+							foundImage = storedImage
+							return
+						}
 					}
 				}
 			}
 		}
-		return nil
+		return foundImage
 	}
 
 	/// Find an image in the collection by it's index path
 	/// - Parameter indexPath: index path
 	func image(withIndexPath indexPath: IndexPath) -> ImageData? {
-		if indexPath.section < arrangedKeys.count {
-			let monthKey = arrangedKeys[indexPath.section]
-			if let imagesOfMonth = dictionary[monthKey] {
-				if indexPath.item < imagesOfMonth.count {
-					return imagesOfMonth[indexPath.item]
+		var foundImage: ImageData?
+		syncQueue.sync { [unowned self] in
+			if indexPath.section < self.arrangedKeys.count {
+				let monthKey = self.arrangedKeys[indexPath.section]
+				if let imagesOfMonth = self.dictionary[monthKey] {
+					if indexPath.item < imagesOfMonth.count {
+						foundImage = imagesOfMonth[indexPath.item]
+						return
+					}
 				}
 			}
 		}
-		return nil
+		return foundImage
 	}
 
 	/// Get index path of an image
 	/// - Parameter image: image data
 	func indexPath(of image:ImageData) -> IndexPath? {
-		for section in 0..<arrangedKeys.count {
-			let monthKey = arrangedKeys[section]
-			if let imagesOfMonth = dictionary[monthKey] {
-				for item in 0..<imagesOfMonth.count {
-					if imagesOfMonth[item] == image {
-						return IndexPath(item: item, section: section)
+		var foundIndexPath: IndexPath?
+		syncQueue.sync { [unowned self] in
+			for section in 0..<self.arrangedKeys.count {
+				let monthKey = self.arrangedKeys[section]
+				if let imagesOfMonth = self.dictionary[monthKey] {
+					for item in 0..<imagesOfMonth.count {
+						if imagesOfMonth[item] == image {
+							foundIndexPath = IndexPath(item: item, section: section)
+							return
+						}
 					}
 				}
 			}
 		}
-		return nil
+		return foundIndexPath
 	}
 
 	private var exportRunning = false
@@ -259,72 +286,71 @@ class ImageCollection: NSObject, Codable {
 
 			let fileManager = FileManager.default
 
-			// Get count of all images for calculating progress in percents
-			let imagesCount = self.allImages.count
-
 			// Number of already exported images
 			var exportCount = 0
 
-			// Iterate through months
-			for monthKey in self.arrangedKeys {
-				if !self.exportRunning { break }
+			self.syncQueue.sync { [unowned self] in
+				// Iterate through months
+				for monthKey in self.arrangedKeys {
+					if !self.exportRunning { break }
 
-				// Split month key into year and month
-				let year = String(monthKey.prefix(4))
-				let month = String(monthKey.suffix(2))
+					// Split month key into year and month
+					let year = String(monthKey.prefix(4))
+					let month = String(monthKey.suffix(2))
 
-				// Create directory
-				let monthDir = destination.appendingPathComponent("\(year)/\(month)")
-				do {
-					try fileManager.createDirectory(at: monthDir, withIntermediateDirectories: true, attributes: nil)
-				} catch {
-					let errorStr = String.localizedStringWithFormat(NSLocalizedString("Couldn't create directory %@: %@", comment: "Couldn't create directory"), monthDir.path, error.localizedDescription)
-					NSLog(errorStr)
-					DispatchQueue.main.sync {
-						NotificationCenter.default.post(name: AppData.displayAlertDialog, object: nil, userInfo: ["error": errorStr])
-					}
-					self.exportRunning = false
-					continue
-				}
-
-				// Iterate through images of this month and export them
-				if let imagesOfMonth = self.dictionary[monthKey] {
-					for storedImage in imagesOfMonth {
-						if !self.exportRunning { break }
-
-						let sourcePath = URL(fileURLWithPath: storedImage.imagePath)
-						let destinationPath = fileManager.nextAvailable(path: monthDir.appendingPathComponent(storedImage.imageName))
-
-						// Report progress
+					// Create directory
+					let monthDir = destination.appendingPathComponent("\(year)/\(month)")
+					do {
+						try fileManager.createDirectory(at: monthDir, withIntermediateDirectories: true, attributes: nil)
+					} catch {
+						let errorStr = String.localizedStringWithFormat(NSLocalizedString("Couldn't create directory %@: %@", comment: "Couldn't create directory"), monthDir.path, error.localizedDescription)
+						NSLog(errorStr)
 						DispatchQueue.main.sync {
-							reportProgress(sourcePath.path, destinationPath.path, (Double(exportCount)/Double(imagesCount)) * 100.0)
+							NotificationCenter.default.post(name: AppData.displayAlertDialog, object: nil, userInfo: ["error": errorStr])
 						}
+						self.exportRunning = false
+						continue
+					}
 
-						// Copy/move image
-						do {
-							if removeOriginals {
-								// Move the image
-								try fileManager.moveItem(at: sourcePath, to: destinationPath)
-								// Check if source directory was left empty and remove if needed
-								if Configuration.shared.removeAlsoEmptyDirectories {
-									fileManager.removeDirIfEmpty(sourcePath.deletingLastPathComponent())
-								}
-								// Remove image data from our collection
-								self.removeImage(storedImage)
-							} else {
-								try fileManager.copyItem(at: sourcePath, to: destinationPath)
-							}
-						} catch {
-							let errorStr = String.localizedStringWithFormat(NSLocalizedString("Couldn't export image %@: %@", comment: "Couldn't export image"), destinationPath.path, error.localizedDescription)
-							NSLog(errorStr)
+					// Iterate through images of this month and export them
+					if let imagesOfMonth = self.dictionary[monthKey] {
+						for storedImage in imagesOfMonth {
+							if !self.exportRunning { break }
+
+							let sourcePath = URL(fileURLWithPath: storedImage.imagePath)
+							let destinationPath = fileManager.nextAvailable(path: monthDir.appendingPathComponent(storedImage.imageName))
+
+							// Report progress
 							DispatchQueue.main.sync {
-								NotificationCenter.default.post(name: AppData.displayAlertDialog, object: nil, userInfo: ["error": errorStr])
+								reportProgress(sourcePath.path, destinationPath.path, (Double(exportCount)/Double(self.count)) * 100.0)
 							}
-							self.exportRunning = false
-							continue
-						}
 
-						exportCount += 1
+							// Copy/move image
+							do {
+								if removeOriginals {
+									// Move the image
+									try fileManager.moveItem(at: sourcePath, to: destinationPath)
+									// Check if source directory was left empty and remove if needed
+									if Configuration.shared.removeAlsoEmptyDirectories {
+										fileManager.removeDirIfEmpty(sourcePath.deletingLastPathComponent())
+									}
+									// Remove image data from our collection
+									self.removeImage(storedImage)
+								} else {
+									try fileManager.copyItem(at: sourcePath, to: destinationPath)
+								}
+							} catch {
+								let errorStr = String.localizedStringWithFormat(NSLocalizedString("Couldn't export image %@: %@", comment: "Couldn't export image"), destinationPath.path, error.localizedDescription)
+								NSLog(errorStr)
+								DispatchQueue.main.sync {
+									NotificationCenter.default.post(name: AppData.displayAlertDialog, object: nil, userInfo: ["error": errorStr])
+								}
+								self.exportRunning = false
+								continue
+							}
+
+							exportCount += 1
+						}
 					}
 				}
 			}
