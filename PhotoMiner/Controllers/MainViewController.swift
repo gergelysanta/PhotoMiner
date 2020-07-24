@@ -114,7 +114,7 @@ class MainViewController: NSViewController {
 			for image in self.selectedImages() {
 				filePathList.append(image.imagePath)
 			}
-			self.trashImages(filePathList)
+			self.trash(images: filePathList)
 			
 			// --------------------------------------------------------
 			
@@ -180,56 +180,64 @@ class MainViewController: NSViewController {
 		return true
 	}
 	
-	private func trashImages(_ imagePathList:[String]) {
+	private func trash(images imagePathList:[String], onlyFromView removeOnlyFromView: Bool = false) {
 		guard imagePathList.count > 0 else { return }
 
-		let trashCompletionHandler = { (response: Bool)->Void in
-			if response {
-				var imageURLs = [URL]()
-				for imagePath in imagePathList {
-					if FileManager.default.fileExists(atPath: imagePath) {
-						// Image exists, cache for removal
-						imageURLs.append(URL(fileURLWithPath: imagePath))
-						// Mark imageset as changed
-						AppData.shared.loadedImageSetChanged = true
-					} else {
-						// Image already removed from disk, remove it from listing
-						AppData.shared.imageCollection.removeImage(withPath: imagePath)
-						// Mark imageset as changed
-						AppData.shared.loadedImageSetChanged = true
+		let trashCompletionHandler = { (response: Bool) -> Void in
+			guard response == true else { return }
+
+			var imageURLs = [URL]()
+			for imagePath in imagePathList {
+				if !removeOnlyFromView && FileManager.default.fileExists(atPath: imagePath) {
+					// Image exists, cache for removal
+					imageURLs.append(URL(fileURLWithPath: imagePath))
+
+					// Mark imageset as changed
+					AppData.shared.loadedImageSetChanged = true
+				} else {
+					// Image already removed from disk, remove it from listing
+					AppData.shared.imageCollection.removeImage(withPath: imagePath)
+
+					// Remove also directory of the image if it was the last file in it
+					if Configuration.shared.removeAlsoEmptyDirectories {
+						FileManager.default.removeDirIfEmpty(URL(fileURLWithPath: imagePath).deletingLastPathComponent())
+					}
+
+					// Mark imageset as changed
+					AppData.shared.loadedImageSetChanged = true
+				}
+			}
+
+			// Trash all files cached for removal
+			NSWorkspace.shared.recycle(imageURLs) { (trashedFiles, error) in
+				for url in imageURLs where trashedFiles[url] != nil {
+					// Image was removed from disk, remove it from listing
+					AppData.shared.imageCollection.removeImage(withPath: url.path)
+					// Remove also directory of the image if it was the last file in it
+					if Configuration.shared.removeAlsoEmptyDirectories {
+						FileManager.default.removeDirIfEmpty(url.deletingLastPathComponent())
 					}
 				}
-				
-				// Trash all files cached for removal
-				NSWorkspace.shared.recycle(imageURLs) { (trashedFiles, error) in
-					for url in imageURLs where trashedFiles[url] != nil {
-						AppData.shared.imageCollection.removeImage(withPath: url.path)
-						
-						if Configuration.shared.removeAlsoEmptyDirectories {
-							FileManager.default.removeDirIfEmpty(url.deletingLastPathComponent())
-						}
-					}
-					
-					if let appDelegate = NSApp.delegate as? AppDelegate {
-						// Refresh data thsough main window controller (this will refresh also titlebar)
-						appDelegate.mainWindowController?.refreshPhotos()
-					}
-					else {
-						// Refresh table (this won't refresh titlebar info, but at least table will reflect true information)
-						self.collectionView.reloadData()
-					}
-					
-					// TODO: Make this animated:
-//					self.collectionView.performBatchUpdates({
-//						self.collectionView.deleteItems(at: Set<IndexPath>)
-//					}, completionHandler: { (result) in
-//						NSLog("Complete: %@", result ? "OK" : "NO")
-//					})
+
+				if let appDelegate = NSApp.delegate as? AppDelegate {
+					// Refresh data through main window controller (this will refresh also titlebar)
+					appDelegate.mainWindowController?.refreshPhotos()
 				}
+				else {
+					// Refresh table (this won't refresh titlebar info, but at least table will reflect true information)
+					self.collectionView.reloadData()
+				}
+
+				// TODO: Make this animated:
+//				self.collectionView.performBatchUpdates({
+//					self.collectionView.deleteItems(at: Set<IndexPath>)
+//				}, completionHandler: { (result) in
+//					NSLog("Complete: %@", result ? "OK" : "NO")
+//				})
 			}
 		}
 		
-		if Configuration.shared.removeMustBeConfirmed {
+		if Configuration.shared.removeMustBeConfirmed && !removeOnlyFromView{
 			if let appDelegate = NSApp.delegate as? AppDelegate {
 				let question = (imagePathList.count > 1)
 					? String.localizedStringWithFormat(NSLocalizedString("Are you sure you want to trash the selected %d pictures?", comment: "Confirmation for moving more pictures to trash"), imagePathList.count)
@@ -490,7 +498,7 @@ extension MainViewController: PhotoCollectionViewDelegate {
 			for image in self.selectedImages() {
 				filePathList.append(image.imagePath)
 			}
-			self.trashImages(filePathList)
+			self.trash(images: filePathList)
 			return true
 		default:
 			return false
@@ -528,16 +536,12 @@ extension MainViewController: PhotoCollectionViewDelegate {
 	}
 	
 	func drag(_ collectionView: PhotoCollectionView, session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
-		if operation == .delete {
+		if (operation == .delete) || (operation == .move) {
 			// Dragging session ended with delete operation (user dragged the icon to the trash)
+			// or dragging session ended with move operation (files already moved, need to refresh collection view)
 			if let pictureURLs:[NSURL] = session.draggingPasteboard.readObjects(forClasses: [NSURL.self], options: nil) as? [NSURL] {
-				var filePathList = [String]()
-				for pictureURL in pictureURLs {
-					if let path = pictureURL.path {
-						filePathList.append(path)
-					}
-				}
-				self.trashImages(filePathList)
+				let filePathList = pictureURLs.compactMap { $0.path }
+				self.trash(images: filePathList, onlyFromView: operation == .move)
 			}
 		}
 	}
