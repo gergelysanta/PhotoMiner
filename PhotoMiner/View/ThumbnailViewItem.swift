@@ -63,8 +63,8 @@ class ThumbnailViewItem: NSCollectionViewItem {
 		}
 	}
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		view.wantsLayer = true
 		view.layer?.backgroundColor = Colors.Thumbnail.frameColor.cgColor
@@ -75,7 +75,7 @@ class ThumbnailViewItem: NSCollectionViewItem {
 		self.representedObject = object
 		
 		updateBackground()
-    }
+	}
 	
 	func updateBackground() {
 		if isSelected || (highlightState == .forSelection){
