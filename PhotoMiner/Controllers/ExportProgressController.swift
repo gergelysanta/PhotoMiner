@@ -10,24 +10,24 @@ import Cocoa
 
 class ExportProgressController: NSViewController {
 
-	@IBOutlet var progressBar: NSProgressIndicator!
+    @IBOutlet var progressBar: NSProgressIndicator!
 
-	@IBAction func cancelButtonPressed(_ sender: NSButton) {
-		guard let window = self.view.window else { return }
+    @IBAction func cancelButtonPressed(_ sender: NSButton) {
+        guard let window = self.view.window else { return }
 
-		if let sheetParent = window.sheetParent {
-			// Progress is displayed as a sheet
-			sheetParent.endSheet(window, returnCode: .cancel)
-		} else {
-			// Progress is displayed as window
-			window.close()
-		}
-	}
+        if let sheetParent = window.sheetParent {
+            // Progress is displayed as a sheet
+            sheetParent.endSheet(window, returnCode: .cancel)
+        } else {
+            // Progress is displayed as window
+            window.close()
+        }
+    }
 
-	deinit {
-		#if DEBUG
-		NSLog("-- ExportProgressController RELEASED")
-		#endif
-	}
+    deinit {
+        #if DEBUG
+        NSLog("-- ExportProgressController RELEASED")
+        #endif
+    }
 
 }

@@ -9,44 +9,44 @@
 import Cocoa
 
 class MainSplitViewController: NSSplitViewController {
-	
-	static var instance:MainSplitViewController?
-	
-	var isSidebarCollapsed: Bool {
-		get {
-			return self.splitViewItems.last?.isCollapsed ?? true
-		}
-	}
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		MainSplitViewController.instance = self
-		
-		if let rightItem = splitViewItems.last {
-			// Remove the last item and re-add as a sidebar
-			removeSplitViewItem(rightItem)
-			let sidebarItem = NSSplitViewItem(sidebarWithViewController: rightItem.viewController)
-			sidebarItem.collapseBehavior = .preferResizingSplitViewWithFixedSiblings
-			sidebarItem.minimumThickness = CGFloat(Configuration.shared.sidepanelMinWidth)
-			sidebarItem.maximumThickness = CGFloat(Configuration.shared.sidePanelMaxWidth)
-			sidebarItem.canCollapse = true
-			sidebarItem.isCollapsed = true
-			addSplitViewItem(sidebarItem)
-		}
-	}
-	
-	private var lastCollapsedState = true
-	override func splitViewDidResizeSubviews(_ notification: Notification) {
-		super.splitViewDidResizeSubviews(notification)
-		if lastCollapsedState != isSidebarCollapsed {
-			lastCollapsedState = isSidebarCollapsed
-			NotificationCenter.default.post(name: isSidebarCollapsed ? TitlebarController.sidebarOffNotification : TitlebarController.sidebarOnNotification, object: self)
-		}
-	}
-	
-	override func toggleSidebar(_ sender: Any?) {
-		super.toggleSidebar(sender)
-		NotificationCenter.default.post(name: isSidebarCollapsed ? TitlebarController.sidebarOffNotification : TitlebarController.sidebarOnNotification, object: self)
-	}
-	
+
+    static var instance:MainSplitViewController?
+
+    var isSidebarCollapsed: Bool {
+        get {
+            return self.splitViewItems.last?.isCollapsed ?? true
+        }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        MainSplitViewController.instance = self
+
+        if let rightItem = splitViewItems.last {
+            // Remove the last item and re-add as a sidebar
+            removeSplitViewItem(rightItem)
+            let sidebarItem = NSSplitViewItem(sidebarWithViewController: rightItem.viewController)
+            sidebarItem.collapseBehavior = .preferResizingSplitViewWithFixedSiblings
+            sidebarItem.minimumThickness = CGFloat(Configuration.shared.sidepanelMinWidth)
+            sidebarItem.maximumThickness = CGFloat(Configuration.shared.sidePanelMaxWidth)
+            sidebarItem.canCollapse = true
+            sidebarItem.isCollapsed = true
+            addSplitViewItem(sidebarItem)
+        }
+    }
+
+    private var lastCollapsedState = true
+    override func splitViewDidResizeSubviews(_ notification: Notification) {
+        super.splitViewDidResizeSubviews(notification)
+        if lastCollapsedState != isSidebarCollapsed {
+            lastCollapsedState = isSidebarCollapsed
+            NotificationCenter.default.post(name: isSidebarCollapsed ? TitlebarController.sidebarOffNotification : TitlebarController.sidebarOnNotification, object: self)
+        }
+    }
+
+    override func toggleSidebar(_ sender: Any?) {
+        super.toggleSidebar(sender)
+        NotificationCenter.default.post(name: isSidebarCollapsed ? TitlebarController.sidebarOffNotification : TitlebarController.sidebarOnNotification, object: self)
+    }
+
 }

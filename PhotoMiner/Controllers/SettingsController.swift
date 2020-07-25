@@ -9,14 +9,14 @@
 import Cocoa
 
 class SettingsController: NSViewController {
-	
-	@objc dynamic let configuration = Configuration.shared
-	
-	override func dismiss(_ sender: Any?) {
-		super.dismiss(sender)
-		if let appDelegate = NSApp.delegate as? AppDelegate {
-			appDelegate.mainWindowController?.refreshPhotos()
-		}
-	}
-	
+
+    @objc dynamic let configuration = Configuration.shared
+
+    override func dismiss(_ sender: Any?) {
+        super.dismiss(sender)
+        if let appDelegate = NSApp.delegate as? AppDelegate {
+            appDelegate.mainWindowController?.refreshPhotos()
+        }
+    }
+
 }

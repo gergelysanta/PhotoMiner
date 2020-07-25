@@ -9,31 +9,31 @@
 import Cocoa
 
 class ForwardingScrollView: NSScrollView {
-	
-	override func scrollWheel(with event: NSEvent) {
-		var shouldForwardScroll = false
-		
-		if usesPredominantAxisScrolling {
-			if abs(event.scrollingDeltaX) > abs(event.scrollingDeltaY) {
-				// Horizontal scroll
-				if !hasHorizontalScroller {
-					shouldForwardScroll = true
-				}
-			}
-			else {
-				// Vertical scroll
-				if !hasVerticalScroller {
-					shouldForwardScroll = true
-				}
-			}
-		}
-		
-		if shouldForwardScroll {
-			nextResponder?.scrollWheel(with: event)
-		}
-		else {
-			super.scrollWheel(with: event)
-		}
-	}
-	
+
+    override func scrollWheel(with event: NSEvent) {
+        var shouldForwardScroll = false
+
+        if usesPredominantAxisScrolling {
+            if abs(event.scrollingDeltaX) > abs(event.scrollingDeltaY) {
+                // Horizontal scroll
+                if !hasHorizontalScroller {
+                    shouldForwardScroll = true
+                }
+            }
+            else {
+                // Vertical scroll
+                if !hasVerticalScroller {
+                    shouldForwardScroll = true
+                }
+            }
+        }
+
+        if shouldForwardScroll {
+            nextResponder?.scrollWheel(with: event)
+        }
+        else {
+            super.scrollWheel(with: event)
+        }
+    }
+
 }

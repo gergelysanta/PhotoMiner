@@ -11,11 +11,11 @@ import MapKit
 
 class MapPin: NSObject, MKAnnotation {
 
-	var coordinate: CLLocationCoordinate2D
+    var coordinate: CLLocationCoordinate2D
 
-	init(pointTo: CLLocationCoordinate2D) {
-		coordinate = pointTo
-		super.init()
-	}
+    init(pointTo: CLLocationCoordinate2D) {
+        coordinate = pointTo
+        super.init()
+    }
 
 }

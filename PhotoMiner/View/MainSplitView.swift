@@ -10,11 +10,11 @@ import Cocoa
 
 class MainSplitView: NSSplitView {
 
-	override func holdingPriorityForSubview(at subviewIndex: Int) -> NSLayoutConstraint.Priority {
-		if subviewIndex == 1 {
-			return NSLayoutConstraint.Priority.init(rawValue: 400)
-		}
-		return NSLayoutConstraint.Priority.defaultLow
-	}
-	
+    override func holdingPriorityForSubview(at subviewIndex: Int) -> NSLayoutConstraint.Priority {
+        if subviewIndex == 1 {
+            return NSLayoutConstraint.Priority.init(rawValue: 400)
+        }
+        return NSLayoutConstraint.Priority.defaultLow
+    }
+
 }

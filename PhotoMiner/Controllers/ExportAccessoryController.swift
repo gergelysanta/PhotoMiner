@@ -10,7 +10,7 @@ import Cocoa
 
 class ExportAccessoryController: NSViewController {
 
-	@objc dynamic var removeAfterExporting: Bool = false
+    @objc dynamic var removeAfterExporting: Bool = false
 
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -20,10 +20,10 @@ class ExportAccessoryController: NSViewController {
         removeAfterExporting = Configuration.shared.removeOriginalAfterExportingImages
     }
 
-	deinit {
-		#if DEBUG
-		NSLog("-- ExportAccessoryController RELEASED")
-		#endif
-	}
+    deinit {
+        #if DEBUG
+        NSLog("-- ExportAccessoryController RELEASED")
+        #endif
+    }
 
 }
