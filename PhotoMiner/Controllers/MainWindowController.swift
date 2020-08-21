@@ -60,13 +60,20 @@ class MainWindowController: NSWindowController {
         let contentRect = NSWindow.contentRect(forFrameRect: frame, styleMask: NSWindow.StyleMask.titled)
         let defaultTitlebarHeight = NSHeight(frame) - NSHeight(contentRect)
 
-        // Use NSTitlebarAccessoryViewController for enhancing titlebar
-        let dummyTitleBarViewController = NSTitlebarAccessoryViewController()
-        dummyTitleBarViewController.view = NSView(frame: NSRect(x: 0.0, y: 0.0, width: 10.0, height: titleViewFrame.size.height - defaultTitlebarHeight))
+        if #available(OSX 11.0, *) {
+            // On macOS 11 Big Sur using NSTitlebarAccessoryViewController with layoutAttribute = .bottom automatically enhances
+            // the titlebar to default height which is huuuge :( So on that system we're returning to good old NSToolbar
+            let dummyToolbar = NSToolbar()
+            self.window?.toolbar = dummyToolbar
+        } else {
+            // Use NSTitlebarAccessoryViewController for enhancing titlebar
+            let dummyTitleBarViewController = NSTitlebarAccessoryViewController()
+            dummyTitleBarViewController.view = NSView(frame: NSRect(x: 0.0, y: 0.0, width: 10.0, height: titleViewFrame.size.height - defaultTitlebarHeight))
 
-        dummyTitleBarViewController.layoutAttribute = .bottom
-        dummyTitleBarViewController.fullScreenMinHeight = 0
-        self.window?.addTitlebarAccessoryViewController(dummyTitleBarViewController)
+            dummyTitleBarViewController.layoutAttribute = .bottom
+            dummyTitleBarViewController.fullScreenMinHeight = 0
+            self.window?.addTitlebarAccessoryViewController(dummyTitleBarViewController)
+        }
 
         // Add our title view to window title
         if let closeButton = self.window?.standardWindowButton(.closeButton) {
