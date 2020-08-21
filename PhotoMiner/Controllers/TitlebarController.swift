@@ -30,7 +30,6 @@ class TitlebarController: NSViewController {
     private let sidebarOnImage  = NSImage(named: "SidebarOn")
     private let sidebarOffImage = NSImage(named: "SidebarOff")
 
-//    private var longScanPressTimer: Repeater?
     private var longScanPressMenu = NSMenu()
 
     private var predefinedDirectories: [[String]] = [
@@ -135,8 +134,7 @@ class TitlebarController: NSViewController {
 //extension TitlebarController: NSMenuDelegate {
 //
 //    func menuDidClose(_ menu: NSMenu) {
-////        scanButton.highlight(false)
-////        NSApp.sendEvent(NSEvent(eventRef: <#T##UnsafeRawPointer#>))
+//        scanButton.highlight(false)
 //    }
 //
 //}
