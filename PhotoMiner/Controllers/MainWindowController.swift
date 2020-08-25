@@ -8,6 +8,10 @@
 
 import Cocoa
 
+extension NSToolbarItem.Identifier {
+    static let customView = NSToolbarItem.Identifier("NSToolbarItemCustomView")
+}
+
 class MainWindowController: NSWindowController {
 
     let scanner = Scanner()
@@ -45,94 +49,21 @@ class MainWindowController: NSWindowController {
         }
 
         scanner.delegate = self
-        self.titlebarController = self.storyboard?.instantiateController(withIdentifier: "TitlebarController") as! TitlebarController?
-
-        guard let titlebarController = self.titlebarController else { return }
-
-        let titleViewFrame = titlebarController.view.frame
-        titlebarController.delegate = self
+        titlebarController = self.storyboard?.instantiateController(withIdentifier: "TitlebarController") as! TitlebarController?
+        titlebarController?.delegate = self
 
         // Hide window title (text only, not the title bar)
+        // This will also move the toolbar to titlebar automatically
         self.window?.titleVisibility = .hidden
 
-        // Get default title bar height
-        let frame = NSRect(x: 0, y: 0, width: 800, height: 600)
-        let contentRect = NSWindow.contentRect(forFrameRect: frame, styleMask: NSWindow.StyleMask.titled)
-        let defaultTitlebarHeight = NSHeight(frame) - NSHeight(contentRect)
+        // Create main toolbar
+        let mainToolbar = NSToolbar(identifier: "MainToolbar")
+        mainToolbar.allowsUserCustomization = false
+        mainToolbar.delegate = self
+        mainToolbar.insertItem(withItemIdentifier: .customizeToolbar, at: 0)
 
-        if #available(OSX 11.0, *) {
-            // On macOS 11 Big Sur using NSTitlebarAccessoryViewController with layoutAttribute = .bottom automatically enhances
-            // the titlebar to default height which is huuuge :( So on that system we're returning to good old NSToolbar
-            let dummyToolbar = NSToolbar()
-            self.window?.toolbar = dummyToolbar
-        } else {
-            // Use NSTitlebarAccessoryViewController for enhancing titlebar
-            let dummyTitleBarViewController = NSTitlebarAccessoryViewController()
-            dummyTitleBarViewController.view = NSView(frame: NSRect(x: 0.0, y: 0.0, width: 10.0, height: titleViewFrame.size.height - defaultTitlebarHeight))
-
-            dummyTitleBarViewController.layoutAttribute = .bottom
-            dummyTitleBarViewController.fullScreenMinHeight = 0
-            self.window?.addTitlebarAccessoryViewController(dummyTitleBarViewController)
-        }
-
-        // Add our title view to window title
-        if let closeButton = self.window?.standardWindowButton(.closeButton) {
-            if let winTitlebarView = closeButton.superview {
-                titlebarController.view.frame = NSRect(x: 0, y: 0, width: winTitlebarView.frame.size.width, height: titleViewFrame.size.height)
-
-                // Add titleView into superview
-                titlebarController.view.translatesAutoresizingMaskIntoConstraints = false
-                winTitlebarView.addSubview(titlebarController.view)
-
-                let viewsDict = [ "subview": titlebarController.view ]
-                NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0.0-[subview]-0.0-|", options: [], metrics: nil, views: viewsDict))
-                NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0.0-[subview]-0.0-|", options: [], metrics: nil, views: viewsDict))
-            }
-        }
-
-        self.repositionWindowButton(.closeButton, inView: titlebarController.view)
-        self.repositionWindowButton(.miniaturizeButton, inView: titlebarController.view)
-        self.repositionWindowButton(.zoomButton, inView: titlebarController.view)
+        self.window?.toolbar = mainToolbar
     }
-
-    //
-    // MARK: - Private methods
-    //
-
-    private func repositionWindowButton(_ windowButton: NSWindow.ButtonType, inView superView: NSView) {
-        if let button = self.window?.standardWindowButton(windowButton) {
-            if let originalSuperView = button.superview {
-                if originalSuperView != superView {
-                    // Button must be moved to our titleView in order of correct positioning
-                    // It will flicker between default and our new position otherwise when resizing window
-                    button.removeFromSuperview()
-                    superView.addSubview(button)
-                    button.translatesAutoresizingMaskIntoConstraints = false
-
-                    // Layout contraints must be created between the button and it's original superview
-                    // app will behave strangely otherwise when switched to fullscreen (won't display GUI but will run)
-                    NSLayoutConstraint(item: button,
-                                       attribute: .centerY,
-                                       relatedBy: .equal,
-                                       toItem: originalSuperView,
-                                       attribute: .centerY,
-                                       multiplier: 1.0,
-                                       constant: 0.0).isActive = true
-                    NSLayoutConstraint(item: button,
-                                       attribute: .left,
-                                       relatedBy: .equal,
-                                       toItem: originalSuperView,
-                                       attribute: .left,
-                                       multiplier: 1.0,
-                                       constant: button.frame.origin.x).isActive = true
-                }
-            }
-        }
-    }
-
-    //
-    // MARK: - Public methods
-    //
 
     func refreshPhotos() {
         // Reftesh collectionView
@@ -170,6 +101,36 @@ extension MainWindowController: NSWindowDelegate {
             return false
         }
         return true
+    }
+
+}
+
+// MARK: - NSToolbarDelegate methods
+extension MainWindowController: NSToolbarDelegate {
+
+    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [ .customView ]
+    }
+
+    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [ .customView ]
+    }
+
+    func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
+        if itemIdentifier == .customView {
+            let item = NSToolbarItem(itemIdentifier: itemIdentifier)
+            item.view = titlebarController?.view
+
+            item.view?.translatesAutoresizingMaskIntoConstraints = false
+
+            if let view = item.view {
+                item.minSize = NSSize(width: 300, height: view.frame.size.height)
+                item.maxSize = NSSize(width: 9999, height: view.frame.size.height)
+            }
+
+            return item
+        }
+        return nil
     }
 
 }

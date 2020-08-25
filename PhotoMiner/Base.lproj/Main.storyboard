@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
-        <plugIn identifier="com.apple.MapKitIBPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
+        <plugIn identifier="com.apple.MapKitIBPlugin" version="16097.2"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -191,7 +191,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-0w-ZTD">
-                                <rect key="frame" x="68" y="8" width="662" height="16"/>
+                                <rect key="frame" x="-2" y="8" width="732" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="PhotoMiner" id="Q1P-W8-6UM">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -251,7 +251,7 @@
                             <constraint firstItem="7Zb-5d-s0Y" firstAttribute="leading" secondItem="fo8-IL-FaX" secondAttribute="trailing" constant="8" id="IwQ-kf-6Sw"/>
                             <constraint firstAttribute="trailing" secondItem="AcS-by-NKZ" secondAttribute="trailing" constant="6" id="OU8-tO-jih"/>
                             <constraint firstItem="AcS-by-NKZ" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="Zd2-Ju-BES"/>
-                            <constraint firstItem="nJc-0w-ZTD" firstAttribute="leading" secondItem="bBq-kg-Pkg" secondAttribute="leading" constant="70" id="ax5-el-WYv"/>
+                            <constraint firstItem="nJc-0w-ZTD" firstAttribute="leading" secondItem="bBq-kg-Pkg" secondAttribute="leading" id="ax5-el-WYv"/>
                             <constraint firstItem="1nx-2V-Q21" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="hzi-9T-z5U"/>
                             <constraint firstItem="7Zb-5d-s0Y" firstAttribute="centerY" secondItem="bBq-kg-Pkg" secondAttribute="centerY" id="nBa-ta-Kt3"/>
                             <constraint firstItem="AcS-by-NKZ" firstAttribute="leading" secondItem="1nx-2V-Q21" secondAttribute="trailing" constant="8" id="spz-f5-U53"/>
@@ -811,7 +811,6 @@ DQ
                                                                 <tableColumns>
                                                                     <tableColumn identifier="key" editable="NO" width="83" minWidth="40" maxWidth="1000" id="r8a-he-Jjw">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                            <font key="font" metaFont="message" size="11"/>
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                         </tableHeaderCell>
@@ -848,7 +847,6 @@ DQ
                                                                     </tableColumn>
                                                                     <tableColumn identifier="value" editable="NO" width="95" minWidth="40" maxWidth="1000" id="RCL-m7-Nr9">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                            <font key="font" metaFont="message" size="11"/>
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                         </tableHeaderCell>
