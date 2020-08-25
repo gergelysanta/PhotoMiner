@@ -59,8 +59,9 @@ class MainWindowController: NSWindowController {
         // Create main toolbar
         let mainToolbar = NSToolbar(identifier: "MainToolbar")
         mainToolbar.allowsUserCustomization = false
+        mainToolbar.displayMode = .iconOnly
+        mainToolbar.showsBaselineSeparator = true
         mainToolbar.delegate = self
-        mainToolbar.insertItem(withItemIdentifier: .customizeToolbar, at: 0)
 
         self.window?.toolbar = mainToolbar
     }
