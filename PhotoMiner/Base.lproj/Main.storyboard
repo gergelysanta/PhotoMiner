@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
-        <plugIn identifier="com.apple.MapKitIBPlugin" version="16097.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.MapKitIBPlugin" version="17156"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -751,7 +751,7 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="250" height="377"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
-                            <mapView canDrawConcurrently="YES" mapType="standard" pitchEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vUo-lH-5py">
+                            <mapView mapType="standard" pitchEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vUo-lH-5py">
                                 <rect key="frame" x="8" y="135" width="234" height="234"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="vUo-lH-5py" secondAttribute="height" multiplier="1:1" id="YaI-Hf-a5t"/>
