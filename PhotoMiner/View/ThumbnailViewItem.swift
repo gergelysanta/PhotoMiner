@@ -40,7 +40,7 @@ class ThumbnailViewItem: NSCollectionViewItem {
     override var representedObject:Any? {
         didSet {
             if let object = representedObject as? ImageData {
-                object.setThumbnail()
+                object.setThumbnail(inQueue: AppData.shared.imageOperationQueue)
                 hasBorder = Configuration.shared.highlightPicturesWithoutExif ? !object.hasExif : false
 
                 self.textField?.stringValue = object.imageName

@@ -41,6 +41,9 @@ class AppData: NSObject {
     /// Loaded collection which have not yet granted access to all of it's directories is stored here until access is not granted.
     var parsedImageCollection:ImageCollection?
 
+    /// Operation queue for image operations
+    let imageOperationQueue = OperationQueue()
+
     /// Set containing directory names which were already scanned therefore access was already granted (user already requested access)
     private var accessGrantedFolders:Set<String> = []
 
@@ -71,6 +74,8 @@ class AppData: NSObject {
 
     private override init() {
         super.init()
+        imageOperationQueue.qualityOfService = .utility
+        imageOperationQueue.maxConcurrentOperationCount = 50
     }
 
     /// Set directories for scanning

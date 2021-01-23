@@ -49,9 +49,6 @@ class ImageData: NSObject, Codable {
         return gpsData.keys.count > 0
     }
 
-    /// Dispatch queue used for generating thumbnail
-    private let thumbnailQueue = DispatchQueue(label: "com.trikatz.thumbnailQueue", qos: .utility)
-
     /// Flag indicating whether image properties were already parsed
     private var imagePropertiesParsed = false
 
@@ -194,12 +191,21 @@ class ImageData: NSObject, Codable {
      * at http://developer.apple.com/documentation/GraphicsImaging/Reference/CGImageSource/Reference/reference.html
      */
 
-    func setThumbnail() {
-        thumbnailQueue.async {
+    func setThumbnail(inQueue queue: OperationQueue? = nil) {
+
+        let setThumbnailBlock: () -> Void = {
             if self.isMovie {
                 self.setMovieThumbnail()
             } else {
                 self.setImageThumbnail()
+            }
+        }
+
+        if let queue = queue {
+            queue.addOperation(setThumbnailBlock)
+        } else {
+            DispatchQueue(label: "com.trikatz.thumbnailQueue", qos: .utility).async {
+                setThumbnailBlock()
             }
         }
     }
