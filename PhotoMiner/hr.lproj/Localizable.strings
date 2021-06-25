@@ -1,0 +1,72 @@
+/* Picture count: 1 picture */
+"picture" = "slika";
+
+/* Picture count: >1 pictures */
+"pictures" = "slike";
+
+/* Confirmation for starting new scan */
+"Are you sure you want to start a new scan?" = "Stvarno želiš započeti novo pretraživanje?";
+
+/* You requested to scan a directory which is not part of the loaded scan. */
+"You requested to scan a directory which is not part of the loaded scan." = "Zatraženo je pretraživanje mape koja nije dio učitanog pretraživanja.";
+
+/* Confirmation for moving one picture to trash */
+"Are you sure you want to trash the selected picture?" = "Stvarno želiš izbrisati odabranu sliku?";
+
+/* Confirmation for moving more pictures to trash */
+"Are you sure you want to trash the selected %d pictures?" = "Stvarno želiš izbrisati odabrane %d slike?";
+
+/* No */
+"No" = "Ne";
+
+/* Yes */
+"Yes" = "Da";
+
+/* Couldn't parse scan from file */
+"Couldn't parse scan from %@" = "Nije bilo moguće obraditi pretraživanje od %@";
+
+/* File is corrupted or it's not a scan result */
+"File is corrupted or it's not a scan result" = "Datoteka je oštećena ili nije rezultat pretraživanja";
+
+/* Couldn't save scan to file */
+"Couldn't save scan to %@" = "Nije bilo moguće spremiti pretraživanje u %@";
+
+/* Couldn't prepare data for saving */
+"Couldn't prepare data for saving" = "Nije bilo moguće pripremiti podatke za spremanje";
+
+/* Action needed for accessing more directories: drop view description */
+"To give access to files in opened scan you need to start a scan for the following directories or drop them here:\n%@" =
+"Za odobravanje pristupa datotekama u otvorenom pretraživanju, moraš pokrenuti pretraživanje sljedećih mapa ili ih ovdje ispustiti:\n%@";
+
+/* Action needed for accessing one directory: drop view description */
+"To give access to files in opened scan you need to start a scan for the following directory or drop it here:\n%@" =
+"Za odobravanje pristupa datotekama u otvorenom pretraživanju, moraš pokrenuti pretraživanje sljedeće mape ili je ovdje ispustiti:\n%@";
+
+/* Action needed for accessing directories */
+"Action needed for accessing directories" = "Potrebna radnja za pristupanje mapama";
+
+/* Action needed for accessing directories: dialog info */
+"System do not allows to read directories which weren't opened through OpenDialog or Drag&Drop. Because of this we open Finder for you with pre-selected directories each time you load a saved scan with directories which weren't accepted by user yet. You need to Drag&Drop these directories to the application's window in order to give access." =
+"Sustav ne dopušta čitanje mapa koje nisu otvorene putem dijaloga za otvaranje ili putem povlačenja i ispuštanja. Zbog toga otvaramo Finder s unaprijed odabranim mapama svaki put kad učitaš spremljeno pretraživanje s mapama koje korisnik još nije prihvatio. Za odobravanje pristupa, te mape moraš povući i ispustiti u prozor programa.";
+
+/* Confirmation for saving before termination */
+"Your loaded scan changed. Do you want to save it before terminating application?" =
+"Učitano pretraživanje se promijenilo. Želiš li ga spremiti prije prekidanja programa?";
+
+/* Scan Messages attachments */
+"Scan Messages attachments" = "Pretraži privitke poruka";
+
+/* Scan Mail attachments */
+"Scan Mail attachments" = "Pretraži privitke emaila";
+
+/* Export button */
+"Export" = "Izvezi";
+
+/* Export error: couldn't create directory */
+"Couldn't create directory %@: %@" = "Neuspjelo stvaranje mape %@: %@";
+
+/* Export error: couldn't export image */
+"Couldn't export image %@: %@" = "Neuspio izvoz slike %@: %@";
+
+/* Feedback for PhotoMiner */
+"Feedback for PhotoMiner" = "Povratne poruke za PhotoMiner";
