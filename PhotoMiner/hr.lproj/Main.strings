@@ -1,0 +1,165 @@
+
+/* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
+"AYu-sK-qS6.title" = "Glavni izbornik";
+
+/* Class = "NSMenuItem"; title = "About PhotoMiner"; ObjectID = "5kV-Vb-QxS"; */
+"5kV-Vb-QxS.title" = "PhotoMiner informacije";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
+"BOF-NM-1cW.title" = "Postavke …";
+
+/* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
+"NMo-om-nkz.title" = "Usluge";
+
+/* Class = "NSMenuItem"; title = "Hide PhotoMiner"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "Sakrij PhotoMiner";
+
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
+"Vdr-fp-XzO.title" = "Sakrij ostalo";
+
+/* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
+"Kd2-mp-pUS.title" = "Prikaži sve";
+
+/* Class = "NSMenuItem"; title = "Enter Full Screen"; ObjectID = "4J7-dP-txa"; */
+"4J7-dP-txa.title" = "Cjeloekranski prikaz";
+
+/* Class = "NSMenuItem"; title = "Quit PhotoMiner"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "Zatvori PhotoMiner";
+
+/* Class = "NSMenu"; title = "Services"; ObjectID = "hz9-B4-Xy5"; */
+"hz9-B4-Xy5.title" = "Usluge";
+
+/* Class = "NSMenu"; title = "File"; ObjectID = "ABF-SI-MCM"; */
+"ABF-SI-MCM.title" = "Datoteka";
+
+/* Class = "NSMenuItem"; title = "File"; ObjectID = "hFd-NC-7TP"; */
+"hFd-NC-7TP.title" = "Datoteka";
+
+/* Class = "NSMenuItem"; title = "Open..."; ObjectID = "5cv-XQ-NcO"; */
+"5cv-XQ-NcO.title" = "Otvori …";
+
+/* Class = "NSMenuItem"; title = "Save"; ObjectID = "c8b-uK-paL"; */
+"c8b-uK-paL.title" = "Spremi";
+
+/* Class = "NSMenuItem"; title = "Save As..."; ObjectID = "XIt-ZT-LXs"; */
+"XIt-ZT-LXs.title" = "Spremi kao …";
+
+/* Class = "NSTextFieldCell"; title = "Drop directories here"; ObjectID = "d9y-Vo-4Jl"; */
+"d9y-Vo-4Jl.title" = "Povuci i ispusti mape ovamo";
+
+/* Class = "NSTextFieldCell"; title = "to scan them for pictures"; ObjectID = "uOb-MX-pVM"; */
+"uOb-MX-pVM.title" = "za traženje slika";
+
+/* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "EGD-d3-Fg1"; */
+"EGD-d3-Fg1.title" = "Prikaži u Finderu";
+
+/* Class = "NSMenuItem"; title = "Open"; ObjectID = "aGI-wt-hzt"; */
+"aGI-wt-hzt.title" = "Otvori";
+
+/* Class = "NSMenuItem"; title = "Quick Look"; ObjectID = "3tK-Fp-78o"; */
+"3tK-Fp-78o.title" = "Brzi pogled";
+
+/* Class = "NSMenuItem"; title = "Move to Trash"; ObjectID = "nsn-w2-Itw"; */
+"nsn-w2-Itw.title" = "Premjesti u smeće";
+
+/* Class = "NSMenuItem"; title = "Rotate Left"; ObjectID = "qJU-bZ-xrK"; */
+"qJU-bZ-xrK.title" = "Okreni lijevo";
+
+/* Class = "NSMenuItem"; title = "Rotate Right"; ObjectID = "pkp-6d-qr1"; */
+"pkp-6d-qr1.title" = "Okreni desno";
+
+/* Class = "NSMenuItem"; title = "Flip Horizontal"; ObjectID = "3i5-HX-l0f"; */
+"3i5-HX-l0f.title" = "Preokreni vodoravno";
+
+/* Class = "NSMenuItem"; title = "Flip Vertical"; ObjectID = "CLY-FR-1gc"; */
+"CLY-FR-1gc.title" = "Preokreni okomito";
+
+/* Class = "NSMenuItem"; title = "Jump to selection"; ObjectID = "dS0-jx-0zM"; */
+"dS0-jx-0zM.title" = "Skoči na odabir";
+
+/* Class = "NSTextFieldCell"; title = "Path:"; ObjectID = "9Yx-fS-92k"; */
+"9Yx-fS-92k.title" = "Staza:";
+
+/* Class = "NSTextFieldCell"; title = "EXIF data:"; ObjectID = "NNr-gS-kuf"; */
+"NNr-gS-kuf.title" = "EXIF podaci:";
+
+/* Class = "NSButtonCell"; title = "Show creation date as picture labels"; ObjectID = "zH8-yR-T1y"; */
+"zH8-yR-T1y.title" = "Prikaži datum stvaranja kao oznake slika";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Image names are displayed below their thumbnails in the listing except when this option is checked. If checked, their creation date is displayed."; ObjectID = "7oo-hi-BaQ"; */
+"7oo-hi-BaQ.ibShadowedToolTip" = "Imena slika prikazuju se ispod minijatura ukoliko ova opcija nije označena. Ako je označena, prikazuje se datum njihovog stvaranja.";
+
+/* Class = "NSButtonCell"; title = "Ask for confirmation before new scans"; ObjectID = "DTv-xr-dpY"; */
+"DTv-xr-dpY.title" = "Zatraži potvrdu prije novog pretraživanja";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Starting a new scan will forget your previous one. If this option is checked, a confirmation dialog will be displayed before each scan started by dropping directory icon(s) to the application window or dock icon."; ObjectID = "f6e-g2-bnv"; */
+"f6e-g2-bnv.ibShadowedToolTip" = "Pokretanjem novog pretraživanja zaboravit će se prethodno. Ako je ova opcija označena, prikazat će se dijaloški okvir za potvrdu prije svakog pretraživanja pokrenutog putem povlačenja i ispuštanja ikona mapa u prozor programa ili na ikonu programske trake.";
+
+/* Class = "NSButtonCell"; title = "Ask for confirmation before deleting pictures"; ObjectID = "BqX-eo-Dzq"; */
+"BqX-eo-Dzq.title" = "Zatraži potvrdu prije brisanja slika";
+
+/* Class = "NSButton"; ibShadowedToolTip = "If this option is checked, a confirmation dialog will be displayed before removing pictures."; ObjectID = "vTb-fo-X47"; */
+"vTb-fo-X47.ibShadowedToolTip" = "Ako je ova opcija označena, prije uklanjanja slika prikazat će se dijaloški okvir za potvrdu.";
+
+/* Class = "NSButtonCell"; title = "Remove empty directories after deleting"; ObjectID = "qPe-Ba-Ogz"; */
+"qPe-Ba-Ogz.title" = "Ukloni prazne mape nakon brisanja";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Directories may be left empty when the picture you delete was the last one in them. If this option is checked, empty directories will be removed too."; ObjectID = "BZd-xT-pHQ"; */
+"BZd-xT-pHQ.ibShadowedToolTip" = "Mape mogu ostati prazne kad je slika koja se izbriše zadnja slika. Ako je ova opcija označena, prazne mape će se također ukloniti.";
+
+/* Class = "NSButtonCell"; title = "Highlight pictures with guessed date"; ObjectID = "jvh-hS-u18"; */
+"jvh-hS-u18.title" = "Istakni slike s pogođenim datumom";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Pictures mostly hold their creation date in their EXIF data. This data may not be present mostly when image was not taken by camera. In this case date of creation is detected from filesystem which may be not correct. Such pictures are highlighted with a light border when this is checked."; ObjectID = "aKa-u5-dwx"; */
+"aKa-u5-dwx.ibShadowedToolTip" = "Slike uglavnom sadrže datum stvaranja u svojim EXIF podacima. Ti podaci možda nedostaju kad slika nije snimljena kamerom. U tom se slučaju datum stvaranja određuje putem datotečnog sustava što možda nije točno. Takve su slike označene svijetlim rubom kad je ova opcija označena.";
+
+/* Class = "NSButtonCell"; title = "Collapse/Expand sections by clicking on header"; ObjectID = "Ayp-Hp-5VS"; */
+"Ayp-Hp-5VS.title" = "Sklopi/rasklopi odjeljke pritiskom na zaglavlje";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Sections can be collapsed/expanded by clicking on the arrow icon on the header's left side. If this option is checked, the whole header will behave like this button."; ObjectID = "CyR-6W-bcz"; */
+"CyR-6W-bcz.ibShadowedToolTip" = "Odjeljci se mogu sklopiti/rasklopiti pritiskom na ikonu strelice na lijevoj strani zaglavlja. Ako je ova opcija označena, cijelo zaglavlje ponašat će se poput ovog gumba.";
+
+/* Class = "NSButtonCell"; title = "Close"; ObjectID = "QUC-uj-7xR"; */
+"QUC-uj-7xR.title" = "Zatvori";
+
+/* Class = "NSTextFieldCell"; title = "Search for file types:"; ObjectID = "OP0-Mp-M8r"; */
+"OP0-Mp-M8r.title" = "Traži vrste datoteka:";
+
+/* Class = "NSButton"; title = "Images"; ObjectID = "x30-Ow-2r0"; */
+"x30-Ow-2r0.title" = "Slike";
+
+/* Class = "NSButton"; title = "Videos"; ObjectID = "w0h-UB-s5N"; */
+"w0h-UB-s5N.title" = "Videa";
+
+/* Class = "NSBox"; title = "Thumbnails"; ObjectID = "urA-q9-cbF"; */
+"urA-q9-cbF.title" = "Minijature";
+
+/* Class = "NSBox"; title = "Scan"; ObjectID = "gFx-kJ-2Bf"; */
+"gFx-kJ-2Bf.title" = "Traži";
+
+/* Class = "NSBox"; title = "Image operations"; ObjectID = "PBO-d0-m2i"; */
+"PBO-d0-m2i.title" = "Slikovne operacije";
+
+/* Class = "NSBox"; title = "Export"; ObjectID = "6Wu-8R-wrn"; */
+"6Wu-8R-wrn.title" = "Izvoz";
+
+/* Class = "NSButtonCell"; title = "Offer to remove images by default in the export dialog"; ObjectID = "NDM-7J-VrC"; */
+"NDM-7J-VrC.title" = "Ponudi opciju za standardno uklanjanja slika u dijalogu izvoza";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Exporting scanned images will make copies of them in a selected directory. With this option enabled the original images will be removed (instead copying they will be moved).\nThis is the default option offered in export dialogs. Can be overridden individually for each export."; ObjectID = "mCu-cC-FJe"; */
+"mCu-cC-FJe.ibShadowedToolTip" = "Izvozom pronađenih slika izradit će se kopije u odabranoj mapi. Ako je ova opcija aktivirana, izvorne slike će se ukloniti (umjesto da se kopiraju, one će se premjestiti).\nTo je standardna ponuđena opcija u dijalogu za izvoz. Može se isključiti pojedinačno za svaki izvoz.";
+
+/* Class = "NSButtonCell"; title = "Remove images after exporting"; ObjectID = "AMf-cm-LzE"; */
+"AMf-cm-LzE.title" = "Ukloni slike nakon izvoza";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Override global setting here for this export."; ObjectID = "Gn6-WF-ERa"; */
+"Gn6-WF-ERa.ibShadowedToolTip" = "Ovdje isključi globalnu postavku za ovaj izvoz.";
+
+/* Class = "NSTextFieldCell"; title = "Exporting images:"; ObjectID = "rg9-lR-27u"; */
+"rg9-lR-27u.title" = "Izvoz slika:";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "sod-Q0-qXT"; */
+"sod-Q0-qXT.title" = "Odustani";
+
+/* Class = "NSMenuItem"; title = "Send Feedback"; ObjectID = "3PZ-vv-OWs"; */
+"3PZ-vv-OWs.title" = "Pošalji povratne poruke";
