@@ -3,7 +3,7 @@
 //  PhotoMiner
 //
 //  Created by Gergely Sánta on 01/03/2017.
-//  Copyright © 2017 TriKatz. All rights reserved.
+//  Copyright © 2017 Gergely Sánta. All rights reserved.
 //
 
 import Cocoa

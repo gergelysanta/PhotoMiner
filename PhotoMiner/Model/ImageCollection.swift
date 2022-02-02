@@ -3,7 +3,7 @@
 //  PhotoMiner
 //
 //  Created by Gergely Sánta on 28/02/2017.
-//  Copyright © 2017 TriKatz. All rights reserved.
+//  Copyright © 2017 Gergely Sánta. All rights reserved.
 //
 
 import Cocoa
@@ -282,7 +282,7 @@ class ImageCollection: NSObject, Codable {
 
     func exportStart(toDirectory destination: URL, removeOriginals: Bool = false, reportProgress: @escaping (_ sourcePath: String, _ destinationPath: String, _ percentComplete: Double)->Void, onCompletion: @escaping ()->Void) {
         exportRunning = true
-        DispatchQueue(label: "com.trikatz.exportQueue").async {
+        DispatchQueue(label: "photominer.exportQueue").async {
 
             let fileManager = FileManager.default
 

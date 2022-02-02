@@ -3,7 +3,7 @@
 //  PhotoMiner
 //
 //  Created by Gergely Sánta on 20/12/2016.
-//  Copyright © 2016 TriKatz. All rights reserved.
+//  Copyright © 2016 Gergely Sánta. All rights reserved.
 //
 
 import Cocoa
@@ -29,7 +29,7 @@ class Scanner: NSObject {
     private(set) var scannedCollection = ImageCollection(withDirectories: [])
 
     /// Dispatch queue used for scanning
-    private let scanQueue = DispatchQueue(label: "com.trikatz.scanQueue", qos: .utility)
+    private let scanQueue = DispatchQueue(label: "photominer.scanQueue", qos: .utility)
 
     /// Flag for stopping scan
     private var stopRequested = false
@@ -185,7 +185,7 @@ class Scanner: NSObject {
     func stop() {
         if !isRunning { return }
 
-        DispatchQueue(label: "com.trikatz.stopScanQueue", qos: .utility).async {
+        DispatchQueue(label: "photominer.stopScanQueue", qos: .utility).async {
             #if DEBUG
                 NSLog("ScanQueue: Stop scanning...")
             #endif

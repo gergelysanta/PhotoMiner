@@ -3,7 +3,7 @@
 //  PhotoMiner
 //
 //  Created by Gergely Sánta on 07/12/2016.
-//  Copyright © 2016 TriKatz. All rights reserved.
+//  Copyright © 2016 Gergely Sánta. All rights reserved.
 //
 
 import Cocoa
@@ -444,7 +444,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Send an email
         if let emailService = NSSharingService(named: NSSharingService.Name.composeEmail) {
             emailService.subject = NSLocalizedString("Feedback for PhotoMiner", comment: "Feedback for PhotoMiner")
-            emailService.recipients = ["feedback@trikatz.com"]
+            emailService.recipients = ["gergely.santa@icloud.com"]
             emailService.perform(withItems: [])
         }
     }

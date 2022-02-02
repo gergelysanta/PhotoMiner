@@ -3,7 +3,7 @@
 //  PhotoMiner
 //
 //  Created by Gergely Sánta on 30/12/2016.
-//  Copyright © 2016 TriKatz. All rights reserved.
+//  Copyright © 2016 Gergely Sánta. All rights reserved.
 //
 
 import Cocoa
@@ -204,7 +204,7 @@ class ImageData: NSObject, Codable {
         if let queue = queue {
             queue.addOperation(setThumbnailBlock)
         } else {
-            DispatchQueue(label: "com.trikatz.thumbnailQueue", qos: .utility).async {
+            DispatchQueue(label: "photominer.thumbnailQueue", qos: .utility).async {
                 setThumbnailBlock()
             }
         }

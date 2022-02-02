@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
-        <plugIn identifier="com.apple.MapKitIBPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
+        <plugIn identifier="com.apple.MapKitIBPlugin" version="19162"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -143,7 +143,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wg8-ny-XZB">
-                                <rect key="frame" x="184" y="7" width="66" height="18"/>
+                                <rect key="frame" x="184" y="7" width="70" height="18"/>
                                 <buttonCell key="cell" type="check" title="Images" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="x30-Ow-2r0">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -154,7 +154,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Woa-IX-ahY">
-                                <rect key="frame" x="266" y="7" width="64" height="18"/>
+                                <rect key="frame" x="272" y="7" width="68" height="18"/>
                                 <buttonCell key="cell" type="check" title="Videos" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="w0h-UB-s5N">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -202,7 +202,7 @@
                                 </connections>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fo8-IL-FaX">
-                                <rect key="frame" x="668" y="4" width="36" height="23"/>
+                                <rect key="frame" x="667" y="4" width="38" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="DFh-TL-oh5"/>
                                 </constraints>
@@ -218,7 +218,7 @@
                                 <rect key="frame" x="712" y="8" width="16" height="16"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1nx-2V-Q21" customClass="LongPressButton" customModule="PhotoMiner" customModuleProvider="target">
-                                <rect key="frame" x="734" y="4" width="36" height="23"/>
+                                <rect key="frame" x="733" y="4" width="38" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="8kZ-Bg-oUy"/>
                                 </constraints>
@@ -231,7 +231,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AcS-by-NKZ">
-                                <rect key="frame" x="778" y="4" width="36" height="23"/>
+                                <rect key="frame" x="777" y="4" width="38" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="o6C-PQ-9Wm"/>
                                 </constraints>
@@ -302,7 +302,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <progressIndicator wantsLayer="YES" maxValue="100" doubleValue="50" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="kN7-rb-ght">
-                                <rect key="frame" x="20" y="60" width="375" height="20"/>
+                                <rect key="frame" x="20" y="59" width="375" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="375" id="xaN-f6-enK"/>
                                 </constraints>
@@ -316,7 +316,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ymh-Kb-njo">
-                                <rect key="frame" x="319" y="13" width="82" height="32"/>
+                                <rect key="frame" x="326" y="13" width="76" height="32"/>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sod-Q0-qXT">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -354,11 +354,11 @@ Gw
             <objects>
                 <viewController id="ARC-gx-P75" userLabel="Settings Controller Scene" customClass="SettingsController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Ax0-aT-fo1">
-                        <rect key="frame" x="0.0" y="0.0" width="415" height="333"/>
+                        <rect key="frame" x="0.0" y="0.0" width="415" height="346"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EBE-jo-SzM">
-                                <rect key="frame" x="326" y="13" width="75" height="32"/>
+                                <rect key="frame" x="333" y="13" width="69" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QUC-uj-7xR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -371,13 +371,13 @@ DQ
                                 </connections>
                             </button>
                             <box title="Thumbnails" translatesAutoresizingMaskIntoConstraints="NO" id="urA-q9-cbF">
-                                <rect key="frame" x="17" y="227" width="381" height="92"/>
+                                <rect key="frame" x="17" y="234" width="381" height="98"/>
                                 <view key="contentView" id="NSx-eu-n4S">
-                                    <rect key="frame" x="3" y="3" width="375" height="74"/>
+                                    <rect key="frame" x="3" y="3" width="375" height="80"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button translatesAutoresizingMaskIntoConstraints="NO" id="7oo-hi-BaQ">
-                                            <rect key="frame" x="6" y="50" width="363" height="18"/>
+                                            <rect key="frame" x="6" y="55" width="361" height="18"/>
                                             <string key="toolTip">Image names are displayed below their thumbnails in the listing except when this option is checked. If checked, their creation date is displayed.</string>
                                             <buttonCell key="cell" type="check" title="Show creation date as picture labels" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="zH8-yR-T1y">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -388,7 +388,7 @@ DQ
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CyR-6W-bcz">
-                                            <rect key="frame" x="6" y="6" width="363" height="18"/>
+                                            <rect key="frame" x="6" y="7" width="361" height="18"/>
                                             <string key="toolTip">Sections can be collapsed/expanded by clicking on the arrow icon on the header's left side. If this option is checked, the whole header will behave like this button.</string>
                                             <buttonCell key="cell" type="check" title="Collapse/Expand sections by clicking on header" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Ayp-Hp-5VS">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -400,7 +400,7 @@ DQ
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aKa-u5-dwx">
-                                            <rect key="frame" x="6" y="28" width="363" height="18"/>
+                                            <rect key="frame" x="6" y="31" width="361" height="18"/>
                                             <string key="toolTip">Pictures mostly hold their creation date in their EXIF data. This data may not be present mostly when image was not taken by camera. In this case date of creation is detected from filesystem which may be not correct. Such pictures are highlighted with a light border when this is checked.</string>
                                             <buttonCell key="cell" type="check" title="Highlight pictures with guessed date" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="jvh-hS-u18">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -426,13 +426,13 @@ DQ
                                 </view>
                             </box>
                             <box title="Scan" translatesAutoresizingMaskIntoConstraints="NO" id="gFx-kJ-2Bf">
-                                <rect key="frame" x="17" y="175" width="381" height="48"/>
+                                <rect key="frame" x="17" y="180" width="381" height="50"/>
                                 <view key="contentView" id="y0s-24-2qS">
-                                    <rect key="frame" x="3" y="3" width="375" height="30"/>
+                                    <rect key="frame" x="3" y="3" width="375" height="32"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button translatesAutoresizingMaskIntoConstraints="NO" id="f6e-g2-bnv">
-                                            <rect key="frame" x="6" y="6" width="363" height="18"/>
+                                            <rect key="frame" x="6" y="7" width="361" height="18"/>
                                             <string key="toolTip">Starting a new scan will forget your previous one. If this option is checked, a confirmation dialog will be displayed before each scan started by dropping directory icon(s) to the application window or dock icon.</string>
                                             <buttonCell key="cell" type="check" title="Ask for confirmation before new scans" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="DTv-xr-dpY">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -452,13 +452,13 @@ DQ
                                 </view>
                             </box>
                             <box title="Image operations" translatesAutoresizingMaskIntoConstraints="NO" id="PBO-d0-m2i">
-                                <rect key="frame" x="17" y="101" width="381" height="70"/>
+                                <rect key="frame" x="17" y="102" width="381" height="74"/>
                                 <view key="contentView" id="CA5-hR-Xax">
-                                    <rect key="frame" x="3" y="3" width="375" height="52"/>
+                                    <rect key="frame" x="3" y="3" width="375" height="56"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button toolTip="If this option is checked, a confirmation dialog will be displayed before removing pictures." translatesAutoresizingMaskIntoConstraints="NO" id="vTb-fo-X47">
-                                            <rect key="frame" x="6" y="28" width="379" height="18"/>
+                                            <rect key="frame" x="6" y="31" width="377" height="18"/>
                                             <buttonCell key="cell" type="check" title="Ask for confirmation before deleting pictures" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="BqX-eo-Dzq">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -468,7 +468,7 @@ DQ
                                             </connections>
                                         </button>
                                         <button translatesAutoresizingMaskIntoConstraints="NO" id="BZd-xT-pHQ">
-                                            <rect key="frame" x="6" y="6" width="363" height="18"/>
+                                            <rect key="frame" x="6" y="7" width="361" height="18"/>
                                             <string key="toolTip">Directories may be left empty when the picture you delete was the last one in them. If this option is checked, empty directories will be removed too.</string>
                                             <buttonCell key="cell" type="check" title="Remove empty directories after deleting" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="qPe-Ba-Ogz">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -491,13 +491,13 @@ DQ
                                 </view>
                             </box>
                             <box title="Export" translatesAutoresizingMaskIntoConstraints="NO" id="6Wu-8R-wrn">
-                                <rect key="frame" x="17" y="49" width="381" height="48"/>
+                                <rect key="frame" x="17" y="48" width="381" height="50"/>
                                 <view key="contentView" id="wiY-2x-gOk">
-                                    <rect key="frame" x="3" y="3" width="375" height="30"/>
+                                    <rect key="frame" x="3" y="3" width="375" height="32"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mCu-cC-FJe">
-                                            <rect key="frame" x="6" y="6" width="363" height="18"/>
+                                            <rect key="frame" x="6" y="7" width="361" height="18"/>
                                             <string key="toolTip">Exporting scanned images will make copies of them in a selected directory. With this option enabled the original images will be removed (instead copying they will be moved). This is the default option offered in export dialogs. Can be overridden individually for each export.</string>
                                             <buttonCell key="cell" type="check" title="Offer to remove images by default in the export dialog" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="NDM-7J-VrC">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -764,10 +764,10 @@ DQ
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view translatesAutoresizingMaskIntoConstraints="NO" id="Mrb-8V-AKd" customClass="FlippedView" customModule="PhotoMiner" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="248" height="135"/>
+                                            <rect key="frame" x="0.0" y="-46" width="64" height="181"/>
                                             <subviews>
                                                 <textField horizontalHuggingPriority="260" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1iv-tB-HFp">
-                                                    <rect key="frame" x="6" y="116" width="29" height="11"/>
+                                                    <rect key="frame" x="6" y="162" width="29" height="11"/>
                                                     <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Path:" id="9Yx-fS-92k">
                                                         <font key="font" metaFont="miniSystemBold"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -775,7 +775,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="BZr-Xg-t0D">
-                                                    <rect key="frame" x="39" y="116" width="203" height="11"/>
+                                                    <rect key="frame" x="39" y="96" width="19" height="77"/>
                                                     <textFieldCell key="cell" controlSize="mini" selectable="YES" sendsActionOnEndEditing="YES" title="&lt;path_to_image&gt;" id="cUj-PJ-oae">
                                                         <font key="font" metaFont="menu" size="9"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -786,7 +786,7 @@ DQ
                                                     </connections>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EOi-XN-7Xs">
-                                                    <rect key="frame" x="6" y="97" width="236" height="11"/>
+                                                    <rect key="frame" x="6" y="77" width="52" height="11"/>
                                                     <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="EXIF data:" id="NNr-gS-kuf">
                                                         <font key="font" metaFont="miniSystemBold"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -794,16 +794,16 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2Rd-5B-BfB">
-                                                    <rect key="frame" x="8" y="86" width="232" height="5"/>
+                                                    <rect key="frame" x="8" y="66" width="48" height="5"/>
                                                 </box>
                                                 <scrollView autoresizesSubviews="NO" borderType="none" autohidesScrollers="YES" horizontalLineScroll="13" horizontalPageScroll="10" verticalLineScroll="13" verticalPageScroll="10" hasVerticalScroller="NO" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="70s-lH-xas" customClass="ForwardingScrollView" customModule="PhotoMiner" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="28" width="232" height="60"/>
+                                                    <rect key="frame" x="8" y="8" width="48" height="60"/>
                                                     <clipView key="contentView" drawsBackground="NO" id="Juz-ox-bKV">
-                                                        <rect key="frame" x="0.0" y="0.0" width="232" height="60"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="48" height="60"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="11" rowSizeStyle="automatic" viewBased="YES" id="jar-Uf-ibV">
-                                                                <rect key="frame" x="0.0" y="0.0" width="232" height="60"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="213" height="60"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -821,11 +821,11 @@ DQ
                                                                         </textFieldCell>
                                                                         <prototypeCellViews>
                                                                             <tableCellView identifier="ExifKeyCell" id="2P5-5q-muZ">
-                                                                                <rect key="frame" x="1" y="1" width="83" height="11"/>
+                                                                                <rect key="frame" x="11" y="1" width="88" height="11"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="M5y-FF-rVW">
-                                                                                        <rect key="frame" x="-2" y="0.0" width="87" height="11"/>
+                                                                                        <rect key="frame" x="-2" y="0.0" width="92" height="11"/>
                                                                                         <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="XEZ-5E-7bi">
                                                                                             <font key="font" metaFont="menu" size="9"/>
                                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -857,11 +857,11 @@ DQ
                                                                         </textFieldCell>
                                                                         <prototypeCellViews>
                                                                             <tableCellView identifier="ExifValueCell" id="Xye-KA-uvd">
-                                                                                <rect key="frame" x="87" y="1" width="95" height="11"/>
+                                                                                <rect key="frame" x="102" y="1" width="99" height="11"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="38d-FX-2bM">
-                                                                                        <rect key="frame" x="-2" y="0.0" width="99" height="11"/>
+                                                                                        <rect key="frame" x="-2" y="0.0" width="103" height="11"/>
                                                                                         <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="wkb-xN-3wc">
                                                                                             <font key="font" metaFont="menu" size="9"/>
                                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -893,8 +893,8 @@ DQ
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="9Oo-yd-124"/>
                                                     </constraints>
-                                                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="4rH-OS-ce4">
-                                                        <rect key="frame" x="0.0" y="198" width="179" height="16"/>
+                                                    <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="4rH-OS-ce4">
+                                                        <rect key="frame" x="0.0" y="44" width="48" height="16"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
                                                     <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="cPg-5m-gfD">
@@ -936,7 +936,7 @@ DQ
                                     <rect key="frame" x="0.0" y="119" width="250" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="R1F-Jy-btE">
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="R1F-Jy-btE">
                                     <rect key="frame" x="234" y="0.0" width="16" height="135"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -967,11 +967,11 @@ DQ
             <objects>
                 <viewController storyboardIdentifier="ExportAccessoryController" id="4Ek-bP-wNK" customClass="ExportAccessoryController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="qvd-p9-sKc">
-                        <rect key="frame" x="0.0" y="0.0" width="582" height="30"/>
+                        <rect key="frame" x="0.0" y="0.0" width="582" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button toolTip="Override global setting here for this export." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gn6-WF-ERa">
-                                <rect key="frame" x="18" y="6" width="546" height="18"/>
+                                <rect key="frame" x="18" y="7" width="544" height="18"/>
                                 <buttonCell key="cell" type="check" title="Remove images after exporting" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AMf-cm-LzE">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
