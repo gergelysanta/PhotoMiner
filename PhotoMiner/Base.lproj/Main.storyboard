@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
-        <plugIn identifier="com.apple.MapKitIBPlugin" version="19162"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.MapKitIBPlugin" version="21507"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -354,7 +354,7 @@ Gw
             <objects>
                 <viewController id="ARC-gx-P75" userLabel="Settings Controller Scene" customClass="SettingsController" customModule="PhotoMiner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Ax0-aT-fo1">
-                        <rect key="frame" x="0.0" y="0.0" width="415" height="346"/>
+                        <rect key="frame" x="0.0" y="0.0" width="415" height="354"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EBE-jo-SzM">
@@ -371,13 +371,13 @@ DQ
                                 </connections>
                             </button>
                             <box title="Thumbnails" translatesAutoresizingMaskIntoConstraints="NO" id="urA-q9-cbF">
-                                <rect key="frame" x="17" y="234" width="381" height="98"/>
+                                <rect key="frame" x="17" y="240" width="381" height="100"/>
                                 <view key="contentView" id="NSx-eu-n4S">
-                                    <rect key="frame" x="3" y="3" width="375" height="80"/>
+                                    <rect key="frame" x="4" y="5" width="373" height="80"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button translatesAutoresizingMaskIntoConstraints="NO" id="7oo-hi-BaQ">
-                                            <rect key="frame" x="6" y="55" width="361" height="18"/>
+                                            <rect key="frame" x="6" y="55" width="359" height="18"/>
                                             <string key="toolTip">Image names are displayed below their thumbnails in the listing except when this option is checked. If checked, their creation date is displayed.</string>
                                             <buttonCell key="cell" type="check" title="Show creation date as picture labels" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="zH8-yR-T1y">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -388,7 +388,7 @@ DQ
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CyR-6W-bcz">
-                                            <rect key="frame" x="6" y="7" width="361" height="18"/>
+                                            <rect key="frame" x="6" y="7" width="359" height="18"/>
                                             <string key="toolTip">Sections can be collapsed/expanded by clicking on the arrow icon on the header's left side. If this option is checked, the whole header will behave like this button.</string>
                                             <buttonCell key="cell" type="check" title="Collapse/Expand sections by clicking on header" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Ayp-Hp-5VS">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -400,7 +400,7 @@ DQ
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aKa-u5-dwx">
-                                            <rect key="frame" x="6" y="31" width="361" height="18"/>
+                                            <rect key="frame" x="6" y="31" width="359" height="18"/>
                                             <string key="toolTip">Pictures mostly hold their creation date in their EXIF data. This data may not be present mostly when image was not taken by camera. In this case date of creation is detected from filesystem which may be not correct. Such pictures are highlighted with a light border when this is checked.</string>
                                             <buttonCell key="cell" type="check" title="Highlight pictures with guessed date" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="jvh-hS-u18">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -426,13 +426,13 @@ DQ
                                 </view>
                             </box>
                             <box title="Scan" translatesAutoresizingMaskIntoConstraints="NO" id="gFx-kJ-2Bf">
-                                <rect key="frame" x="17" y="180" width="381" height="50"/>
+                                <rect key="frame" x="17" y="184" width="381" height="52"/>
                                 <view key="contentView" id="y0s-24-2qS">
-                                    <rect key="frame" x="3" y="3" width="375" height="32"/>
+                                    <rect key="frame" x="4" y="5" width="373" height="32"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button translatesAutoresizingMaskIntoConstraints="NO" id="f6e-g2-bnv">
-                                            <rect key="frame" x="6" y="7" width="361" height="18"/>
+                                            <rect key="frame" x="6" y="7" width="359" height="18"/>
                                             <string key="toolTip">Starting a new scan will forget your previous one. If this option is checked, a confirmation dialog will be displayed before each scan started by dropping directory icon(s) to the application window or dock icon.</string>
                                             <buttonCell key="cell" type="check" title="Ask for confirmation before new scans" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="DTv-xr-dpY">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -452,13 +452,13 @@ DQ
                                 </view>
                             </box>
                             <box title="Image operations" translatesAutoresizingMaskIntoConstraints="NO" id="PBO-d0-m2i">
-                                <rect key="frame" x="17" y="102" width="381" height="74"/>
+                                <rect key="frame" x="17" y="104" width="381" height="76"/>
                                 <view key="contentView" id="CA5-hR-Xax">
-                                    <rect key="frame" x="3" y="3" width="375" height="56"/>
+                                    <rect key="frame" x="4" y="5" width="373" height="56"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button toolTip="If this option is checked, a confirmation dialog will be displayed before removing pictures." translatesAutoresizingMaskIntoConstraints="NO" id="vTb-fo-X47">
-                                            <rect key="frame" x="6" y="31" width="377" height="18"/>
+                                            <rect key="frame" x="6" y="31" width="375" height="18"/>
                                             <buttonCell key="cell" type="check" title="Ask for confirmation before deleting pictures" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="BqX-eo-Dzq">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -468,7 +468,7 @@ DQ
                                             </connections>
                                         </button>
                                         <button translatesAutoresizingMaskIntoConstraints="NO" id="BZd-xT-pHQ">
-                                            <rect key="frame" x="6" y="7" width="361" height="18"/>
+                                            <rect key="frame" x="6" y="7" width="359" height="18"/>
                                             <string key="toolTip">Directories may be left empty when the picture you delete was the last one in them. If this option is checked, empty directories will be removed too.</string>
                                             <buttonCell key="cell" type="check" title="Remove empty directories after deleting" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="qPe-Ba-Ogz">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -491,13 +491,13 @@ DQ
                                 </view>
                             </box>
                             <box title="Export" translatesAutoresizingMaskIntoConstraints="NO" id="6Wu-8R-wrn">
-                                <rect key="frame" x="17" y="48" width="381" height="50"/>
+                                <rect key="frame" x="17" y="48" width="381" height="52"/>
                                 <view key="contentView" id="wiY-2x-gOk">
-                                    <rect key="frame" x="3" y="3" width="375" height="32"/>
+                                    <rect key="frame" x="4" y="5" width="373" height="32"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mCu-cC-FJe">
-                                            <rect key="frame" x="6" y="7" width="361" height="18"/>
+                                            <rect key="frame" x="6" y="7" width="359" height="18"/>
                                             <string key="toolTip">Exporting scanned images will make copies of them in a selected directory. With this option enabled the original images will be removed (instead copying they will be moved). This is the default option offered in export dialogs. Can be overridden individually for each export.</string>
                                             <buttonCell key="cell" type="check" title="Offer to remove images by default in the export dialog" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="NDM-7J-VrC">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -936,7 +936,7 @@ DQ
                                     <rect key="frame" x="0.0" y="119" width="250" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="R1F-Jy-btE">
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="R1F-Jy-btE">
                                     <rect key="frame" x="234" y="0.0" width="16" height="135"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
