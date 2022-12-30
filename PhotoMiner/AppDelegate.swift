@@ -13,26 +13,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Instance properties
 
-    var mainWindowController:MainWindowController? {
-        get {
-            for window in NSApp.windows {
-                if let controller = window.windowController as? MainWindowController {
-                    return controller
-                }
-            }
-            return nil
-        }
+    var mainWindowController: MainWindowController? {
+        NSApp.windows.first {
+            $0.windowController?.isKind(of: MainWindowController.self) ?? false
+        }?.windowController as? MainWindowController
     }
 
-    @objc dynamic var isListingAvailable:Bool {
-        get {
-            let imagesAvailable = AppData.shared.imageCollection.count > 0
-            if let scanning = mainWindowController?.scanner.isRunning {
-                // Listing is available only when not scanning
-                return scanning ? false : imagesAvailable
-            }
-            return imagesAvailable
-        }
+    @objc dynamic var isListingAvailable: Bool {
+        guard let mainWindowController else { return false }
+        return mainWindowController.scanner.isRunning
+            ? false     // Listing is available only if not scanning
+            : AppData.shared.imageCollection.count > 0
     }
 
     // MARK: - NSApplicationDelegate methods
@@ -40,10 +31,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.directoryListNeedingAccessChanged(notification:)), name: AppData.listOfFoldersRequiringAccessChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.displayAlertDialog(notification:)), name: AppData.displayAlertDialog, object: nil)
-    }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
