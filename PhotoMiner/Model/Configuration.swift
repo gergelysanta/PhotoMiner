@@ -27,98 +27,44 @@ class Configuration: NSObject {
     let saveDataExtension = "pms"
 
     /// Use date of image creation as thumbnail label
-    @objc dynamic var creationDateAsLabel = true {
-        didSet {
-            #if DEBUG
-                NSLog("creationDateAsLabel: \(creationDateAsLabel)")
-            #endif
-            self.saveConfiguration()
-        }
-    }
+    @StoredConfig(key: "creationDateAsLabel", defaultValue: true)
+    @objc dynamic var creationDateAsLabel: Bool
 
     /// Ask for confirmation if old scan exists and new scan was requested
-    @objc dynamic var newScanMustBeConfirmed = true {
-        didSet {
-            #if DEBUG
-                NSLog("newScanMustBeConfirmed: \(newScanMustBeConfirmed)")
-            #endif
-            self.saveConfiguration()
-        }
-    }
+    @StoredConfig(key: "newScanMustBeConfirmed", defaultValue: true)
+    @objc dynamic var newScanMustBeConfirmed: Bool
 
     /// Ask for confirmation before removing images
-    @objc dynamic var removeMustBeConfirmed = true {
-        didSet {
-            #if DEBUG
-                NSLog("removeMustBeConfirmed: \(removeMustBeConfirmed)")
-            #endif
-            self.saveConfiguration()
-        }
-    }
+    @StoredConfig(key: "removeMustBeConfirmed", defaultValue: true)
+    @objc dynamic var removeMustBeConfirmed: Bool
 
     /// Remove also directory after removing an image if this was the last file in it
-    @objc dynamic var removeAlsoEmptyDirectories = false {
-        didSet {
-            #if DEBUG
-                NSLog("removeAlsoEmptyDirectories: \(removeAlsoEmptyDirectories)")
-            #endif
-            self.saveConfiguration()
-        }
-    }
+    @StoredConfig(key: "removeAlsoEmptyDirectories", defaultValue: false)
+    @objc dynamic var removeAlsoEmptyDirectories: Bool
 
     /// Hightlight images which have no EXIF data
-    @objc dynamic var highlightPicturesWithoutExif = false {
-        didSet {
-            #if DEBUG
-                NSLog("highlightPicturesWithoutExif: \(highlightPicturesWithoutExif)")
-            #endif
-            self.saveConfiguration()
-        }
-    }
+    @StoredConfig(key: "highlightPicturesWithoutExif", defaultValue: false)
+    @objc dynamic var highlightPicturesWithoutExif: Bool
 
     /// Collapse groups by clicking header (not just the arrow on the left side)
-    @objc dynamic var collapseByClickingHeader = false {
-        didSet {
-            #if DEBUG
-                NSLog("collapseByClickingHeader: \(collapseByClickingHeader)")
-            #endif
-            self.saveConfiguration()
-        }
-    }
+    @StoredConfig(key: "collapseByClickingHeader", defaultValue: false)
+    @objc dynamic var collapseByClickingHeader: Bool
 
     /// Search for images
-    @objc dynamic var searchForImages = true {
-        didSet {
-            #if DEBUG
-                NSLog("searchForImages: \(searchForImages)")
-            #endif
-            self.saveConfiguration()
-        }
-    }
+    @StoredConfig(key: "searchForImages", defaultValue: true)
+    @objc dynamic var searchForImages: Bool
 
     /// Search for movie files
-    @objc dynamic var searchForMovies = true {
-        didSet {
-            #if DEBUG
-                NSLog("searchForMovies: \(searchForMovies)")
-            #endif
-            self.saveConfiguration()
-        }
-    }
+    @StoredConfig(key: "searchForMovies", defaultValue: true)
+    @objc dynamic var searchForMovies: Bool
 
     /// Display warning if previous scan was parsed from a file (warning about needing to drag&drop the directories to the app)
-    var displayWarningForParsedScans = true {
-        didSet {
-            self.saveConfiguration()
-        }
-    }
+    @StoredConfig(key: "displayWarningForParsedScans", defaultValue: true)
+    var displayWarningForParsedScans: Bool
 
     /// Remove original image after it was exported
-    @objc dynamic var removeOriginalAfterExportingImages = false {
-        didSet {
-            self.saveConfiguration()
-        }
-    }
+    @StoredConfig(key: "removeOriginalAfterExportingImages", defaultValue: false)
+    @objc dynamic var removeOriginalAfterExportingImages: Bool
 
     // Flag indication if collapsing section is available on this system (available only from 10.12)
     @objc dynamic var isSectionCollapseAvailable:Bool {
@@ -128,58 +74,6 @@ class Configuration: NSObject {
             }
             return false
         }
-    }
-
-    // Constructor loading configuration saved in user defaults
-    private override init() {
-        super.init()
-        // Load configuration
-        let userDefaults = UserDefaults.standard
-        if let boolValue = userDefaults.value(forKey: "creationDateAsLabel") as? Bool {
-            creationDateAsLabel = boolValue
-        }
-        if let boolValue = userDefaults.value(forKey: "newScanMustBeConfirmed") as? Bool {
-            newScanMustBeConfirmed = boolValue
-        }
-        if let boolValue = userDefaults.value(forKey: "removeMustBeConfirmed") as? Bool {
-            removeMustBeConfirmed = boolValue
-        }
-        if let boolValue = userDefaults.value(forKey: "removeAlsoEmptyDirectories") as? Bool {
-            removeAlsoEmptyDirectories = boolValue
-        }
-        if let boolValue = userDefaults.value(forKey: "highlightPicturesWithoutExif") as? Bool {
-            highlightPicturesWithoutExif = boolValue
-        }
-        if let boolValue = userDefaults.value(forKey: "collapseByClickingHeader") as? Bool {
-            collapseByClickingHeader = boolValue
-        }
-        if let boolValue = userDefaults.value(forKey: "displayWarningForParsedScans") as? Bool {
-            displayWarningForParsedScans = boolValue
-        }
-        if let boolValue = userDefaults.value(forKey: "removeOriginalAfterExportingImages") as? Bool {
-            removeOriginalAfterExportingImages = boolValue
-        }
-        if let boolValue = userDefaults.value(forKey: "searchForImages") as? Bool {
-            searchForImages = boolValue
-        }
-        if let boolValue = userDefaults.value(forKey: "searchForMovies") as? Bool {
-            searchForMovies = boolValue
-        }
-    }
-
-    // Save configuration to user defaults
-    func saveConfiguration() {
-        UserDefaults.standard.set(creationDateAsLabel, forKey: "creationDateAsLabel")
-        UserDefaults.standard.set(newScanMustBeConfirmed, forKey: "newScanMustBeConfirmed")
-        UserDefaults.standard.set(removeMustBeConfirmed, forKey: "removeMustBeConfirmed")
-        UserDefaults.standard.set(removeAlsoEmptyDirectories, forKey: "removeAlsoEmptyDirectories")
-        UserDefaults.standard.set(highlightPicturesWithoutExif, forKey: "highlightPicturesWithoutExif")
-        UserDefaults.standard.set(collapseByClickingHeader, forKey: "collapseByClickingHeader")
-        UserDefaults.standard.set(displayWarningForParsedScans, forKey: "displayWarningForParsedScans")
-        UserDefaults.standard.set(removeOriginalAfterExportingImages, forKey: "removeOriginalAfterExportingImages")
-        UserDefaults.standard.set(searchForImages, forKey: "searchForImages")
-        UserDefaults.standard.set(searchForMovies, forKey: "searchForMovies")
-        UserDefaults.standard.synchronize()
     }
 
 }
