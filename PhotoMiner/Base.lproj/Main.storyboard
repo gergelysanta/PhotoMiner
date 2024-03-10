@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
-        <plugIn identifier="com.apple.MapKitIBPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
+        <plugIn identifier="com.apple.MapKitIBPlugin" version="22689"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -203,13 +202,13 @@
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fo8-IL-FaX">
                                 <rect key="frame" x="667" y="4" width="38" height="23"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="36" id="DFh-TL-oh5"/>
-                                </constraints>
                                 <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="Cancel" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EUg-QV-OMI">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="DFh-TL-oh5"/>
+                                </constraints>
                                 <connections>
                                     <action selector="cancelButtonPressed:" target="wo0-ub-Urj" id="vPZ-I5-Nwt"/>
                                 </connections>
@@ -219,26 +218,26 @@
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1nx-2V-Q21" customClass="LongPressButton" customModule="PhotoMiner" customModuleProvider="target">
                                 <rect key="frame" x="733" y="4" width="38" height="23"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="36" id="8kZ-Bg-oUy"/>
-                                </constraints>
                                 <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="Magnifier" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ql5-lh-AqA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="8kZ-Bg-oUy"/>
+                                </constraints>
                                 <connections>
                                     <action selector="scanButtonPressed:" target="wo0-ub-Urj" id="suY-tX-sM5"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AcS-by-NKZ">
                                 <rect key="frame" x="777" y="4" width="38" height="23"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="36" id="o6C-PQ-9Wm"/>
-                                </constraints>
                                 <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="SidebarOff" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eNc-pV-QIS">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="o6C-PQ-9Wm"/>
+                                </constraints>
                                 <connections>
                                     <action selector="sidebarButtonPressed:" target="wo0-ub-Urj" id="1TI-wA-JZP"/>
                                 </connections>

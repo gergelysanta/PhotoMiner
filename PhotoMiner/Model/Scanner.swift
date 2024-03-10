@@ -17,13 +17,13 @@ protocol ScannerDelegate {
 class Scanner: NSObject {
 
     /// Delegate scan results regularly in time intervals specified by this property
-    var refreshScanResultsIntervalInSecs:TimeInterval = 1.0
+    var refreshScanResultsIntervalInSecs: TimeInterval = 1.0
 
     /// Object for delegating scan results
-    var delegate:ScannerDelegate? = nil
+    var delegate: ScannerDelegate?
 
     /// Is scanner running?
-    private(set) var isRunning = false
+    @Mutexed private(set) var isRunning = false
 
     /// Actually scanned image collection
     private(set) var scannedCollection = ImageCollection(withDirectories: [])
@@ -32,7 +32,7 @@ class Scanner: NSObject {
     private let scanQueue = DispatchQueue(label: "photominer.scanQueue", qos: .utility)
 
     /// Flag for stopping scan
-    private var stopRequested = false
+    @Mutexed private var stopRequested = false
 
     /// Start scanner
     /// - Parameters:
@@ -53,33 +53,37 @@ class Scanner: NSObject {
             var referenceDate = Date()
             self.scannedCollection = ImageCollection(withDirectories: lookupFolders)
 
-            // Copy folders array, we're going to modify it if needed
-            var folders = lookupFolders
-
-            // Remove folders which are subfolders of other ones in the same list
-            for folder1 in folders {
-                let needle = folder1.hasSuffix("/") ? folder1 : folder1 + "/"
-                for (index2, folder2) in folders.enumerated() {
-                    if folder1 == folder2 {
-                        continue
-                    }
-                    if folder2.hasPrefix(needle) {
-                        // Remove folder2 form array
-                        folders.remove(at: index2)
+            // Filter folders (use only topmost folders)
+            let folders = lookupFolders
+                .sorted { $0 < $1 }
+                .filter { folder in
+                    !lookupFolders.contains {
+                        // Filter out folders that has one of their parents
+                        // already in the list
+                        $0 != folder && folder.hasPrefix("\($0)/")
                     }
                 }
-            }
 
             // Scan folders
             for directoryToScan in folders {
                 #if DEBUG
                 NSLog("ScanQueue:   ...scanning %@", directoryToScan)
                 #endif
+                let directoryScanProfiler = TimeProfiler.begin("ScanDir", description: directoryToScan)
                 var directoryWasEmpty = true
 
-                let resourceKeys: Set<URLResourceKey> = [.isRegularFileKey, .isReadableKey, .fileSizeKey, .typeIdentifierKey, .creationDateKey, .contentModificationDateKey]
-                let dirEnumerator = FileManager.default.enumerator(at: URL(fileURLWithPath: directoryToScan),
-                                                                   includingPropertiesForKeys: Array(resourceKeys))
+                let resourceKeys: Set<URLResourceKey> = [
+                    .isRegularFileKey,
+                    .isReadableKey,
+                    .fileSizeKey,
+                    .typeIdentifierKey,
+                    .creationDateKey,
+                    .contentModificationDateKey
+                ]
+                let dirEnumerator = FileManager.default.enumerator(
+                    at: URL(fileURLWithPath: directoryToScan),
+                    includingPropertiesForKeys: Array(resourceKeys)
+                )
                 while let fileURL = dirEnumerator?.nextObject() as? URL {
                     let filePath = fileURL.path
 
@@ -88,23 +92,26 @@ class Scanner: NSObject {
                         break
                     }
 
+                    let fileScanProfiler = TimeProfiler.begin("ScanFile", description: fileURL.lastPathComponent)
+
                     do {
                         let resource = try fileURL.resourceValues(forKeys: resourceKeys)
 
-                        let isRegularFile = (resource.isRegularFile == nil) ? false : resource.isRegularFile!
-                        let isReadable = (resource.isReadable == nil) ? false : resource.isReadable!
-                        let fileSize = (resource.fileSize == nil) ? 0 : resource.fileSize!
-                        var fileType = (resource.typeIdentifier == nil) ? "" : resource.typeIdentifier!
-                        let creationDate = (resource.creationDate == nil) ? Date() : resource.creationDate!
-                        let modifyDate = (resource.contentModificationDate == nil) ? Date() : resource.contentModificationDate!
+                        let isRegularFile = resource.isRegularFile ?? false
+                        let isReadable = resource.isReadable ?? false
+                        let fileSize = resource.fileSize ?? 0
+                        var fileType = resource.typeIdentifier ?? ""
+                        let creationDate = resource.creationDate ?? Date()
+                        let modifyDate = resource.contentModificationDate ?? Date()
 
-                        let imageDate = (modifyDate.compare(creationDate) == .orderedAscending) ? modifyDate : creationDate;
+                        let imageDate = (modifyDate.compare(creationDate) == .orderedAscending) ? modifyDate : creationDate
 
-                        if (isRegularFile && isReadable) {
+                        if isRegularFile && isReadable {
                             // We're not interested in Photos application's thumbnails.
                             // Exclude paths containing ".photoslibrary/Thumbnails/"
                             if filePath.contains(".photoslibrary/Thumbnails/") {
                                 // Jump to next file/direcory
+                                fileScanProfiler?.end()
                                 continue
                             }
 
@@ -125,17 +132,19 @@ class Scanner: NSObject {
                                    (isImage && !Configuration.shared.searchForImages) ||
                                    (isMovie && !Configuration.shared.searchForMovies)
                                 {
-                                    #if DEBUG
+//                                    #if DEBUG
 //                                    NSLog("- [%@] %@", fileType, fileURL.lastPathComponent)
-                                    #endif
+//                                    #endif
 
                                     // File is not an image, go to next one
+                                    fileScanProfiler?.end()
                                     continue
                                 }
                             }
 
                             // Check size
                             if (fileSize < bottomSizeLimit) {
+                                fileScanProfiler?.end()
                                 continue
                             }
 
@@ -158,11 +167,15 @@ class Scanner: NSObject {
                         }
                     } catch {
                     }
+
+                    fileScanProfiler?.end()
                 }
 
                 if directoryWasEmpty {
                     self.scannedCollection.removeDirectory(directoryToScan)
                 }
+
+                directoryScanProfiler?.end()
             }
 
             #if DEBUG

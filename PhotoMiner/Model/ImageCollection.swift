@@ -15,13 +15,13 @@ class ImageCollection: NSObject, Codable {
     private(set) var rootDirs = [String]()
 
     /// Dictionary of images grouped in months (keys are representing months)
-    private(set) var dictionary = [String:[ImageData]]()
+    private(set) var dictionary = [String: [ImageData]]()
 
     // Arranged keys of image collection keys (months)
     private(set) var arrangedKeys = [String]()
 
     /// Count of all objects in dictionary
-    private(set) var count:Int = 0
+    private(set) var count: Int = 0
 
     /// Inner array caching arranged array of all images when requested
     private var allImagesArray = [ImageData]()
@@ -33,23 +33,21 @@ class ImageCollection: NSObject, Codable {
     private let syncQueue = DispatchQueue(label: "ImageCollectionSyncQueue", attributes: .concurrent)
 
     /// Array of all images in arranged order (arranged by months)
-    var allImages:[ImageData] {
-        get {
-            syncQueue.sync { [unowned self] in
-                if !self.allImagesArrayActualized {
-                    self.allImagesArray = [ImageData]()
-                    for monthKey in self.arrangedKeys {
-                        if let imagesOfMonth = self.dictionary[monthKey] {
-                            for storedImage in imagesOfMonth {
-                                self.allImagesArray.append(storedImage)
-                            }
+    var allImages: [ImageData] {
+        syncQueue.sync { [unowned self] in
+            if !self.allImagesArrayActualized {
+                self.allImagesArray = [ImageData]()
+                for monthKey in self.arrangedKeys {
+                    if let imagesOfMonth = self.dictionary[monthKey] {
+                        for storedImage in imagesOfMonth {
+                            self.allImagesArray.append(storedImage)
                         }
                     }
-                    self.allImagesArrayActualized = true
                 }
+                self.allImagesArrayActualized = true
             }
-            return allImagesArray
         }
+        return allImagesArray
     }
 
     //
@@ -98,21 +96,22 @@ class ImageCollection: NSObject, Codable {
 
     /// Add a directory to the array of root dirs
     /// - Parameter directory: new directory path
-    func removeDirectory(_ directory:String) {
-        if let index = rootDirs.firstIndex(of: directory) {
-            rootDirs.remove(at: index)
-        }
+    func removeDirectory(_ directory: String) {
+        rootDirs.removeAll { $0 == directory }
+
     }
 
     /// Add an image to the collection. Method will create a new group (months) for this image if that do not yet exists.
     /// - Parameter image: image data
-    func addImage(_ image:ImageData) -> Bool {
+    func addImage(_ image: ImageData) -> Bool {
 
         // Construct key for creating month of the new image
         let dateComponents = Calendar.current.dateComponents([.year, .month], from:image.creationDate)
-        let monthKey = String(format:"%04ld%02ld", dateComponents.year!, dateComponents.month!)
+        let monthKey = String(format: "%04ld%02ld", dateComponents.year!, dateComponents.month!)
 
         syncQueue.sync(flags: .barrier) { [unowned self] in
+            let imageProfiler = TimeProfiler.begin("ReadImage", description: image.imageName)
+
             // Check if we have an array in our dictionary for this month
             if (self.dictionary[monthKey] == nil) {
 
@@ -143,6 +142,8 @@ class ImageCollection: NSObject, Codable {
                 self.count += 1
                 self.allImagesArrayActualized = false
             }
+
+            imageProfiler?.end()
         }
 
         return true
@@ -151,7 +152,7 @@ class ImageCollection: NSObject, Codable {
     /// Remove an image from the collection
     /// - Parameter image: image data
     @discardableResult
-    func removeImage(_ image:ImageData) -> Bool {
+    func removeImage(_ image: ImageData) -> Bool {
         var imageRemoved = false
         syncQueue.sync(flags: .barrier) { [unowned self] in
             for monthKey in self.arrangedKeys {
@@ -178,7 +179,7 @@ class ImageCollection: NSObject, Codable {
     /// Remove an image specified by path from the collection
     /// - Parameter path: path to the image
     @discardableResult
-    func removeImage(withPath path:String) -> Bool {
+    func removeImage(withPath path: String) -> Bool {
         var imageRemoved = false
         syncQueue.sync(flags: .barrier) { [unowned self] in
             for monthKey in self.arrangedKeys {
@@ -260,7 +261,7 @@ class ImageCollection: NSObject, Codable {
 
     /// Get index path of an image
     /// - Parameter image: image data
-    func indexPath(of image:ImageData) -> IndexPath? {
+    func indexPath(of image: ImageData) -> IndexPath? {
         var foundIndexPath: IndexPath?
         syncQueue.sync { [unowned self] in
             for section in 0..<self.arrangedKeys.count {

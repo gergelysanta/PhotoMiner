@@ -86,10 +86,10 @@ class AppData: NSObject {
             return true
         }
         var newLookupFolders = [String]()
-        var isDirectory:ObjCBool = false
-        var haveValidPath  = false
+        var isDirectory: ObjCBool = false
+        var haveValidPath = false
         for path in pathList {
-            if FileManager.default.fileExists(atPath: path, isDirectory:&isDirectory) {
+            if FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory) {
                 if isDirectory.boolValue {
                     // Path exists and is a directory -> add to lookupFolders list
                     #if DEBUG

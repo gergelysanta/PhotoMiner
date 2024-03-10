@@ -10,28 +10,28 @@ import Cocoa
 import AVKit
 
 /// Class representing an image on the disk
-class ImageData: NSObject, Codable {
+class ImageData: NSObject {
 
     /// Absolute path to the image
-    private(set) var imagePath:String!
+    private(set) var imagePath = ""
 
     /// Name of the image (file name)
-    private(set) var imageName:String!
+    private(set) var imageName = ""
 
     /// Thumbnail
-    @objc dynamic private(set) var imageThumbnail:NSImage?
+    @objc dynamic private(set) var imageThumbnail: NSImage?
 
     /// Date when image was created (from EXIF or file creation date)
-    private(set) var creationDate:Date = Date()
+    private(set) var creationDate = Date()
 
     /// Image dimensions
-    private(set) var dimensions:NSSize = NSZeroSize
+    private(set) var dimensions = NSSize.zero
 
     /// Is this image a landscape?
-    private(set) var isLandscape:Bool = false
+    private(set) var isLandscape = false
 
     /// Is this a movie file?
-    private(set) var isMovie:Bool = false
+    private(set) var isMovie = false
 
     /// EXIF data of the image
     private(set) var exifData = [String: AnyObject]()
@@ -40,33 +40,67 @@ class ImageData: NSObject, Codable {
     private(set) var gpsData = [String: AnyObject]()
 
     /// Has this image EXIF data?
-    var hasExif:Bool {
+    var hasExif: Bool {
         return exifData.keys.count > 0
     }
 
     /// Has this image GPS data?
-    var hasGPS:Bool {
+    var hasGPS: Bool {
         return gpsData.keys.count > 0
     }
 
     /// Flag indicating whether image properties were already parsed
-    private var imagePropertiesParsed = false
+    @Mutexed private var imagePropertiesParsed = false
 
-    //
+    // -------------------------------------------------------------------------
     // MARK: - Class/Type methods and arguments
-    //
+    // -------------------------------------------------------------------------
 
     // Lazy initialization of dateFormatter
     // This initialization will be called only once, when static variable is used first-time
-    static let dateFormatter:DateFormatter = {
+    static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy:MM:dd HH:mm:ss"
         return formatter
     }()
 
-    //
-    // MARK: - Serialization
-    //
+    // -------------------------------------------------------------------------
+    // MARK: - Initializers
+    // -------------------------------------------------------------------------
+
+    // Disable default constructor
+    private override init() {
+        super.init()
+    }
+
+    convenience init(path: String, creationDate: Date? = nil, isMovie: Bool = false) {
+        self.init()
+        self.imagePath = path
+        self.imageName = URL(fileURLWithPath: path).lastPathComponent
+        if let creationDate {
+            self.creationDate = creationDate
+        }
+        self.isMovie = isMovie
+        parseImageProperties()
+    }
+
+    /// Initializing object from serialized data
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        imagePath = try values.decode(String.self, forKey: .imagePath)
+        imageName = try values.decode(String.self, forKey: .imageName)
+        creationDate = try values.decode(Date.self, forKey: .creationDate)
+        dimensions = try values.decode(NSSize.self, forKey: .dimensions)
+        isLandscape = try values.decode(Bool.self, forKey: .isLandscape)
+    }
+
+}
+
+// -------------------------------------------------------------------------
+// MARK: - Serialization
+// -------------------------------------------------------------------------
+
+extension ImageData: Codable {
 
     /// Keys for serializing this object
     public enum CodingKeys: String, CodingKey {
@@ -87,39 +121,13 @@ class ImageData: NSObject, Codable {
         try container.encode(isLandscape, forKey: .isLandscape)
     }
 
-    /// Initializing object from serialized data
-    required init(from decoder: Decoder) throws {
-        super.init()
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        imagePath = try values.decode(String.self, forKey: .imagePath)
-        imageName = try values.decode(String.self, forKey: .imageName)
-        creationDate = try values.decode(Date.self, forKey: .creationDate)
-        dimensions = try values.decode(NSSize.self, forKey: .dimensions)
-        isLandscape = try values.decode(Bool.self, forKey: .isLandscape)
-    }
+}
 
+// -------------------------------------------------------------------------
+// MARK: - Handling images
+// -------------------------------------------------------------------------
 
-    //
-    // MARK: - Instance methods
-    //
-
-    // Disable default constructor (by making it private)
-    private override init() {
-        super.init()
-    }
-
-    convenience init (path:String, creationDate:Date, isMovie:Bool = false) {
-        self.init()
-        self.imagePath = path
-        self.imageName = URL(fileURLWithPath: path).lastPathComponent
-        self.creationDate = creationDate
-        self.isMovie = isMovie
-        parseImageProperties()
-    }
-
-    convenience init (path:String) {
-        self.init(path:path, creationDate:Date())
-    }
+extension ImageData {
 
     private func createImageSource() -> CGImageSource? {
 
@@ -141,8 +149,13 @@ class ImageData: NSObject, Codable {
         if imagePropertiesParsed { return }
         imagePropertiesParsed = true
 
+        let profiler = TimeProfiler.begin("ParseImageProperties", description: imageName)
+        defer {
+            profiler?.end()
+        }
+
         if let imageSource = self.createImageSource() {
-            let options:CFDictionary = [ kCGImageSourceShouldCache as String : false ] as CFDictionary
+            let options = [kCGImageSourceShouldCache as String: false ] as CFDictionary
             if let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, options) as? [String: AnyObject] {
                 guard let width = imageProperties[kCGImagePropertyPixelWidth as String]?.doubleValue else { return }
                 guard let height = imageProperties[kCGImagePropertyPixelHeight as String]?.doubleValue else { return }
@@ -179,16 +192,22 @@ class ImageData: NSObject, Codable {
         }
     }
 
-    //
-    // MARK: - Load thumbnail in operation queue
-    //
+}
 
-    /* Many kinds of image files contain prerendered thumbnail images that can be quickly loaded without having to decode
-     * the entire contents of the image file and reconstruct the full-size image.
-     * The ImageIO framework's CGImageSource API provides a means to do this, using the CGImageSourceCreateThumbnailAtIndex() function.
-     * For more information on CGImageSource objects and their capabilities, see the CGImageSource reference
-     * on the Apple Developer Connection website,
-     * at http://developer.apple.com/documentation/GraphicsImaging/Reference/CGImageSource/Reference/reference.html
+// -------------------------------------------------------------------------
+// MARK: - Handling thumbnails
+// -------------------------------------------------------------------------
+
+extension ImageData {
+
+    /* Many kinds of image files contain pre-rendered thumbnail images that can
+     * be quickly loaded without having to decode the entire contents of
+     * the image file and reconstruct the full-size image. The ImageIO frameworks
+     * CGImageSource API provides a means to do this, using the
+     * CGImageSourceCreateThumbnailAtIndex() function. For more information
+     * on CGImageSource objects and their capabilities, see the CGImageSource
+     * reference on the Apple Developer Connection website, at
+     * http://developer.apple.com/documentation/GraphicsImaging/Reference/CGImageSource/Reference/reference.html
      */
 
     func setThumbnail(inQueue queue: OperationQueue? = nil) {
@@ -201,7 +220,7 @@ class ImageData: NSObject, Codable {
             }
         }
 
-        if let queue = queue {
+        if let queue {
             queue.addOperation(setThumbnailBlock)
         } else {
             DispatchQueue(label: "photominer.thumbnailQueue", qos: .utility).async {
@@ -212,16 +231,21 @@ class ImageData: NSObject, Codable {
 
     /// Generate thumbnail of an image and store it in property `imageThumbnail`
     private func setImageThumbnail() {
+//        let profiler = TimeProfiler.begin("SetImageThumbnail", description: imageName)
+//        defer {
+//            profiler?.end()
+//        }
+
         if let imageSource = self.createImageSource() {
-            let options:CFDictionary = [
-                    // Ask ImageIO to create a thumbnail from the file's image data, if it can't find
-                    // a suitable existing thumbnail image in the file.  We could comment out the following
-                    // line if only existing thumbnails were desired for some reason (maybe to favor
-                    // performance over being guaranteed a complete set of thumbnails).
-                    kCGImageSourceCreateThumbnailFromImageIfAbsent as String : true,
-                    kCGImageSourceCreateThumbnailWithTransform as String : true,
-                    kCGImageSourceThumbnailMaxPixelSize as String : 148
-                ] as CFDictionary
+            let options = [
+                // Ask ImageIO to create a thumbnail from the file's image data, if it can't find
+                // a suitable existing thumbnail image in the file.  We could comment out the following
+                // line if only existing thumbnails were desired for some reason (maybe to favor
+                // performance over being guaranteed a complete set of thumbnails).
+                kCGImageSourceCreateThumbnailFromImageIfAbsent as String: true,
+                kCGImageSourceCreateThumbnailWithTransform as String: true,
+                kCGImageSourceThumbnailMaxPixelSize as String: 148
+            ] as CFDictionary
             if let thumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options) {
                 let image = NSImage(cgImage: thumbnail, size: NSZeroSize)
                 DispatchQueue.main.sync {
@@ -235,6 +259,11 @@ class ImageData: NSObject, Codable {
 
     /// Generate thumbnail of a movie and store it in property `imageThumbnail`
     private func setMovieThumbnail() {
+//        let profiler = TimeProfiler.begin("SetMovieThumbnail", description: imageName)
+//        defer {
+//            profiler?.end()
+//        }
+
         // Create asset
         let asset = AVURLAsset(url: URL(fileURLWithPath: self.imagePath))
         let assetGenerator = AVAssetImageGenerator(asset: asset)

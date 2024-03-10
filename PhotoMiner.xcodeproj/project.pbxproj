@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -35,6 +35,10 @@
 		74FD6816201A39EA0046DC1A /* SidebarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD6815201A39EA0046DC1A /* SidebarController.swift */; };
 		74FD6818201BA9180046DC1A /* ForwardingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */; };
 		913AA811295EE0D700B552D1 /* StoredConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913AA80E295EE0D700B552D1 /* StoredConfig.swift */; };
+		913AA816295EF96800B552D1 /* TimeProfiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913AA815295EF96800B552D1 /* TimeProfiler.swift */; };
+		9166CA612965D33E008C8542 /* URLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9166CA602965D33E008C8542 /* URLExtension.swift */; };
+		91FB55F32975E2F1007CA509 /* Mutexed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FB55F12975E2F1007CA509 /* Mutexed.swift */; };
+		91FB55F42975E2F1007CA509 /* RWLocked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FB55F22975E2F1007CA509 /* RWLocked.swift */; };
 		EC2EE99723FEE84D000DF12F /* ExportAccessoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2EE99623FEE84D000DF12F /* ExportAccessoryController.swift */; };
 		EC2EE9AC240150DD000DF12F /* ExportProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2EE9AB240150DD000DF12F /* ExportProgressController.swift */; };
 		EC2EE9AE2401C73F000DF12F /* ShadeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2EE9AD2401C73F000DF12F /* ShadeView.swift */; };
@@ -77,6 +81,10 @@
 		74FD6815201A39EA0046DC1A /* SidebarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarController.swift; sourceTree = "<group>"; };
 		74FD6817201BA9180046DC1A /* ForwardingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardingScrollView.swift; sourceTree = "<group>"; };
 		913AA80E295EE0D700B552D1 /* StoredConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoredConfig.swift; sourceTree = "<group>"; };
+		913AA815295EF96800B552D1 /* TimeProfiler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeProfiler.swift; sourceTree = "<group>"; };
+		9166CA602965D33E008C8542 /* URLExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtension.swift; sourceTree = "<group>"; };
+		91FB55F12975E2F1007CA509 /* Mutexed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutexed.swift; sourceTree = "<group>"; };
+		91FB55F22975E2F1007CA509 /* RWLocked.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RWLocked.swift; sourceTree = "<group>"; };
 		EC2EE99623FEE84D000DF12F /* ExportAccessoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportAccessoryController.swift; sourceTree = "<group>"; };
 		EC2EE9AB240150DD000DF12F /* ExportProgressController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportProgressController.swift; sourceTree = "<group>"; };
 		EC2EE9AD2401C73F000DF12F /* ShadeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadeView.swift; sourceTree = "<group>"; };
@@ -119,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				74174E581DF835C100D10710 /* AppDelegate.swift */,
+				913AA815295EF96800B552D1 /* TimeProfiler.swift */,
 				ECB2762F23F7D61800F22E29 /* Model */,
 				ECB2763023F7ED1200F22E29 /* View */,
 				ECB2762E23F7D5F800F22E29 /* Controllers */,
@@ -146,6 +155,8 @@
 		913AA80C295EE0D700B552D1 /* PropertyWrappers */ = {
 			isa = PBXGroup;
 			children = (
+				91FB55F12975E2F1007CA509 /* Mutexed.swift */,
+				91FB55F22975E2F1007CA509 /* RWLocked.swift */,
 				913AA80E295EE0D700B552D1 /* StoredConfig.swift */,
 			);
 			path = PropertyWrappers;
@@ -155,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				EC2EE9B02402C542000DF12F /* FileManagerExtension.swift */,
+				9166CA602965D33E008C8542 /* URLExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -288,6 +300,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		74FC094C2049B4B400B27538 /* Increment Build Number */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -309,12 +322,16 @@
 			files = (
 				74174E5B1DF835C100D10710 /* MainViewController.swift in Sources */,
 				7407A13D20E9FA4600645B54 /* Colors.swift in Sources */,
+				913AA816295EF96800B552D1 /* TimeProfiler.swift in Sources */,
 				ECB2763723F8877C00F22E29 /* LoadAccessoryController.swift in Sources */,
+				91FB55F42975E2F1007CA509 /* RWLocked.swift in Sources */,
 				EC48DE7E24040813000C6DE7 /* MapPin.swift in Sources */,
+				9166CA612965D33E008C8542 /* URLExtension.swift in Sources */,
 				74FD680E20187A560046DC1A /* MainSplitViewController.swift in Sources */,
 				74F4B6F61EA13B7E00FE73C7 /* SettingsController.swift in Sources */,
 				74BD2FBA1E16B671000109F9 /* ImageData.swift in Sources */,
 				74AC4CAB1E7851900002A654 /* DropView.swift in Sources */,
+				91FB55F32975E2F1007CA509 /* Mutexed.swift in Sources */,
 				EC2EE99723FEE84D000DF12F /* ExportAccessoryController.swift in Sources */,
 				74FC094B203DEEF500B27538 /* AppData.swift in Sources */,
 				74BD2FB81E16B37B000109F9 /* ThumbnailViewItem.swift in Sources */,
@@ -490,7 +507,8 @@
 				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -505,7 +523,10 @@
 				DEVELOPMENT_TEAM = Y9N34UZ32J;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = PhotoMiner/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				MARKETING_VERSION = 1.5.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trikatz.photominer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -522,7 +543,10 @@
 				DEVELOPMENT_TEAM = Y9N34UZ32J;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = PhotoMiner/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				MARKETING_VERSION = 1.5.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trikatz.photominer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
